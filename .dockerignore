@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.coverage
+htmlcov
+data/demo/*.duckdb
+data/demo/*.wal
+tests
+docs
+outputs

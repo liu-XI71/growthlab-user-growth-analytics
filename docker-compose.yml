@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      GROWTHLAB_DB_PATH: /app/data/demo/growthlab.duckdb
+      GROWTHLAB_DEMO_USERS: ${GROWTHLAB_DEMO_USERS:-100000}
+      GROWTHLAB_DEMO_SEED: ${GROWTHLAB_DEMO_SEED:-42}
+    volumes:
+      - growthlab_data:/app/data/demo
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    command: streamlit run frontend/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
+    environment:
+      GROWTHLAB_API_URL: http://backend:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  growthlab_data:

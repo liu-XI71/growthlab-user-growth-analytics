@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: growthlab-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Python, statistics, data, API and UI checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONHASHSEED: "0"
+      STREAMLIT_BROWSER_GATHER_USAGE_STATS: "false"
+      GROWTHLAB_DEMO_USERS: "5000"
+      GROWTHLAB_DEMO_SEED: "42"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install application and QA dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Compile Python sources
+        run: python -m compileall -q analytics backend scripts frontend tests
+
+      - name: Lint
+        run: python -m ruff check analytics backend scripts frontend tests
+
+      - name: Verify formatting
+        run: python -m ruff format --check analytics backend scripts frontend tests
+
+      - name: Run statistical, data-quality, API and Streamlit tests
+        run: python -m pytest --junitxml=pytest-results.xml
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results
+          path: pytest-results.xml
+          if-no-files-found: ignore
+
+  containers:
+    name: Docker Compose validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: quality
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate Compose configuration
+        run: docker compose config --quiet
+
+      - name: Build backend and frontend images
+        run: docker compose build --pull
