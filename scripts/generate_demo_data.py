@@ -345,4 +345,371 @@ def generate_experiments(
         },
         {
             "experiment_id": "content_save_nudge",
-            "nao]º¶‰žËkºwµçF–æU÷&FR#¢ãCÀ¢&ÖFUö'6öÇWFR#¢ã#RÀ¢&Ç†#¢ãRÀ¢'÷vW"#¢ãƒÀ¢&F–Ç•öVÆ–v–&ÆU÷W6W'2#¢À¢ÒÀ¢Ð¢7V72ÒBäFFg&ÖR†W‡W&–ÖVçE÷7V72¢76–væÖVçEög&ÖW2ÒµÐ¢÷WF6öÖUög&ÖW2ÒµÐ¢6×ÆRÒW6W'2ç6×ÆR†Ö–â†ÆVâ‡W6W'2’Âƒ’Â&æFöÕ÷7FFSÓ#’’æ6÷’‚¢f÷"–æFW‚Â7V2–âVçVÖW&FR†W‡W&–ÖVçE÷7V72“ ¢76–væÖVçBÒö76–våöW‡W&–ÖVçB€¢6×ÆRÀ¢7G"‡7V5²&W‡W&–ÖVçEö–B%Ò’À¢6ÇCÖb&w&÷wF†Æ%÷V&Æ–5öFVÖõ÷¶–æFW‡Ò"À¢76–væVEöCÖb###RÓR×³R²–æFW‚¢s£&GÒ"À¢¢w&÷WÒ76–væÖVçE²&w&÷WöæÖR%ÒçFõöçV×’‚¢–b7V5²&¶–æB%ÒÓÒ&# ¢w&÷W÷&FW2Ò²&6öçG&öÂ#¢ãcÂ'G&VFÖVçB#¢ãcÐ¢VÆ–b7V5²&W‡W&–ÖVçEö–B%ÒÓÒ'&VfW'&Å÷V•÷6–×Æ–f–6F–öâ# ¢w&÷W÷&FW2Ò²&6öçG&öÂ#¢ãcÂ'G&VFÖVçB#¢ã#7Ð¢VÇ6S ¢w&÷W÷&FW2Ò²&6öçG&öÂ#¢ãCÂ'G&VFÖVçB#¢ãC3‡Ð¢2W6RW†7Bw&÷WÖÆWfVÂ&FW26òF†RV&Æ–2FVÖò&VÖ–ç27F&ÆRWfVâv†Và¢2vVæW&FW26ÖÆÂFF&6Râ–æF—f–GVÂ÷WF6öÖW2&R7F–ÆÂ&æFöÖÇ¢26VÆV7FVBv—F†–âV6‚†6‚Ö76–væVBw&÷Wà¢&–Ö'’Òçç¦W&÷2†ÆVâ†76–væÖVçB’ÂGG—SÖ&ööÂ¢f÷"w&÷WöæÖRÂ&FR–âw&÷W÷&FW2æ—FV×2‚“ ¢–æF–6W2ÒçæfÆFæöç¦W&ò†w&÷WÓÒw&÷WöæÖR¢7V66W76W2Ò–çB‡&÷VæB‡&FR¢ÆVâ†–æF–6W2’’¢6VÆV7FVBÒ&æræ6†ö–6R†–æF–6W2Â7V66W76W2Â&WÆ6SÔfÇ6R¢&–Ö'•·6VÆV7FVEÒÒG'VP¢–b7V5²&W‡W&–ÖVçEö–B%ÒÓÒ'&VfW'&Å÷V•÷6–×Æ–f–6F–öâ# ¢wV&G&–ÂÒçæ6Æ—‡&ærææ÷&ÖÂƒãƒBÂã"ÂÆVâ†76–væÖVçB’’ÂãÂ"ãR¢VÆ–b7V5²&W‡W&–ÖVçEö–B%ÒÓÒ&6öçFVçE÷6fUöçVFvR# ¢wV&G&–ÂÒçæ6Æ—‡&ærææ÷&ÖÂƒã‚ÂãBÂÆVâ†76–væÖVçB’’ÂÂãb¢VÇ6S ¢wV&G&–ÂÒçæ6Æ—‡&ærææ÷&ÖÂƒãƒÂã"ÂÆVâ†76–væÖVçB’’ÂãÂ"ãR¢÷WF6öÖW2Ò76–væÖVçEµ²'W6W%ö–B"Â&W‡W&–ÖVçEö–B"Â&w&÷WöæÖR%ÕÒæ6÷’‚¢÷WF6öÖW5²'&–Ö'•ö÷WF6öÖR%ÒÒ&–Ö'¢÷WF6öÖW5²&wV&G&–Åö÷WF6öÖR%ÒÒwV&G&–À¢÷WF6öÖW5²&ö'6W'fVEöB%ÒÒ76–væÖVçE²&76–væVEöB%Ò²BçFõ÷F–ÖVFVÇFƒBÂVæ—CÒ$B"¢76–væÖVçEög&ÖW2æVæB†76–væÖVçB¢÷WF6öÖUög&ÖW2æVæB†÷WF6öÖW2¢&WGW&â€¢Bæ6öæ6B†76–væÖVçEög&ÖW2Â–væ÷&Uö–æFWƒÕG'VR’À¢Bæ6öæ6B†÷WF6öÖUög&ÖW2Â–væ÷&Uö–æFWƒÕG'VR’À¢7V72À¢  ¦FVbö7F—f—G•÷&÷w2€¢&æs¢çç&æFöÒävVæW&F÷"ÂW6W'3¢BäFFg&ÖRÂfVGW&U÷W6vS¢BäFFg&ÖP¢’ÓâBäFFg&ÖS ¢&WVEö6÷VçBÒçæ6Æ—†fVGW&U÷W6vU²&7F—fUöF—5ó3%ÒçFõöçV×’‚’ÂÂ"¢&WVFVEö–æFW‚Òçç&WVB†çæ&ævR†ÆVâ‡W6W'2’’Â&WVEö6÷VçB¢7F—f—G’ÒW6W'2æ–Æö5·&WVFVEö–æFW…Õµ²'W6W%ö–B"Â'6–vçWöFFR"Â'W&–öB%ÕÒç&W6WEö–æFW‚€¢G&÷ÕG'VP¢¢v—F†–å÷W6W%ööfg6WBÒçæ6öæ6FVæFR…¶çæ&ævR†6÷VçB’f÷"6÷VçB–â&WVEö6÷VçEÒ¢7F—f—G•²&7F—f—G•öFFR%ÒÒBçFõöFFWF–ÖR†7F—f—G•²'6–vçWöFFR%Ò’²BçFõ÷F–ÖVFVÇF€¢v—F†–å÷W6W%ööfg6WBÂVæ—CÒ$B ¢¢7F—f—G•²&7F—fUöÖ–çWFW2%ÒÒçæ6Æ—‡&æræÆövæ÷&ÖÂƒ2ã"ÂãSRÂÆVâ†7F—f—G’’’Â"Â3#¢7F—f—G•²&6öçFVçE÷f–Ww2%ÒÒçæÖ†–×VÒƒÂ&ærçö—76öâ†7F—f—G•²&7F—fUöÖ–çWFW2%Òò2ãR’¢&WGW&â7F—f—G  ¦FVbvVæW&FUöw&÷wF…öF–Ç’‡6VVC¢–çB’ÓâBäFFg&ÖS ¢""$7&VFRæ÷&ÖÆ—¦VBW†V7WF—fRw&÷wF‚G&VæBv—F‚vVV¶Ç’6V6öæÆ—G’æB7G&FVw’6†–gG2â"" ¢&ærÒçç&æFöÒæFVfVÇE÷&ær‡6VVB²#ó#S¢FFW2ÒBæFFU÷&ævR‚###RÓ"Ór"ÂW&–öG3Ó“Âg&WÒ$B"¢F’Òçæ&ævR†ÆVâ†FFW2’ÂGG—SÖfÆöB¢vVV¶Ç’Òçç6–âƒ"¢çç’¢F’òr¢W‡FW&æÂÒ#BãÒã¢çæÖ†–×VÒ†F’Ò#RÂ’²ã3¢vVV¶Ç’²&ærææ÷&ÖÂƒÂãbÂÆVâ†F’’¢÷&væ–2Òbã²ãR¢F’²ã#R¢vVV¶Ç’²&ærææ÷&ÖÂƒÂã"ÂÆVâ†F’’¢&VfW'&ÂÒ€¢Bã ¢²ã3R¢F¢²ãsR¢çæÖ†–×VÒ†F’Ò3RÂ¢ÒãcR¢çæW‡‚Ò‚†F’ÒC’’¢¢"’òB¢²"ãòƒ²çæW‡‚Ò†F’Òc2’ò"ãR’¢²&ærææ÷&ÖÂƒÂãÂÆVâ†F’’¢¢&WF–æVBÒ€¢Sã ¢²ãCR¢F¢Òã3¢çæÖ†–×VÒ†F’ÒCRÂ¢²ãsR¢vVV¶Ç¢²&ærææ÷&ÖÂƒÂã‚ÂÆVâ†F’’¢¢FRÒ&WF–æVB²ã3R¢†W‡FW&æÂ²÷&væ–2²&VfW'&Â¢&WGW&âBäFFg&ÖR€¢°¢&FFR#¢FFW2æFFRÀ¢&FUö–æFW‚#¢çç&÷VæB†FRÂB’À¢'F&vWEö–æFW‚#¢ƒãÀ¢&W‡FW&æÅöæWuö–æFW‚#¢çç&÷VæB†W‡FW&æÂÂB’À¢&÷&væ–5öæWuö–æFW‚#¢çç&÷VæB†÷&væ–2ÂB’À¢'&VfW'&ÅöæWuö–æFW‚#¢çç&÷VæB‡&VfW'&ÂÂB’À¢'&WF–æVE÷W6W%ö–æFW‚#¢çç&÷VæB‡&WF–æVBÂB’À¢Ð¢  ¦FVb÷w&—FUög&ÖR†6öææV7F–öã¢GV6¶F"äGV6´D%”6öææV7F–öâÂF&ÆS¢7G"Âg&ÖS¢BäFFg&ÖR’ÓâæöæS ¢FV×öæÖRÒb'F×÷·F&ÆWÒ ¢6öææV7F–öâç&Vv—7FW"‡FV×öæÖRÂg&ÖR¢6öææV7F–öâæW†V7WFR†bt5$TDRõ"$UÄ4RD$ÄR'·F&ÆWÒ"24TÄT5B¢e$ôÒ'·FV×öæÖWÒ"r¢6öææV7F–öâçVç&Vv—7FW"‡FV×öæÖR  ¦FVbö7&VFU÷f–Ww2†6öææV7F–öã¢GV6¶F"äGV6´D%”6öææV7F–öâ’ÓâæöæS ¢6öææV7F–öâæW†V7WFR€¢"" ¢5$TDRõ"$UÄ4Rd”Ur&VfW'&Å÷fW'6–öå÷7VÖÖ'’0¢4TÄT5BfW'6–öâÀ¢5TÒ†W‡÷7W&U÷Wb’2W‡÷7W&U÷WbÀ¢5TÒ‡vUö6Æ–6µ÷Wb’2vUö6Æ–6µ÷WbÀ¢5TÒ†–çf—FUö6Æ–6µ÷Wb’2–çf—FUö6Æ–6µ÷WbÀ¢5TÒ‡6†&U÷7V66W75÷Wb’26†&U÷7V66W75÷WbÀ¢5TÒ†æWu÷W6W%öÆæF–æu÷Wb’2æWu÷W6W%öÆæF–æu÷WbÀ¢5TÒ†æWu÷W6W%÷&Vv—7FW%÷Wb’2æWu÷W6W%÷&Vv—7FW%÷WbÀ¢5TÒ†æWu÷W6W%ö7F—fFU÷Wb’2æWu÷W6W%ö7F—fFU÷WbÀ¢5TÒ‡vUö6Æ–6µ÷Wb“£¤DõT$ÄRòåTÄÄ”b…5TÒ†W‡÷7W&U÷Wb’Â’2vUö6Æ–6µ÷&FRÀ¢5TÒ†–çf—FUö6Æ–6µ÷Wb“£¤DõT$ÄRòåTÄÄ”b…5TÒ‡vUö6Æ–6µ÷Wb’Â’2–çf—FUö6Æ–6µ÷&FRÀ¢5TÒ‡6†&U÷7V66W75÷Wb“£¤DõT$ÄRòåTÄÄ”b…5TÒ†–çf—FUö6Æ–6µ÷Wb’Â’26†&U÷7V66W75÷&FRÀ¢5TÒ†æWu÷W6W%ö7F—fFU÷Wb“£¤DõT$ÄRòåTÄÄ”b…5TÒ†W‡÷7W&U÷Wb’Â’27F—fF–öå÷W%öW‡÷7W&RÀ¢5TÒ†æWu÷W6W%ö7F—fFU÷Wb“£¤DõT$ÄRòåTÄÄ”b…5TÒ†–çf—FUö6Æ–6µ÷Wb’Â’27F—fF–öå÷W%ö–çf—FUö6Æ–6°¢e$ôÒ&VfW'&ÅögVææVÅöF–Ç’u$õU%’fW'6–öà¢"" ¢¢6öææV7F–öâæW†V7WFR€¢"" ¢5$TDRõ"$UÄ4Rd”Ur&WFVçF–öå÷7VÖÖ'’0¢4TÄT5BW&–öBÀ¢4õTåB‚¢’2W6W'2À¢dr‡&WF–æVEöC£¤”åDTtU"’2CÀ¢dr‡&WF–æVEöC3£¤”åDTtU"’2C2À¢dr‡&WF–æVEöCs£¤”åDTtU"’2CrÀ¢dr‡&WF–æVEöCóu÷v–æF÷s£¤”åDTtU"’2Cóu÷v–æF÷rÀ¢dr‡&WF–æVEöC3£¤”åDTtU"’2C3 ¢e$ôÒæWu÷W6W%÷&WFVçF–öâu$õU%’W&–ö@¢"" ¢¢6öææV7F–öâæW†V7WFR€¢"" ¢5$TDRõ"$UÄ4Rd”UrW‡W&–ÖVçE÷7VÖÖ'’0¢4TÄT5BW‡W&–ÖVçEö–BÂw&÷WöæÖRÂ4õTåB‚¢’2W6W'2À¢5TÒ‡&–Ö'•ö÷WF6öÖS£¤”åDTtU"’27V66W76W2À¢dr‡&–Ö'•ö÷WF6öÖS£¤”åDTtU"’2&–Ö'•÷&FRÀ¢dr†wV&G&–Åö÷WF6öÖR’2wV&G&–Å÷fÇVP¢e$ôÒW‡W&–ÖVçEö÷WF6öÖW2u$õU%’W‡W&–ÖVçEö–BÂw&÷WöæÖP¢"" ¢  ¦FVb÷VÆ—G•ö6†V6·2†6öææV7F–öã¢GV6¶F"äGV6´D%”6öææV7F–öâÂ'Våö–C¢7G"’ÓâBäFFg&ÖS ¢VW&–W3¢Æ—7E·GWÆU·7G"Â7G"Â7G%ÕÒÒ°¢‚'W6W'5÷W6W%ö–Eöæ÷EöçVÆÂ"Â%4TÄT5B4õTåB‚¢’e$ôÒW6W'2t„U$RW6W%ö–B•2åTÄÂ"Â'fÇVRÒ"’À¢€¢'W6W'5÷W6W%ö–E÷Væ—VR"À¢%4TÄT5B4õTåB‚¢’Ò4õTåB„D•5D”ä5BW6W%ö–B’e$ôÒW6W'2"À¢'fÇVRÒ"À¢’À¢€¢&w&÷wF…öWfVçEö–E÷Væ—VR"À¢%4TÄT5B4õTåB‚¢’Ò4õTåB„D•5D”ä5BWfVçEö–B’e$ôÒw&÷wF…öWfVçG2"À¢'fÇVRÒ"À¢’À¢€¢&7F—f—G•ögFW%÷6–vçW"À¢%4TÄT5B4õTåB‚¢’e$ôÒW6W%öF–Ç•ö7F—f—G’t„U$R7F—f—G•öFFRÂ6–vçWöFFR"À¢'fÇVRÒ"À¢’À¢€¢&w&÷wF…öWfVçEögFW%÷6–vçW"À¢%4TÄT5B4õTåB‚¢’e$ôÒw&÷wF…öWfVçG2R¤ô”âW6W'2RU4”är‡W6W%ö–B’t„U$R45B†RæWfVçEöB2DDR’ÂRç6–vçWöFFR"À¢'fÇVRÒ"À¢’À¢€¢'&WFVçF–öåö&÷VæFVB"À¢%4TÄT5B4õTåB‚¢’e$ôÒæWu÷W6W%÷&WFVçF–öât„U$R&WF–æVEöCóu÷v–æF÷räõB”â…E%TRÂdÅ4R’"À¢'fÇVRÒ"À¢’À¢€¢'&Wv&EöæöææVvF—fR"À¢%4TÄT5B4õTåB‚¢’e$ôÒ&VfW'&Å÷&Wv&G2t„U$R–æ6VçF—fUö6÷7BÂ"À¢'fÇVRÒ"À¢’À¢€¢&W‡W&–ÖVçEöw&÷W÷fÆ–B"À¢%4TÄT5B4õTåB‚¢’e$ôÒW‡W&–ÖVçEö76–væÖVçG2t„U$Rw&÷WöæÖRäõB”â‚v6öçG&öÂrÂwG&VFÖVçBr’"À¢'fÇVRÒ"À¢’À¢€¢&W‡W&–ÖVçE÷6–ævÆUö76–væÖVçB"À¢%4TÄT5B4õTåB‚¢’e$ôÒ…4TÄT5BW‡W&–ÖVçEö–BÇW6W%ö–BÄ4õTåB‚¢’âe$ôÒW‡W&–ÖVçEö76–væÖVçG2u$õU%’Ã"„d”ärãã’"À¢'fÇVRÒ"À¢’À¢€¢&÷WF6öÖUögFW%ö76–væÖVçB"À¢%4TÄT5B4õTåB‚¢’e$ôÒW‡W&–ÖVçEö÷WF6öÖW2ò¤ô”âW‡W&–ÖVçEö76–væÖVçG2U4”är†W‡W&–ÖVçEö–BÇW6W%ö–BÆw&÷WöæÖR’t„U$Ròæö'6W'fVEöBÂæ76–væVEöB"À¢'fÇVRÒ"À¢’À¢€¢&gVææVÅöÖöæ÷Föæ–2"À¢%4TÄT5B4õTåB‚¢’e$ôÒ&VfW'&ÅögVææVÅöF–Ç’t„U$RäõB†W‡÷7W&U÷WbãÒvUö6Æ–6µ÷WbäBvUö6Æ–6µ÷WbãÒ–çf—FUö6Æ–6µ÷WbäB–çf—FUö6Æ–6µ÷WbãÒ6†&U÷7V66W75÷WbäB6†&U÷7V66W75÷WbãÒæWu÷W6W%öÆæF–æu÷WbäBæWu÷W6W%öÆæF–æu÷WbãÒæWu÷W6W%÷&Vv—7FW%÷WbäBæWu÷W6W%÷&Vv—7FW%÷WbãÒæWu÷W6W%ö7F—fFU÷Wb’"À¢'fÇVRÒ"À¢’À¢€¢&7F—f—G•öF•÷&ævR"À¢%4TÄT5B4õTåB‚¢’e$ôÒfVGW&U÷W6vRt„U$R7F—fUöF—5ó3äõB$UEtTTâäB3"À¢'fÇVRÒ"À¢’À¢€¢&fVGW&Uö6÷VçEöæöææVvF—fR"À¢%4TÄT5B4õTåB‚¢’e$ôÒfVGW&U÷W6vRt„U$RfVGW&U÷W6Uö6÷VçBÂ"À¢'fÇVRÒ"À¢’À¢€¢&7V—&VEö6÷7EöæöææVvF—fR"À¢%4TÄT5B4õTåB‚¢’e$ôÒ7V—&VE÷W6W'2t„U$R–æ6VçF—fUö6÷7BÂ"À¢'fÇVRÒ"À¢’À¢€¢&ÖWG&–5öFVf–æ—F–öç5÷&W6VçB"À¢%4TÄT5B44Rt„Tâ4õTåB‚¢’ãÒD„TâTÅ4RTäBe$ôÒÖWG&–5öFVf–æ—F–öç2"À¢'fÇVRÒ"À¢’À¢€¢'W&–öG5÷&W6VçB"À¢%4TÄT5B44Rt„Tâ4õTåB„D•5D”ä5BW&–öB’Ò"D„TâTÅ4RTäBe$ôÒæWu÷W6W%÷&WFVçF–öâ"À¢'fÇVRÒ"À¢’À¢€¢&w&÷wF…÷G&VæEö6ö×ÆWFR"À¢%4TÄT5B44Rt„Tâ4õTåB‚¢’Ò“äBÔ”â†FUö–æFW‚’âäBÔ”â‡F&vWEö–æFW‚’âD„TâTÅ4RTäBe$ôÒw&÷wF…öF–Ç’"À¢'fÇVRÒ"À¢’À¢Ð¢æ÷rÒFFWF–ÖRææ÷r‡F–ÖW¦öæRçWF2’ç&WÆ6R‡G¦–æfóÔæöæR¢&÷w2ÒµÐ¢f÷"æÖRÂVW'’ÂF‡&W6†öÆB–âVW&–W3 ¢fÇVRÒfÆöB†6öææV7F–öâæW†V7WFR‡VW'’’æfWF6†öæR‚•³Ò¢&÷w2æVæB€¢°¢''Våö–B#¢'Våö–BÀ¢&6†V6¶VEöB#¢æ÷rÀ¢&6†V6µöæÖR#¢æÖRÀ¢'7FGW2#¢'72"–bfÇVRÓÒVÇ6R&f–Â"À¢&ö'6W'fVE÷fÇVR#¢fÇVRÀ¢'F‡&W6†öÆB#¢F‡&W6†öÆBÀ¢&FWF–Ç2#¢$FWFW&Ö–æ—7F–2V&Æ–2ÖFVÖòfÆ–FF–öâ"À¢Ð¢¢&WGW&âBäFFg&ÖR‡&÷w2  ¦FVbvVæW&FUöFF&6R€¢F%÷Fƒ¢F‚Â¢ÂW6W'3¢–çBÂ6VVC¢–çBÂf÷&6S¢&ööÂÒfÇ6P¢’ÓâF–7E·7G"Âç•Ó ¢–bW6W'2Â%ó ¢&—6RfÇVTW'&÷"‚'W6W'2×W7B&RBÆV7B"Ãf÷"ÖVæ–ævgVÂFVÖò6VvÖVçG2"¢F%÷F‚ç&VçBæÖ¶F—"‡&VçG3ÕG'VRÂW†—7Eöö³ÕG'VR¢–bF%÷F‚æW†—7G2‚’æBæ÷Bf÷&6S ¢&—6Rf–ÆTW†—7G4W'&÷"†b$FF&6RÇ&VG’W†—7G3¢¶F%÷F‡ÒâW6RÒÖf÷&6RFò&WÆ6R—Bâ"¢–bF%÷F‚æW†—7G2‚“ ¢F%÷F‚çVæÆ–æ²‚¢&ærÒçç&æFöÒæFVfVÇE÷&ær‡6VVB¢'Våö–BÒ7G"‡WV–BçWV–CB‚’¢7F'FVBÒFFWF–ÖRææ÷r‡F–ÖW¦öæRçWF2’ç&WÆ6R‡G¦–æfóÔæöæR¢g&ÖW3¢F–7E·7G"ÂBäFFg&ÖUÒÒ·Ð¢g&ÖW5²'W6W'2%ÒÒvVæW&FU÷W6W'2‡&ærÂW6W'2¢g&ÖW5²&æWu÷W6W%÷&WFVçF–öâ%ÒÂg&ÖW5²&fVGW&U÷W6vR%ÒÒvVæW&FU÷&WFVçF–öâ‡&ærÂg&ÖW5²'W6W'2%Ò¢g&ÖW5²&æWu÷W6W%ögVææVÂ%ÒÂæWu÷W6W%öWfVçG2ÒvVæW&FUöæWu÷W6W%ögVææVÂ€¢&ærÂg&ÖW5²'W6W'2%ÒÂg&ÖW5²&æWu÷W6W%÷&WFVçF–öâ%Ð¢¢&VfW'&Åög&ÖW2ÒvVæW&FU÷&VfW'&Â‡&ærÂg&ÖW5²'W6W'2%Ò¢g&ÖW2çWFFR‡&VfW'&Åög&ÖW2¢g&ÖW5²&w&÷wF…öWfVçG2%ÒÒBæ6öæ6B€¢¶g&ÖW5²&w&÷wF…öWfVçG2%ÒÂæWu÷W6W%öWfVçG5ÒÂ–væ÷&Uö–æFWƒÕG'VP¢¢€¢g&ÖW5²&W‡W&–ÖVçEö76–væÖVçG2%ÒÀ¢g&ÖW5²&W‡W&–ÖVçEö÷WF6öÖW2%ÒÀ¢g&ÖW5²&W‡W&–ÖVçEöFVf–æ—F–öç2%ÒÀ¢’ÒvVæW&FUöW‡W&–ÖVçG2‡&ærÂg&ÖW5²'W6W'2%Ò¢g&ÖW5²'W6W%öF–Ç•ö7F—f—G’%ÒÒö7F—f—G•÷&÷w2‡&ærÂg&ÖW5²'W6W'2%ÒÂg&ÖW5²&fVGW&U÷W6vR%Ò¢g&ÖW5²&ÖWG&–5öFVf–æ—F–öç2%ÒÒBäFFg&ÖR„ÔUE$”5ôDTd”ä•D”ôå2¢g&ÖW5²&w&÷wF…öF–Ç’%ÒÒvVæW&FUöw&÷wF…öF–Ç’‡6VVB ¢6öææV7F–öâÒGV6¶F"æ6öææV7B‡7G"†F%÷F‚’¢G'“ ¢66†VÖ÷F‚Ò$ô¤T5Eõ$ôõBò'7Â"ò'66†VÖ"ò#ö6÷&Rç7Â ¢6öææV7F–öâæW†V7WFR‡66†VÖ÷F‚ç&VE÷FW‡B†Væ6öF–æsÒ'WFbÓ‚"’¢f÷"F&ÆRÂg&ÖR–âg&ÖW2æ—FV×2‚“ ¢÷w&—FUög&ÖR†6öææV7F–öâÂF&ÆRÂg&ÖR¢ö7&VFU÷f–Ww2†6öææV7F–öâ¢VÆ—G’Ò÷VÆ—G•ö6†V6·2†6öææV7F–öâÂ'Våö–B¢÷w&—FUög&ÖR†6öææV7F–öâÂ&FF÷VÆ—G•÷'Vç2"ÂVÆ—G’¢6ö×ÆWFVBÒFFWF–ÖRææ÷r‡F–ÖW¦öæRçWF2’ç&WÆ6R‡G¦–æfóÔæöæR¢–ævW7F–öâÒBäFFg&ÖR€¢°¢°¢''Våö–B#¢'Våö–BÀ¢'6÷W&6UöæÖR#¢&FWFW&Ö–æ—7F–5÷7–çF†WF–5÷V&Æ–5öFVÖò"À¢'7F'FVEöB#¢7F'FVBÀ¢&6ö×ÆWFVEöB#¢6ö×ÆWFVBÀ¢'&÷uö6÷VçB#¢7VÒ†ÆVâ†g&ÖR’f÷"g&ÖR–âg&ÖW2çfÇVW2‚’’À¢'6VVB#¢6VVBÀ¢'7FGW2#¢&6ö×ÆWFVB"À¢Ð¢Ð¢¢÷w&—FUög&ÖR†6öææV7F–öâÂ&–ævW7F–öå÷'Vç2"Â–ævW7F–öâ¢6öææV7F–öâæW†V7WFR‚$4„T4µô”åB"¢6÷VçG2Ò°¢F&ÆS¢–çB†6öææV7F–öâæW†V7WFR†bu4TÄT5B4õTåB‚¢’e$ôÒ'·F&ÆWÒ"r’æfWF6†öæR‚•³Ò¢f÷"F&ÆR–âg&ÖW0¢Ð¢VÆ—G•öf–ÆVBÒ–çB‚‡VÆ—G•²'7FGW2%ÒÓÒ&f–Â"’ç7VÒ‚’¢&WGW&â°¢&FF&6R#¢7G"†F%÷F‚’À¢'6VVB#¢6VVBÀ¢'W6W'5÷&WVW7FVB#¢W6W'2À¢'&÷w2#¢6÷VçG2À¢'VÆ—G•ö6†V6·2#¢ÆVâ‡VÆ—G’’À¢'VÆ—G•öf–ÆVB#¢VÆ—G•öf–ÆVBÀ¢''Våö–B#¢'Våö–BÀ¢Ð¢f–æÆÇ“ ¢6öææV7F–öâæ6Æ÷6R‚  ¦FVb'6Uö&w2‚’Óâ&w'6RäæÖW76S ¢'6W"Ò&w'6Rä&wVÖVçE'6W"€¢FW67&—F–öãÒ$vVæW&FRw&÷wF„Æ"w2&—f7’×6fRFWFW&Ö–æ—7F–2FVÖòFF&6Râ ¢¢'6W"æFEö&wVÖVçB€¢"ÒÖF"×F‚"ÂG—SÕF‚ÂFVfVÇCÕF‚†÷2ævWFVçb‚$u$õuD„Ä%ôD%õD‚"ÂDTdTÅEôD"’¢¢'6W"æFEö&wVÖVçB€¢"Ò×W6W'2"ÂG—SÖ–çBÂFVfVÇCÖ–çB†÷2ævWFVçb‚$u$õuD„Ä%ôDTÔõõU4U%2"Â#"’¢¢'6W"æFEö&wVÖVçB‚"Ò×6VVB"ÂG—SÖ–çBÂFVfVÇCÖ–çB†÷2ævWFVçb‚$u$õuD„Ä%ôDTÔõõ4TTB"Â#C""’’¢'6W"æFEö&wVÖVçB‚"ÒÖf÷&6R"Â7F–öãÒ'7F÷&U÷G'VR"Â†VÇÒ%&WÆ6RâW†—7F–ærFVÖòFF&6Râ"¢&WGW&â'6W"ç'6Uö&w2‚  ¦FVbÖ–â‚’ÓâæöæS ¢&w2Ò'6Uö&w2‚¢&W7VÇBÒvVæW&FUöFF&6R€¢&w2æF%÷F‚ç&W6öÇfR‚’ÂW6W'3Ö&w2çW6W'2Â6VVCÖ&w2ç6VVBÂf÷&6SÖ&w2æf÷&6P¢¢&–çB†§6öâæGV×2‡&W7VÇBÂVç7W&Uö66–“ÔfÇ6RÂ–æFVçCÓ"’  ¦–bõöæÖUõòÓÒ%õöÖ–åõò# ¢Ö–â‚
+            "name": "Content save feature nudge",
+            "kind": "ab",
+            "objective": "Evaluate whether encouraging content saving increases new-user retention.",
+            "strategy": "Show a lightweight save prompt and a clear path to saved content.",
+            "core_metric": "d1_7_window_retention",
+            "business_metric": "new_user_retention",
+            "baseline_rate": 0.40,
+            "mde_absolute": 0.025,
+            "alpha": 0.05,
+            "power": 0.80,
+            "daily_eligible_users": 10000,
+        },
+    ]
+    specs = pd.DataFrame(experiment_specs)
+    assignment_frames = []
+    outcome_frames = []
+    sample = users.sample(min(len(users), 80000), random_state=29).copy()
+    for index, spec in enumerate(experiment_specs):
+        assignment = _assign_experiment(
+            sample,
+            str(spec["experiment_id"]),
+            salt=f"growthlab_public_demo_{index}",
+            assigned_at=f"2025-05-{5 + index * 7:02d}",
+        )
+        group = assignment["group_name"].to_numpy()
+        if spec["kind"] == "aa":
+            group_rates = {"control": 0.160, "treatment": 0.160}
+        elif spec["experiment_id"] == "referral_ui_simplification":
+            group_rates = {"control": 0.160, "treatment": 0.213}
+        else:
+            group_rates = {"control": 0.401, "treatment": 0.438}
+        # Use exact group-level rates so the public demo remains stable even when
+        # QA generates a small database. Individual outcomes are still randomly
+        # selected within each hash-assigned group.
+        primary = np.zeros(len(assignment), dtype=bool)
+        for group_name, rate in group_rates.items():
+            indices = np.flatnonzero(group == group_name)
+            successes = int(round(rate * len(indices)))
+            selected = rng.choice(indices, successes, replace=False)
+            primary[selected] = True
+        if spec["experiment_id"] == "referral_ui_simplification":
+            guardrail = np.clip(rng.normal(1.84, 0.12, len(assignment)), 1.1, 2.5)
+        elif spec["experiment_id"] == "content_save_nudge":
+            guardrail = np.clip(rng.normal(0.018, 0.004, len(assignment)), 0, 0.06)
+        else:
+            guardrail = np.clip(rng.normal(1.80, 0.12, len(assignment)), 1.1, 2.5)
+        outcomes = assignment[["user_id", "experiment_id", "group_name"]].copy()
+        outcomes["primary_outcome"] = primary
+        outcomes["guardrail_outcome"] = guardrail
+        outcomes["observed_at"] = assignment["assigned_at"] + pd.to_timedelta(14, unit="D")
+        assignment_frames.append(assignment)
+        outcome_frames.append(outcomes)
+    return (
+        pd.concat(assignment_frames, ignore_index=True),
+        pd.concat(outcome_frames, ignore_index=True),
+        specs,
+    )
+
+
+def _activity_rows(
+    rng: np.random.Generator, users: pd.DataFrame, feature_usage: pd.DataFrame
+) -> pd.DataFrame:
+    repeat_count = np.clip(feature_usage["active_days_30"].to_numpy(), 1, 12)
+    repeated_index = np.repeat(np.arange(len(users)), repeat_count)
+    activity = users.iloc[repeated_index][["user_id", "signup_date", "period"]].reset_index(
+        drop=True
+    )
+    within_user_offset = np.concatenate([np.arange(count) for count in repeat_count])
+    activity["activity_date"] = pd.to_datetime(activity["signup_date"]) + pd.to_timedelta(
+        within_user_offset, unit="D"
+    )
+    activity["active_minutes"] = np.clip(rng.lognormal(3.2, 0.55, len(activity)), 2, 320)
+    activity["content_views"] = np.maximum(1, rng.poisson(activity["active_minutes"] / 3.5))
+    return activity
+
+
+def generate_growth_daily(seed: int) -> pd.DataFrame:
+    """Create a normalized executive growth trend with weekly seasonality and strategy shifts."""
+    rng = np.random.default_rng(seed + 20_250)
+    dates = pd.date_range("2025-02-17", periods=91, freq="D")
+    day = np.arange(len(dates), dtype=float)
+    weekly = np.sin(2 * np.pi * day / 7)
+    external = 24.0 - 0.11 * np.maximum(day - 25, 0) + 0.30 * weekly + rng.normal(0, 0.16, len(day))
+    organic = 16.0 + 0.015 * day + 0.25 * weekly + rng.normal(0, 0.12, len(day))
+    referral = (
+        4.0
+        + 0.035 * day
+        + 0.075 * np.maximum(day - 35, 0)
+        - 1.65 * np.exp(-((day - 49) ** 2) / 14)
+        + 2.0 / (1 + np.exp(-(day - 63) / 2.5))
+        + rng.normal(0, 0.10, len(day))
+    )
+    retained = (
+        50.0
+        + 0.045 * day
+        - 0.030 * np.maximum(day - 45, 0)
+        + 0.75 * weekly
+        + rng.normal(0, 0.18, len(day))
+    )
+    dau = retained + 0.35 * (external + organic + referral)
+    return pd.DataFrame(
+        {
+            "date": dates.date,
+            "dau_index": np.round(dau, 4),
+            "target_index": 80.0,
+            "external_new_index": np.round(external, 4),
+            "organic_new_index": np.round(organic, 4),
+            "referral_new_index": np.round(referral, 4),
+            "retained_user_index": np.round(retained, 4),
+        }
+    )
+
+
+def _write_frame(connection: duckdb.DuckDBPyConnection, table: str, frame: pd.DataFrame) -> None:
+    temp_name = f"tmp_{table}"
+    connection.register(temp_name, frame)
+    connection.execute(f'CREATE OR REPLACE TABLE "{table}" AS SELECT * FROM "{temp_name}"')
+    connection.unregister(temp_name)
+
+
+def _create_views(connection: duckdb.DuckDBPyConnection) -> None:
+    connection.execute(
+        """
+        CREATE OR REPLACE VIEW referral_version_summary AS
+        SELECT version,
+               SUM(exposure_uv) AS exposure_uv,
+               SUM(page_click_uv) AS page_click_uv,
+               SUM(invite_click_uv) AS invite_click_uv,
+               SUM(share_success_uv) AS share_success_uv,
+               SUM(new_user_landing_uv) AS new_user_landing_uv,
+               SUM(new_user_register_uv) AS new_user_register_uv,
+               SUM(new_user_activate_uv) AS new_user_activate_uv,
+               SUM(page_click_uv)::DOUBLE / NULLIF(SUM(exposure_uv), 0) AS page_click_rate,
+               SUM(invite_click_uv)::DOUBLE / NULLIF(SUM(page_click_uv), 0) AS invite_click_rate,
+               SUM(share_success_uv)::DOUBLE / NULLIF(SUM(invite_click_uv), 0) AS share_success_rate,
+               SUM(new_user_activate_uv)::DOUBLE / NULLIF(SUM(exposure_uv), 0) AS activation_per_exposure,
+               SUM(new_user_activate_uv)::DOUBLE / NULLIF(SUM(invite_click_uv), 0) AS activation_per_invite_click
+        FROM referral_funnel_daily GROUP BY version
+        """
+    )
+    connection.execute(
+        """
+        CREATE OR REPLACE VIEW retention_summary AS
+        SELECT period,
+               COUNT(*) AS users,
+               AVG(retained_d1::INTEGER) AS d1,
+               AVG(retained_d3::INTEGER) AS d3,
+               AVG(retained_d7::INTEGER) AS d7,
+               AVG(retained_d1_7_window::INTEGER) AS d1_7_window,
+               AVG(retained_d30::INTEGER) AS d30
+        FROM new_user_retention GROUP BY period
+        """
+    )
+    connection.execute(
+        """
+        CREATE OR REPLACE VIEW experiment_summary AS
+        SELECT experiment_id, group_name, COUNT(*) AS users,
+               SUM(primary_outcome::INTEGER) AS successes,
+               AVG(primary_outcome::INTEGER) AS primary_rate,
+               AVG(guardrail_outcome) AS guardrail_value
+        FROM experiment_outcomes GROUP BY experiment_id, group_name
+        """
+    )
+
+
+def _quality_checks(connection: duckdb.DuckDBPyConnection, run_id: str) -> pd.DataFrame:
+    queries: list[tuple[str, str, str]] = [
+        ("users_user_id_not_null", "SELECT COUNT(*) FROM users WHERE user_id IS NULL", "value = 0"),
+        (
+            "users_user_id_unique",
+            "SELECT COUNT(*) - COUNT(DISTINCT user_id) FROM users",
+            "value = 0",
+        ),
+        (
+            "growth_event_id_unique",
+            "SELECT COUNT(*) - COUNT(DISTINCT event_id) FROM growth_events",
+            "value = 0",
+        ),
+        (
+            "activity_after_signup",
+            "SELECT COUNT(*) FROM user_daily_activity WHERE activity_date < signup_date",
+            "value = 0",
+        ),
+        (
+            "growth_event_after_signup",
+            "SELECT COUNT(*) FROM growth_events e JOIN users u USING(user_id) WHERE CAST(e.event_at AS DATE) < u.signup_date",
+            "value = 0",
+        ),
+        (
+            "retention_bounded",
+            "SELECT COUNT(*) FROM new_user_retention WHERE retained_d1_7_window NOT IN (TRUE, FALSE)",
+            "value = 0",
+        ),
+        (
+            "reward_nonnegative",
+            "SELECT COUNT(*) FROM referral_rewards WHERE incentive_cost < 0",
+            "value = 0",
+        ),
+        (
+            "experiment_group_valid",
+            "SELECT COUNT(*) FROM experiment_assignments WHERE group_name NOT IN ('control','treatment')",
+            "value = 0",
+        ),
+        (
+            "experiment_single_assignment",
+            "SELECT COUNT(*) FROM (SELECT experiment_id,user_id,COUNT(*) n FROM experiment_assignments GROUP BY 1,2 HAVING n>1)",
+            "value = 0",
+        ),
+        (
+            "outcome_after_assignment",
+            "SELECT COUNT(*) FROM experiment_outcomes o JOIN experiment_assignments a USING(experiment_id,user_id,group_name) WHERE o.observed_at < a.assigned_at",
+            "value = 0",
+        ),
+        (
+            "funnel_monotonic",
+            "SELECT COUNT(*) FROM referral_funnel_daily WHERE NOT (exposure_uv >= page_click_uv AND page_click_uv >= invite_click_uv AND invite_click_uv >= share_success_uv AND share_success_uv >= new_user_landing_uv AND new_user_landing_uv >= new_user_register_uv AND new_user_register_uv >= new_user_activate_uv)",
+            "value = 0",
+        ),
+        (
+            "activity_day_range",
+            "SELECT COUNT(*) FROM feature_usage WHERE active_days_30 NOT BETWEEN 1 AND 30",
+            "value = 0",
+        ),
+        (
+            "feature_count_nonnegative",
+            "SELECT COUNT(*) FROM feature_usage WHERE feature_use_count < 0",
+            "value = 0",
+        ),
+        (
+            "acquired_cost_nonnegative",
+            "SELECT COUNT(*) FROM acquired_users WHERE incentive_cost < 0",
+            "value = 0",
+        ),
+        (
+            "metric_definitions_present",
+            "SELECT CASE WHEN COUNT(*) >= 10 THEN 0 ELSE 1 END FROM metric_definitions",
+            "value = 0",
+        ),
+        (
+            "periods_present",
+            "SELECT CASE WHEN COUNT(DISTINCT period) = 2 THEN 0 ELSE 1 END FROM new_user_retention",
+            "value = 0",
+        ),
+        (
+            "growth_trend_complete",
+            "SELECT CASE WHEN COUNT(*) = 91 AND MIN(dau_index) > 0 AND MIN(target_index) > 0 THEN 0 ELSE 1 END FROM growth_daily",
+            "value = 0",
+        ),
+    ]
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    rows = []
+    for name, query, threshold in queries:
+        value = float(connection.execute(query).fetchone()[0])
+        rows.append(
+            {
+                "run_id": run_id,
+                "checked_at": now,
+                "check_name": name,
+                "status": "pass" if value == 0 else "fail",
+                "observed_value": value,
+                "threshold": threshold,
+                "details": "Deterministic public-demo validation",
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def generate_database(
+    db_path: Path, *, users: int, seed: int, force: bool = False
+) -> dict[str, Any]:
+    if users < 2_000:
+        raise ValueError("users must be at least 2,000 for meaningful demo segments")
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+    if db_path.exists() and not force:
+        raise FileExistsError(f"Database already exists: {db_path}. Use --force to replace it.")
+    if db_path.exists():
+        db_path.unlink()
+    rng = np.random.default_rng(seed)
+    run_id = str(uuid.uuid4())
+    started = datetime.now(timezone.utc).replace(tzinfo=None)
+    frames: dict[str, pd.DataFrame] = {}
+    frames["users"] = generate_users(rng, users)
+    frames["new_user_retention"], frames["feature_usage"] = generate_retention(rng, frames["users"])
+    frames["new_user_funnel"], new_user_events = generate_new_user_funnel(
+        rng, frames["users"], frames["new_user_retention"]
+    )
+    referral_frames = generate_referral(rng, frames["users"])
+    frames.update(referral_frames)
+    frames["growth_events"] = pd.concat(
+        [frames["growth_events"], new_user_events], ignore_index=True
+    )
+    (
+        frames["experiment_assignments"],
+        frames["experiment_outcomes"],
+        frames["experiment_definitions"],
+    ) = generate_experiments(rng, frames["users"])
+    frames["user_daily_activity"] = _activity_rows(rng, frames["users"], frames["feature_usage"])
+    frames["metric_definitions"] = pd.DataFrame(METRIC_DEFINITIONS)
+    frames["growth_daily"] = generate_growth_daily(seed)
+
+    connection = duckdb.connect(str(db_path))
+    try:
+        schema_path = PROJECT_ROOT / "sql" / "schema" / "001_core.sql"
+        connection.execute(schema_path.read_text(encoding="utf-8"))
+        for table, frame in frames.items():
+            _write_frame(connection, table, frame)
+        _create_views(connection)
+        quality = _quality_checks(connection, run_id)
+        _write_frame(connection, "data_quality_runs", quality)
+        completed = datetime.now(timezone.utc).replace(tzinfo=None)
+        ingestion = pd.DataFrame(
+            [
+                {
+                    "run_id": run_id,
+                    "source_name": "deterministic_synthetic_public_demo",
+                    "started_at": started,
+                    "completed_at": completed,
+                    "row_count": sum(len(frame) for frame in frames.values()),
+                    "seed": seed,
+                    "status": "completed",
+                }
+            ]
+        )
+        _write_frame(connection, "ingestion_runs", ingestion)
+        connection.execute("CHECKPOINT")
+        counts = {
+            table: int(connection.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0])
+            for table in frames
+        }
+        quality_failed = int((quality["status"] == "fail").sum())
+        return {
+            "database": str(db_path),
+            "seed": seed,
+            "users_requested": users,
+            "rows": counts,
+            "quality_checks": len(quality),
+            "quality_failed": quality_failed,
+            "run_id": run_id,
+        }
+    finally:
+        connection.close()
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate GrowthLab's privacy-safe deterministic demo database."
+    )
+    parser.add_argument(
+        "--db-path", type=Path, default=Path(os.getenv("GROWTHLAB_DB_PATH", DEFAULT_DB))
+    )
+    parser.add_argument(
+        "--users", type=int, default=int(os.getenv("GROWTHLAB_DEMO_USERS", "100000"))
+    )
+    parser.add_argument("--seed", type=int, default=int(os.getenv("GROWTHLAB_DEMO_SEED", "42")))
+    parser.add_argument("--force", action="store_true", help="Replace an existing demo database.")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    result = generate_database(
+        args.db_path.resolve(), users=args.users, seed=args.seed, force=args.force
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()
