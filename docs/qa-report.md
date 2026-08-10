@@ -2,9 +2,9 @@
 
 ## 1. Release verdict
 
-**QA result: PASS for source release, subject to the first remote Docker build completing in GitHub Actions.**
+**QA result: PASS for public release, including remote Python 3.12 quality gates and Docker image builds.**
 
-The analytics, statistical inference, deterministic demo data, data-quality checks, FastAPI contract, Streamlit startup, privacy scan, lint and formatting gates pass locally. The repository contains a CI workflow that repeats these gates on Python 3.12 and builds both Docker images. Docker is not installed on the local Windows host, so container configuration/build is the only gate that could not be executed locally; it must be confirmed by the first GitHub Actions run.
+The analytics, statistical inference, deterministic demo data, data-quality checks, FastAPI contract, Streamlit startup, privacy scan, lint and formatting gates pass locally. GitHub Actions CI run `31364099680` independently repeated the quality gates on Python 3.12, validated the Docker Compose configuration, and built both application images successfully. Docker is not installed on the local Windows host, so the remote Ubuntu runner is the authoritative container-build environment.
 
 ## 2. Verified environment
 
@@ -18,6 +18,9 @@ The analytics, statistical inference, deterministic demo data, data-quality chec
 | Statistical references | Statsmodels and SciPy from the locked project dependency ranges |
 | Demo profile used by API integration tests | 5,000 deterministic synthetic users, seed 42 |
 | Full local demo verified by implementation audit | 100,000 deterministic synthetic users, seed 42 |
+| Public repository | `liu-XI71/growthlab-user-growth-analytics` |
+| Verified GitHub Actions run | `31364099680` on commit `5d152f9` |
+| Remote container result | Compose validation and backend/frontend image builds passed |
 
 ## 3. Commands and results
 
@@ -70,12 +73,14 @@ docker --version
 docker compose config --quiet
 ```
 
-Result: Docker CLI is not installed on the local host. The CI workflow therefore owns the authoritative Compose validation and two-image build:
+Result: Docker CLI is not installed on the local host. GitHub Actions therefore owns the authoritative Compose validation and two-image build:
 
 ```yaml
 docker compose config --quiet
 docker compose build --pull
 ```
+
+Remote result: **passed** in CI run `31364099680`. The quality job and the dependent Docker Compose job both completed successfully on the public repository.
 
 ## 4. Statistical acceptance evidence
 
@@ -240,7 +245,7 @@ Result: no finding. This is a heuristic safeguard, not a substitute for the repo
 
 ## 10. Residual limitations
 
-1. Docker images were not built on the local machine because Docker CLI is absent. Remote CI must be green before treating container delivery as verified.
+1. Docker images were not built on the local Windows machine because Docker CLI is absent; the same Compose definition and both images were successfully validated and built by the GitHub-hosted Ubuntu runner.
 2. The data is synthetic and validates the analytical method, not commercial impact at any real company.
 3. Z-test and normal-approximation confidence intervals are intended for adequately sized samples. Small-cell SRM is guarded; analysts should use an exact method for genuinely sparse outcome experiments.
 4. Secret scanning is regex-based and should be complemented by GitHub secret scanning where available.
@@ -258,7 +263,7 @@ Result: no finding. This is a heuristic safeguard, not a substitute for the repo
 - [x] Streamlit headless startup passes.
 - [x] Confidentiality, secret and large-file scans pass.
 - [x] GitHub Actions workflow is present.
-- [ ] First remote GitHub Actions run is green.
-- [ ] Remote Docker Compose validation and image builds are green.
+- [x] Remote GitHub Actions quality run is green.
+- [x] Remote Docker Compose validation and backend/frontend image builds are green.
 
-**Release recommendation:** publish the repository, wait for the first GitHub Actions run, and only advertise “Docker-verified” after both CI jobs are green.
+**Release recommendation:** approved for public portfolio use. Describe the application as CI- and Docker-verified while preserving the synthetic-data and non-affiliation disclosure.
