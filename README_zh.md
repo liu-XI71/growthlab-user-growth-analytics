@@ -1,5 +1,7 @@
 # GrowthLab — 用户增长分析与实验评估工作台
 
+[![CI](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml)
+
 [English](README.md) · [GROWTH 分析方法论](docs/growth-methodology.md) · [指标字典](docs/metric-dictionary.md) · [实验方法论](docs/experimentation-guide.md) · [面试讲解指南](docs/interview-guide.md)
 
 GrowthLab 是一个面向数据分析、用户增长与商业分析岗位的端到端作品集项目。它将“老带新获客”和“新用户留存”两类典型问题，落地为一套可运行、可解释、可检验、可公开的分析系统：从指标体系、SQL 和 DuckDB 数据库，到 FastAPI 后端、九页 Streamlit 前端、完整 A/A 与 A/B 实验评估、自动化测试、Docker 和 GitHub Actions。

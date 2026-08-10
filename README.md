@@ -1,5 +1,7 @@
 # GrowthLab — User Growth Analytics & Experimentation Workbench
 
+[![CI](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml)
+
 [中文说明](README_zh.md) · [GROWTH methodology](docs/growth-methodology.md) · [Metric dictionary](docs/metric-dictionary.md) · [Experiment playbook](docs/experimentation-guide.md) · [Interview guide](docs/interview-guide.md)
 
 GrowthLab is a privacy-safe, end-to-end analytics portfolio project for user-growth roles. It turns two common growth problems—referral acquisition and new-user retention—into a reproducible decision system with governed metrics, SQL, a DuckDB analytical store, a FastAPI service, a nine-page Streamlit application, statistical experiment checks, automated tests, Docker, and CI.
