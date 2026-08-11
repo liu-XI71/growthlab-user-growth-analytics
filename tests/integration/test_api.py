@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import math
+import time
 from collections.abc import Iterator
 from pathlib import Path
 
+import duckdb
 import pytest
 from fastapi.testclient import TestClient
 
@@ -273,3 +276,246 @@ def test_workbench_funnel_and_mix_shift_accept_aggregate_data(api_client: TestCl
     assert decomposition.status_code == 200, decomposition.text
     assert decomposition.json()["structure_effect"] < 0
     assert decomposition.json()["reconciliation_error"] == pytest.approx(0, abs=1e-12)
+
+
+@pytest.mark.parametrize(
+    "endpoint",
+    [
+        "/lifecycle/summary",
+        "/lifecycle/cohorts",
+        "/lifecycle/acquisition-quality",
+        "/investigation/paths",
+        "/investigation/mix-shift",
+        "/experiments/referral_ui_simplification/health",
+        "/experiments/referral_ui_simplification/effects",
+        "/economics/summary",
+        "/decisions",
+        "/metrics/incremental_d7_retained_per_10k_assigned/lineage",
+    ],
+)
+def test_option_b_read_routes_return_serializable_deterministic_json(
+    api_client: TestClient, endpoint: str
+) -> None:
+    first = api_client.get(endpoint)
+    second = api_client.get(endpoint)
+    assert first.status_code == 200, first.text
+    assert first.headers["content-type"].startswith("application/json")
+    assert first.json() == second.json()
+
+    def assert_finite(value: object) -> None:
+        if isinstance(value, float):
+            assert math.isfinite(value)
+        elif isinstance(value, dict):
+            for nested in value.values():
+                assert_finite(nested)
+        elif isinstance(value, list):
+            for nested in value:
+                assert_finite(nested)
+
+    assert_finite(first.json())
+
+
+def test_lifecycle_api_links_identity_maturity_and_quality_adjusted_estimands(
+    api_client: TestClient,
+) -> None:
+    summary = api_client.get("/lifecycle/summary").json()
+    assert summary["north_star"] == "incremental high-quality retained users and contribution value"
+    assert [item["step"] for item in summary["lifecycle"]] == [
+        "eligible_assignment",
+        "tracked_exposure",
+        "invite_click",
+        "new_user_activate",
+        "d1_7_retained",
+        "d7_retained",
+    ]
+    assert all(
+        left["users"] >= right["users"]
+        for left, right in zip(summary["lifecycle"], summary["lifecycle"][1:], strict=False)
+    )
+    quality = summary["quality_adjusted_effects"]
+    for key in ("d7_retained", "d1_7_window_retained", "contribution30"):
+        metric = quality[key]
+        assert metric["denominator_type"] == "assignment"
+        assert metric["population"] == "intention_to_treat"
+        assert metric["non_acquired_contribution"] == 0
+        assert metric["window"]
+        assert metric["unit"]
+
+    cohorts = api_client.get("/lifecycle/cohorts").json()
+    assert cohorts["invitee_identity"].startswith("referral_edges.new_user_id")
+    assert cohorts["horizons"]["d7"].startswith("exact")
+    assert "day 1" in cohorts["horizons"]["d1_7_window"]
+    assert cohorts["items"]
+    for row in cohorts["items"]:
+        assert row["retained_d7_users"] <= row["mature_d7_users"]
+        assert row["retained_d1_7_window_users"] <= row["mature_d7_users"]
+        assert row["retained_d30_users"] <= row["mature_d30_users"]
+        assert row["immature_d7_users"] == row["activated_users"] - row["mature_d7_users"]
+        assert row["immature_d30_users"] == row["activated_users"] - row["mature_d30_users"]
+        assert row["as_of_date"] == cohorts["horizons"]["as_of_date"]
+
+
+def test_option_b_api_metrics_match_direct_itt_sql(api_client: TestClient) -> None:
+    effects = api_client.get("/experiments/referral_ui_simplification/effects").json()
+    with duckdb.connect(str(settings.db_path), read_only=True) as connection:
+        golden = connection.execute(
+            """
+            WITH arm AS (
+              SELECT group_name, COUNT(*) AS n,
+                     SUM(retained_d7::INT) AS d7,
+                     SUM(retained_d1_7_window::INT) AS win,
+                     SUM(contribution30) AS contribution
+              FROM mart_experiment_user_value
+              WHERE experiment_id='referral_ui_simplification'
+              GROUP BY 1
+            )
+            SELECT
+              10000*(MAX(d7/n::DOUBLE) FILTER(group_name='treatment')
+                     -MAX(d7/n::DOUBLE) FILTER(group_name='control')),
+              10000*(MAX(win/n::DOUBLE) FILTER(group_name='treatment')
+                     -MAX(win/n::DOUBLE) FILTER(group_name='control')),
+              10000*(MAX(contribution/n::DOUBLE) FILTER(group_name='treatment')
+                     -MAX(contribution/n::DOUBLE) FILTER(group_name='control'))
+            FROM arm
+            """
+        ).fetchone()
+    assert golden is not None
+    quality = effects["quality_adjusted_effects"]
+    actual = (
+        quality["d7_retained"]["estimate"],
+        quality["d1_7_window_retained"]["estimate"],
+        quality["contribution30"]["estimate"],
+    )
+    assert actual == pytest.approx(golden)
+
+
+def test_experiment_health_separates_itt_from_triggered_and_uses_pre_treatment_smd(
+    api_client: TestClient,
+) -> None:
+    health = api_client.get("/experiments/referral_ui_simplification/health").json()
+    assert health["primary_estimand"] == {
+        "population": "intention_to_treat",
+        "denominator_type": "assignment",
+        "reason": "Preserves randomization and includes non-exposed assignments.",
+    }
+    triggered = health["triggered_diagnostic"]
+    assert triggered["denominator_type"] == "tracked_exposure"
+    assert triggered["population"] == "post_assignment_exposed"
+    assert "must not replace" in triggered["selection_bias_warning"]
+    assert health["smd_threshold"] == pytest.approx(0.1)
+    assert {item["dimension"] for item in health["pre_treatment_balance"]} == {
+        "channel",
+        "device_type",
+        "region",
+    }
+    assert all(
+        item["method"].endswith("pre-treatment covariates")
+        for item in health["pre_treatment_balance"]
+    )
+
+
+def test_small_profile_decision_is_no_go_on_explicit_sample_gate(api_client: TestClient) -> None:
+    effects = api_client.get("/experiments/referral_ui_simplification/effects").json()
+    card = effects["decision_card"]
+    gates = {item["gate"]: item for item in card["gates"]}
+    required = {
+        "data_quality",
+        "assignment_and_exposure_integrity",
+        "srm",
+        "pre_treatment_balance",
+        "exposure_tracking",
+        "sample_size",
+        "fixed_horizon_duration",
+        "outcome_maturity",
+        "guardrail",
+        "statistical_significance",
+        "business_significance",
+        "incremental_contribution30",
+    }
+    assert required <= gates.keys()
+    assert gates["sample_size"]["pass"] is False
+    assert card["decision"] == "DO_NOT_SHIP"
+    assert card["all_gates_pass"] is False
+    assert "sample_size" in card["failed_or_unknown_gates"]
+    timing = effects["decision_basis"]["timing"]
+    assert timing["experiment_duration_days"] >= timing["experiment_required_days"]
+    assert timing["value_followup_observed_days"] >= timing["value_followup_required_days"]
+
+
+def test_week_and_segment_results_cannot_masquerade_as_unadjusted_decision_rules(
+    api_client: TestClient,
+) -> None:
+    effects = api_client.get("/experiments/referral_ui_simplification/effects").json()
+    assert "must not change" in effects["week_slice_warning"]
+    assert all(
+        row["purpose"] == "novelty_and_durability_diagnostic_only" for row in effects["week_slices"]
+    )
+    assert effects["segment_effects"]
+    for row in effects["segment_effects"]:
+        assert row["classification"] in {"pre_specified", "exploratory"}
+        assert row["ci_lower"] <= row["absolute_uplift"] <= row["ci_upper"]
+        assert 0 <= row["adjusted_p_value"] <= 1
+        assert row["multiplicity_method"]
+        assert row["heterogeneity_claim"] == "not_claimed_from_subgroup_significance"
+
+
+def test_descriptive_economics_never_claim_incrementality(api_client: TestClient) -> None:
+    quality = api_client.get("/lifecycle/acquisition-quality").json()
+    assert quality["evidence_level"] == "descriptive"
+    assert quality["causal_claim_allowed"] is False
+    assert "not incremental" in quality["claim_boundary"]
+    assert all(not any("incremental" in key.lower() for key in row) for row in quality["items"])
+    economics = api_client.get("/economics/summary").json()
+    assert "descriptive" in economics["average_ltv_cac_definition"].lower()
+    assert economics["causal_itt_economics"]["primary_estimand"] == "intention_to_treat"
+    assert "intentionally not reported" in economics["no_incremental_ltv_cac"]
+
+
+@pytest.mark.parametrize(
+    ("endpoint", "status"),
+    [
+        ("/lifecycle/cohorts?source_kind=unknown", 422),
+        ("/investigation/paths?acquisition_source=unknown", 422),
+        ("/experiments/not-a-real-experiment/effects", 404),
+        ("/experiments/not-a-real-experiment/health", 404),
+        ("/metrics/not-a-real-metric/lineage", 404),
+    ],
+)
+def test_option_b_read_route_error_boundaries(
+    api_client: TestClient, endpoint: str, status: int
+) -> None:
+    response = api_client.get(endpoint)
+    assert response.status_code == status
+    assert response.status_code != 500
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {"experiment_id": "not-real", "budget_multipliers": [1, 2]},
+        {"budget_multipliers": [0, 1]},
+        {"budget_multipliers": [1, 1]},
+        {"budget_multipliers": [1, 2], "eligible_population": -1},
+        {"budget_multipliers": [1, 2], "response_elasticity": 0},
+    ],
+)
+def test_economics_scenario_rejects_invalid_inputs_without_500(
+    api_client: TestClient, payload: dict
+) -> None:
+    response = api_client.post("/economics/scenarios", json=payload)
+    assert response.status_code == 422, response.text
+
+
+def test_representative_option_b_routes_meet_ci_fixture_latency(api_client: TestClient) -> None:
+    endpoints = [
+        "/lifecycle/summary",
+        "/experiments/referral_ui_simplification/effects",
+        "/economics/summary",
+    ]
+    for endpoint in endpoints:
+        api_client.get(endpoint)  # warm connection and imports
+        started = time.perf_counter()
+        response = api_client.get(endpoint)
+        elapsed = time.perf_counter() - started
+        assert response.status_code == 200, response.text
+        assert elapsed < 2.0, f"{endpoint} took {elapsed:.3f}s on the 5k CI fixture"

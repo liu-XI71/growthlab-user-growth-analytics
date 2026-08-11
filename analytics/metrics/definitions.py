@@ -135,7 +135,90 @@ METRIC_DEFINITIONS: list[dict[str, str | None]] = [
         "grain": "signup_cohort",
         "owner_role": "growth_analytics",
     },
+    {
+        "metric_name": "incremental_d7_retained_per_10k_assigned",
+        "display_name_zh": "每万分流增量D7留存新用户",
+        "display_name_en": "Incremental D7 retained users per 10k assigned",
+        "description": "随机实验ITT口径：每万名被分流老用户带来的增量精确D7留存新用户。未拉新用户贡献为0。",
+        "formula": "10000 × (retained_D7_T / assigned_T - retained_D7_C / assigned_C)",
+        "numerator": "difference in D7-retained referred users",
+        "denominator": "experiment assignment",
+        "unit": "users_per_10k_assigned",
+        "grain": "experiment × arm",
+        "owner_role": "growth_analytics",
+    },
+    {
+        "metric_name": "incremental_d1_7_retained_per_10k_assigned",
+        "display_name_zh": "每万分流增量D1-7窗口留存新用户",
+        "display_name_en": "Incremental D1-7 retained users per 10k assigned",
+        "description": "随机实验ITT口径：每万名被分流老用户带来的增量D1-7窗口留存新用户。未拉新用户贡献为0。",
+        "formula": "10000 × (retained_D1_7_T / assigned_T - retained_D1_7_C / assigned_C)",
+        "numerator": "difference in D1-7 retained referred users",
+        "denominator": "experiment assignment",
+        "unit": "users_per_10k_assigned",
+        "grain": "experiment × arm",
+        "owner_role": "growth_analytics",
+    },
+    {
+        "metric_name": "incremental_contribution30_per_10k_assigned",
+        "display_name_zh": "每万分流首月增量贡献价值",
+        "display_name_en": "Incremental Contribution30 per 10k assigned",
+        "description": "随机实验ITT口径：未获客用户贡献记0，比较每万分流用户带来的30日价值减全部可变获客成本。",
+        "formula": "10000 × [Σ(value30 - variable acquisition costs)_T / assigned_T - same_C]",
+        "numerator": "difference in net 30-day contribution",
+        "denominator": "experiment assignment",
+        "unit": "normalized_value_per_10k_assigned",
+        "grain": "experiment × arm",
+        "owner_role": "growth_analytics",
+    },
 ]
+
+
+# A metric is a governed decision contract, not merely a display label.  Defaults keep
+# the legacy catalog backward compatible while making every row traceable and auditable.
+for _metric in METRIC_DEFINITIONS:
+    _metric.setdefault("metric_type", "diagnostic")
+    _metric.setdefault("decision_use", "Diagnose a governed stage of the growth lifecycle.")
+    _metric.setdefault("eligibility", "Rows satisfying the documented source-table contract.")
+    _metric.setdefault(
+        "inclusion_exclusion", "Deduplicate by governed user and window; exclude test traffic."
+    )
+    _metric.setdefault("attribution_window", "As defined in formula and grain.")
+    _metric.setdefault("observation_window", "As defined in formula and grain.")
+    _metric.setdefault("timezone", "UTC")
+    _metric.setdefault("freshness_sla", "Public demo regenerated as one deterministic snapshot.")
+    _metric.setdefault("source_table", "See metric lineage endpoint.")
+    _metric.setdefault("sql_model", "See metric lineage endpoint.")
+    _metric.setdefault(
+        "claim_boundary", "Descriptive unless an explicit randomized estimand is named."
+    )
+
+for _metric_name in {
+    "incremental_d7_retained_per_10k_assigned",
+    "incremental_d1_7_retained_per_10k_assigned",
+    "incremental_contribution30_per_10k_assigned",
+}:
+    _item = next(item for item in METRIC_DEFINITIONS if item["metric_name"] == _metric_name)
+    _item["metric_type"] = "final_business"
+    _item["decision_use"] = "Primary causal rollout and resource-allocation decision evidence."
+    _item["eligibility"] = "All users assigned to the pre-registered referral UI experiment."
+    _item["inclusion_exclusion"] = (
+        "ITT: retain every assignment; non-acquired users contribute zero."
+    )
+    _item["attribution_window"] = "Assignment through referred-user activation."
+    _item["observation_window"] = "Exact D7, D1-7 window, or 30 days as named."
+    _item["source_table"] = "mart_experiment_user_value"
+    _item["sql_model"] = "sql/experiments/quality_adjusted_effects.sql"
+    _item["claim_boundary"] = "Causal only for the randomized ITT population and fixed horizon."
+
+for _metric_name in {"invite_click_rate", "share_success_rate", "activation_per_exposure"}:
+    _item = next(item for item in METRIC_DEFINITIONS if item["metric_name"] == _metric_name)
+    _item["metric_type"] = "mechanism"
+    _item["decision_use"] = "Localize the mechanism; never substitute for the final value outcome."
+
+for _metric_name in {"ltv_cac_ratio", "net_roi"}:
+    _item = next(item for item in METRIC_DEFINITIONS if item["metric_name"] == _metric_name)
+    _item["metric_type"] = "guardrail"
 
 
 def metric_tree() -> dict[str, Any]:

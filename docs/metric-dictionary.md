@@ -16,6 +16,11 @@ Metrics are governed by formula, unit, grain, ownership, and interpretation. The
 | Net ROI | (30-day LTV − CAC) / CAC | acquisition version | Incremental net return relative to acquisition cost |
 | Exact D7 retention | active exactly on signup day + 7 / new users | signup cohort | Different from a day 1–7 window metric |
 | Day 1–7 window retention | active at least once on days 1…7 / new users | signup cohort | Always greater than or equal to exact D7 for the same cohort |
+| Incremental D7 retained users per 10k assigned | 10,000 × (D7-retained referred users / assignments in treatment − control) | experiment × arm | Randomized ITT; non-acquired assignments contribute zero |
+| Incremental D1–7 retained users per 10k assigned | Same-arm difference using day 1..7 window-retained referred users | experiment × arm | Window outcome, not exact D7 |
+| Incremental Contribution30 per 10k assigned | 10,000 × arm difference in Σ(value30 − all variable acquisition costs) / assignments | experiment × arm | Primary additive economic estimand; value30 offsets 0..29 |
+| Average acquired-user LTV/CAC | Σvalue30 / Σall variable acquisition costs among acquired users | source × campaign × treatment label | Descriptive; never labelled incremental |
+| Cost per incremental D7 retained user | incremental variable cost rate / incremental D7 retained-user rate | experiment | Only available when incremental D7 is positive |
 
 ## Metric tree
 
@@ -39,3 +44,8 @@ campaign exposure UV
 5. LTV/CAC and net ROI are separate metrics.
 6. Experiment primary metrics and guardrails are frozen before outcome inspection.
 7. Changes to formulas require a versioned definition and regression test.
+8. The primary referral experiment denominator is every eligible assignment; tracked exposure is diagnostic.
+9. Descriptive campaign versions cannot use `causal` or `incremental` labels.
+10. Value30 is relative day 0..29; exact D30 retention is relative day 30.
+11. Recent cohorts expose mature and immature counts; unavailable D30 remains null.
+12. Metric lineage must identify source, mart, SQL evidence, decision use and claim boundary.

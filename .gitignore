@@ -5,6 +5,8 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .coverage
+coverage.xml
+pytest-results.xml
 htmlcov/
 .venv/
 venv/
@@ -14,5 +16,7 @@ data/demo/*.csv
 logs/
 .streamlit/secrets.toml
 node_modules/
+.playwright-cli/
+.qa-logs/
 dist/
 build/

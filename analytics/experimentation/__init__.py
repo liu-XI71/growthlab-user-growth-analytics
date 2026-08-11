@@ -1,3 +1,4 @@
+from .decision import balance_smd, benjamini_hochberg, itt_quality_effects, proportion_effect
 from .service import (
     analyze_aa,
     analyze_experiment,
@@ -20,4 +21,8 @@ __all__ = [
     "calculate_mde",
     "calculate_sample_size",
     "check_srm",
+    "balance_smd",
+    "benjamini_hochberg",
+    "itt_quality_effects",
+    "proportion_effect",
 ]

@@ -13,6 +13,10 @@ services:
       - "8000:8000"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      # The canonical 100k-user dataset is generated on first boot and takes
+      # roughly 3-4 minutes on the reference Windows machine.  Do not mark the
+      # backend unhealthy while that deterministic bootstrap is still running.
+      start_period: 6m
       interval: 10s
       timeout: 5s
       retries: 12

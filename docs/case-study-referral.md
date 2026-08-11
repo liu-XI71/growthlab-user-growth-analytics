@@ -86,6 +86,33 @@ A sensitivity grid varies active days, daily hours, monetization value per hour,
 
 Thirty-day LTV is modeled and may miss long-tail value. Invitation products can create interference between users. A fixed two-week test may not identify long-term novelty decay. The public demo is designed to demonstrate reasoning and implementation, not estimate a real market effect.
 
+## Version 2: quality-adjusted referral decision
+
+The final product no longer stops at activated referred users. Every activated edge uses a canonical invitee identity:
+
+```text
+eligible assignment → tracked exposure → invite click → invitee activation
+→ exact D7 / D1-7 retention → value30 − all variable costs
+```
+
+The randomized referral-UI decision reports three additive ITT outcomes:
+
+```text
+Incremental D7 retained users / 10k assigned
+  = 10,000 × (retained_D7_T / assigned_T − retained_D7_C / assigned_C)
+
+Incremental D1-7 retained users / 10k assigned
+  = 10,000 × (retained_D1-7_T / assigned_T − retained_D1-7_C / assigned_C)
+
+Incremental Contribution30 / 10k assigned
+  = 10,000 × [Σ(value30 − all variable acquisition costs)_T / assigned_T
+               − same_C]
+```
+
+Non-acquired assignments contribute zero. This construction measures conversion scale and acquired-user value without multiplying an experiment conversion rate by a different cohort's average retention. Assignment is the default denominator; exposed-user rates are explicitly selection-biased diagnostics.
+
+The UI treatment does **not** change incentive or downstream quality policy. The public DGP applies the same retention, activity, value and variable-cost process to acquired invitees in both arms. Its only designed causal path is invite-click and activation probability. This is stored in `dgp_policy` and tested.
+
 ## GROWTH method trace
 
 | Gate | Project artifact |

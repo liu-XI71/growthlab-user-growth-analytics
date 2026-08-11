@@ -1,269 +1,324 @@
-# GrowthLab independent QA report
+# GrowthLab Option B independent QA report
 
-## 1. Release verdict
+## 1. Current verdict
 
-**QA result: PASS for public release, including remote Python 3.12 quality gates and Docker image builds.**
+**Current QA result: LOCAL GO for the integration/publication candidate.**
 
-The analytics, statistical inference, deterministic demo data, data-quality checks, FastAPI contract, Streamlit startup, privacy scan, lint and formatting gates pass locally. GitHub Actions CI run `31364099680` independently repeated the quality gates on Python 3.12, validated the Docker Compose configuration, and built both application images successfully. Docker is not installed on the local Windows host, so the remote Ubuntu runner is the authoritative container-build environment.
+All analytical, data, API, decision-gate, Streamlit execution and desktop-browser acceptance
+checks pass. The previously open first-run issue is closed: the backend health check now has a
+six-minute `start_period`, and both READMEs document the canonical 100,000-user boot time plus
+the PowerShell 5,000-user fast-start profile and its expected `DO_NOT_SHIP` decision.
 
-## 2. Verified environment
+Real-browser QA was completed with the official portable Node runtime and Playwright CLI at
+1440x1000 and 1280x720. Six modules, sidebar navigation and representative controls rendered
+without Streamlit exceptions, browser-console errors or horizontal overflow. Visual defects
+found in the first pass were fixed and rechecked from fresh browser renders.
 
-| Item | Value |
+This is a local code-quality **GO**, not evidence that the final GitHub commit has already
+passed remote CI. Because Docker is unavailable on the QA host, the public-release claim still
+requires the final GitHub Actions Docker config/build job, commit SHA and public-page readback.
+
+## 2. Independence and tested state
+
+QA was performed independently from the production implementation. Numerical conclusions
+were recalculated from direct SQL and hand-calculated micro-fixtures rather than accepted from
+UI labels or implementation claims.
+
+| Item | Tested value |
 |---|---|
-| QA date | 2026-08-09 (Asia/Shanghai) |
+| QA date | 2026-08-11 (Asia/Shanghai) |
 | Local platform | Windows / PowerShell |
 | Local Python | 3.10.11 isolated `.venv` |
-| CI Python | 3.12 (`actions/setup-python`) |
-| Test runner | Pytest 8.x |
-| Statistical references | Statsmodels and SciPy from the locked project dependency ranges |
-| Demo profile used by API integration tests | 5,000 deterministic synthetic users, seed 42 |
-| Full local demo verified by implementation audit | 100,000 deterministic synthetic users, seed 42 |
-| Public repository | `liu-XI71/growthlab-user-growth-analytics` |
-| Verified GitHub Actions run | `31364099680` on commit `5d152f9` |
-| Remote container result | Compose validation and backend/frontend image builds passed |
+| Canonical profile | 100,000 users, seed 42 |
+| Independent secondary profile | 100,000 users, seed 4,242 |
+| Fast integration profile | 5,000 users, seed 42 |
+| Independent data golden profile | 2,000 users, seed 4,242 |
+| Full automated suite | 143 passed, 0 failed |
+| Coverage | 91% across `analytics` and `backend` (1,255 statements, 108 missed) |
+| Built-in canonical DQ | 29/29 passed |
+| Canonical database rows recorded by ingestion | 3,352,628 |
+| Docker availability on QA host | unavailable; remote CI is the required Docker gate |
+| Browser QA runtime | portable Node v22.23.2 + Playwright CLI + Chrome |
+| Desktop viewports | 1440x1000 full-page visual review; 1280x720 six-page smoke |
+| Worktree tested | uncommitted Option B implementation; final commit SHA pending integration |
+
+The final public-release report must replace the pending commit and CI fields after the
+integration commit is pushed and the remote workflow succeeds.
 
 ## 3. Commands and results
 
-### Compilation
+### Compilation, lint, format and patch hygiene
 
 ```powershell
 .\.venv\Scripts\python.exe -m compileall -q analytics backend scripts frontend tests
-```
-
-Result: passed; no syntax/import compilation error.
-
-### Lint
-
-```powershell
 .\.venv\Scripts\python.exe -m ruff check analytics backend scripts frontend tests
-```
-
-Result: `All checks passed!`
-
-### Format gate
-
-```powershell
 .\.venv\Scripts\python.exe -m ruff format --check analytics backend scripts frontend tests
+git diff --check
 ```
 
-Result: all 47 Python files already formatted.
+Result: passed. Ruff reported all checks passed and 93 Python files already formatted.
 
-### Full test suite
+### Full tests and coverage
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m pytest -q `
+  --cov=analytics `
+  --cov=backend `
+  --cov-report=term-missing `
+  --cov-report=xml:coverage.xml `
+  --cov-fail-under=85 `
+  --junitxml=pytest-results.xml
 ```
 
-Result after the methodology/workbench expansion: **81 passed, 0 failed** in the final local run.
+Result after the final governance-lineage visual fix and Windows startup-retry regression:
+**143 passed, 0 failed**, 91.39% combined analytics/backend coverage, in 163.6 seconds.
+The only warning is a third-party Starlette TestClient deprecation notice about its HTTPX
+adapter; application behavior is unaffected.
 
-Test groups:
+The GitHub workflow now enforces an 85% coverage floor and uploads JUnit and coverage XML
+artifacts.
 
-- 43 unit/statistical/methodology golden tests;
-- 9 generated-data, reproducibility, confidentiality, secret and large-file tests;
-- 29 FastAPI and Streamlit integration/smoke tests, including live-API execution of all nine pages.
-
-One non-blocking third-party warning is present: FastAPI's current test client emits a Starlette deprecation warning about its HTTPX adapter. This is outside GrowthLab's runtime behavior and does not affect the test result.
-
-### Docker
-
-Attempted locally:
+### Canonical deterministic generation
 
 ```powershell
-docker --version
-docker compose config --quiet
+.\.venv\Scripts\python.exe -m scripts.generate_demo_data `
+  --db <temporary-canonical-db> --users 100000 --seed 4242
 ```
 
-Result: Docker CLI is not installed on the local host. GitHub Actions therefore owns the authoritative Compose validation and two-image build:
+Independent seed 4,242 result: generation completed in 209.9 seconds with 29/29 built-in DQ
+checks passing. Important row counts were 100,000 users, 135,000 assignments, 3,252 activated
+referral edges, 984,519 user-day rows and 973,482 value rows.
 
-```yaml
-docker compose config --quiet
-docker compose build --pull
-```
+The default local canonical seed-42 database was then independently opened and probed:
+100,000 users, 135,000 assignments, 3,254 referral edges, 29/29 DQ checks passed, and its final
+decision was `SHIP_WITH_MONITORING` with no failed gate.
 
-Remote result: **passed** in CI run `31364099680`. The quality job and the dependent Docker Compose job both completed successfully on the public repository.
+## 4. Lifecycle and identity acceptance
 
-## 4. Statistical acceptance evidence
+Independent SQL and automated tests verify:
 
-### Stable hash assignment
+- every inviter and invitee resolves to the canonical `users.user_id` identity;
+- every activated referral edge resolves to one and only one acquired-user record;
+- every acquired invitee has activity, retention, user-day value and all three variable-cost
+  event types;
+- no referral invitee or acquired user is attributed to more than one edge;
+- all cost-event IDs are unique and cost totals reconcile to acquired-user aggregates;
+- activation, activity, assignment, exposure and outcome timestamps are ordered correctly;
+- assignment rows and `mart_experiment_user_value` rows conserve exactly;
+- a non-acquired assignment has null invitee identity and contributes zero retention, value,
+  cost and Contribution30;
+- overall lifecycle totals equal the sum of mutually exclusive acquisition-quality segments.
 
-- The same `user_id` and experiment salt always produce the same bucket.
-- Buckets remain in `[0, 99]`.
-- A 20,000-user deterministic fixture is approximately 50/50 within a 1.5 percentage-point tolerance.
-- Changing the experiment salt changes assignments, preventing accidental cross-experiment coupling.
-- Invalid bucket configurations are rejected.
+`source_kind` has only two governed values:
 
-### A/A and SRM
+- `descriptive_campaign` for non-randomized historical campaign versions;
+- `randomized_experiment` for the referral UI experiment.
 
-- The balanced A/A fixture returns no statistically significant primary-metric difference and passes SRM.
-- A deliberate 60/40 allocation against an expected 50/50 split is rejected before treatment-effect interpretation.
-- SRM refuses to present an asymptotic result when expected cell frequency is below five.
-- Channel, device and region composition checks expose practical distribution differences.
+The descriptive acquisition-quality mart exposes no field containing `incremental`, and its
+API explicitly sets `causal_claim_allowed=false`.
 
-### Sample size, MDE and duration
+## 5. Retention maturity and value-window acceptance
 
-- Baseline click rate 17%, absolute MDE +3 percentage points, two-sided alpha 0.05 and 80% power match an independent Statsmodels golden calculation.
-- Sample-size-to-MDE numerical inversion reconstructs the planned MDE within tolerance.
-- Traffic duration rounds up to complete weekly cycles and applies a two-week floor for the configured scenario.
-- The response includes a pre-registration/novelty warning.
+`user_daily_activity.relative_day` is the single source of truth. Independent bidirectional
+SQL checks show zero mismatch for exact D1, D3, D7 and mature D30, and zero mismatch for the
+D1-7 window. Immature D30 is null rather than false.
 
-### Absolute and relative lift
-
-Golden interpretation fixtures pass:
-
-- 41.0% to 44.9% = **+3.9 percentage points** and approximately **+9.51% relative**;
-- 17.0% to 23.5% = **+6.5 percentage points** and approximately **+38.24% relative**.
-
-These are tested independently so the UI cannot silently confuse percentage points with relative percentages.
-
-### Z-test and confidence interval
-
-- The two-sample proportion Z statistic and two-sided p-value match a direct Statsmodels reference.
-- The 95% unpooled difference interval contains the observed lift in the golden fixture.
-- Statistical significance and business significance are separate result fields.
-- A very large sample with a statistically detectable but sub-MDE effect does not receive a launch decision.
-- A positive primary effect with a failed guardrail does not receive a launch decision.
-
-### Experiment governance
-
-The stored experiment response contains:
-
-1. objective and treatment strategy;
-2. core metric, downstream business metric, related metrics and guardrail;
-3. sample-size/MDE/power and whole-cycle duration planning;
-4. stable `user_id` hash allocation and 1:1 split;
-5. A/A result and SRM result;
-6. channel/device/region balance checks;
-7. stratified analysis and Simpson-reversal warning capability;
-8. novelty-effect guidance;
-9. network/spillover guidance and cluster-randomization suggestion;
-10. an explicit prohibition on stopping from repeated unadjusted interim p-value checks;
-11. separate statistical, practical and guardrail gates.
-
-## 5. Business-analysis acceptance evidence
-
-### Referral funnel
-
-- Funnel counts must be non-negative and monotonic.
-- Step conversion, exposure conversion, drop-off, absolute change and relative change are independently verified.
-- The synthetic dense-interface version is diagnosed at the invite-click step in the supported QA profile.
-- Diagnosis is split into computed facts, interpretations, hypotheses and actions.
-- The result explicitly states that a funnel break does not establish a UI causal mechanism and recommends instrumentation checks, qualitative research and a randomized experiment.
-
-### Retention
-
-- Exact-day D1/D3/D7/D30 flags are distinct from the D1-7 window metric.
-- Retention values remain inside `[0, 1]`.
-- Device mix-shift decomposition reconciles exactly:
+The off-by-one boundary is verified independently:
 
 ```text
-observed aggregate change
-= structure effect
-+ within-group effect
-+ interaction effect
+value30 / LTV30 = relative days 0..29 inclusive
+exact D30       = relative day 30
 ```
 
-- The reconciliation error is verified at numeric tolerance.
-- Product-path wording correctly says that current evidence does not identify first-use friction as the main driver; it does not claim to have proved the path has no issue.
-- Feature-penetration analysis states correlation, names plausible confounders and routes causal evaluation to random assignment.
+No `user_daily_value` row falls outside 0..29. Exact-D30 activity is retained in the activity
+fact but never enters value30. Each acquired-user LTV30 and service-cost aggregate was
+recomputed from offsets 0..29 and matched exactly.
 
-### Growth economics
+The canonical analysis snapshot is 2025-07-15. All 831 seed-42 referral-experiment invitees
+were mature for D7 and D30, the experiment ran for the fixed 14-day period, and the most recent
+invitee had 50 days of observable value follow-up versus the required 30 days.
 
-The following formulas and failure cases are verified:
+## 6. Metric golden standards
 
-```text
-CAC = incentive cost / activated acquired user
-LTV30 = active days × daily active hours × value per hour × retention discount
-LTV/CAC = LTV30 / CAC
-Net ROI = (LTV30 - CAC) / CAC
-```
+### Hand-calculated eight-assignment fixture
 
-- Zero CAC and negative inputs are rejected.
-- Sensitivity output moves in the expected direction as acquisition cost changes.
-- LTV/CAC and Net ROI are not mislabeled as the same quantity.
+An in-memory fixture with four control and four treatment assignments includes acquired and
+non-acquired units. The governed SQL recovered the independent golden values exactly:
 
-## 6. Data-quality acceptance evidence
+| Metric | Golden result |
+|---|---:|
+| Incremental exact-D7 retained users / 10k assigned | 2,500 |
+| Incremental D1-7 retained users / 10k assigned | 2,500 |
+| Incremental Contribution30 / 10k assigned | 30,000 normalized value units |
+| Observed incremental D7 retained users | 1 |
+| Incremental variable cost | 7 normalized cost units |
+| Cost per incremental D7 retained user | 7 |
 
-The generator includes 17 built-in checks and the independent suite adds direct SQL verification. The verified invariants include:
+A zero or negative incremental-D7 fixture returns an unavailable efficiency ratio rather than
+infinity, NaN, a negative pseudo-efficiency claim, or an accidental launch decision.
 
-- non-null and unique users;
-- unique event IDs;
-- activity and growth events do not predate signup;
-- valid experiment groups and hash buckets;
-- one assignment per user per experiment;
-- outcomes occur after assignment;
-- referral funnels are monotonic;
-- retention is bounded;
-- incentives and usage counts are non-negative;
-- active days stay inside the defined range;
-- governed metric definitions and both comparison periods exist;
-- same seed reproduces analytical aggregates;
-- the generator refuses tiny unsupported samples and accidental overwrite without `force`.
+### Canonical seed-42 results
 
-The full 100,000-user implementation audit produced 512,005 growth events, 240,000 experiment assignment/outcome records and a 91-day normalized executive trend with all 17 built-in quality checks passing.
+| Result | Estimate | Uncertainty / gate |
+|---|---:|---|
+| Invite-click ITT control | 16.4974% | assignment denominator |
+| Invite-click ITT treatment | 21.7871% | assignment denominator |
+| Absolute invite-click lift | +5.2897 pp | 95% CI +4.5646 to +6.0148 pp; p=2.25e-46 |
+| Incremental exact-D7 / 10k | 19.4789 users | 95% CI 7.9982 to 30.9596 |
+| Incremental D1-7 / 10k | 72.1942 users | 95% CI 49.6798 to 94.7087 |
+| Incremental Contribution30 / 10k | 574.2175 | bootstrap CI 364.8519 to 776.9015; P(positive)=1.0 |
+| Cost per incremental D7 retained user | 36.3010 | available because the D7 increment is positive |
 
-## 7. API and UI acceptance evidence
+The API values matched an independent direct SQL arm-level recalculation. Treatment and
+control terms come from the same randomized experiment and use assignment denominators; no
+cross-population funnel rate is multiplied by an unrelated retention average.
 
-Verified API behaviors:
+Average LTV/CAC is independently verified as `SUM(value30) / SUM(variable acquisition cost)`
+among acquired users. It is structurally and visually separate from Incremental
+Contribution30 and cannot independently trigger a causal ship decision.
 
-- `/health` and `/openapi.json`;
-- metric catalog and metric tree;
-- normalized growth trend, target gap, source contribution and anomaly claim boundary;
-- referral summary/version/funnel diagnosis;
-- ROI summary and sensitivity validation;
-- retention summary, cohort definitions/maturity, governed segmentation, decomposition and path funnel;
-- correlational feature analysis;
-- stored and ad-hoc experiment evaluation;
-- GROWTH methodology, evidence ladder and problem playbooks;
-- editable aggregate funnel and Mix-Shift workbench contracts;
-- data-quality status;
-- useful 404/422 responses;
-- whitelist rejection of arbitrary SQL-like dimension input.
+## 7. Data-generating-process acceptance
 
-The Streamlit application starts headlessly and returns `ok` from its health endpoint even when the API is unavailable, exercising its graceful error state. The application is not required to reach a cloud service or use credentials for this smoke test.
+The referral UI treatment is constrained to one mechanism path: assignment -> tracked
+exposure -> invite click -> referred activation. It does not change the downstream acquired
+user's retention, activity, value or cost policy.
 
-## 8. Privacy and public-release acceptance evidence
+Independent white-box recovery tests create otherwise identical control and treatment user
+frames under the same random seeds. Retention flags, value, service cost, incentive,
+operational cost and contribution are identical row for row. The canonical database further
+shows the same 7.5 normalized incentive and 0.48 operating-cost schedule in both arms; the
+same deterministic invalid-reward rule is applied to both.
 
-The public-repository scan checks source, SQL, Markdown, configuration and tracked artifacts for:
+This prevents the positive IC30 result from being manufactured by an arm-specific price,
+retention or monetization parameter.
 
-- protected real-company/product identifiers from the original business context;
-- internal scale, real reward and experiment-size markers;
-- common API/cloud/GitHub credential formats;
-- private keys and credential-bearing database URLs;
-- committed `.env` files other than `.env.example`;
-- publication candidates larger than 10 MiB.
+## 8. Experiment health and adversarial gates
 
-Result: no finding. This is a heuristic safeguard, not a substitute for the repository owner's contractual confidentiality review before publication.
+The primary estimand is assignment-denominator ITT. The exposed-user diagnostic reports a
+post-assignment population and a selection-bias warning; it is not used for launch.
 
-## 9. Defects found and resolved during QA
+Verified health evidence includes:
 
-| Finding | Severity | Resolution | Regression evidence |
+- overall and weekly SRM;
+- assignment -> exposure -> observable counts;
+- one-hot pre-treatment SMD for channel, device and region using threshold 0.1;
+- exact sample-size planning for baseline 16%, MDE +2 pp, alpha 0.05 and 80% power;
+- fixed 14-day duration and separate 30-day value follow-up;
+- guardrail metric, direction, floor and tolerance;
+- segment confidence intervals, pre-specified/exploratory labels and Benjamini-Hochberg
+  multiplicity markers;
+- week slices labelled novelty/durability diagnostics that cannot alter the fixed-horizon
+  rule.
+
+Adversarial gate tests hold sample and every other gate true, then independently set each of
+the following to false or unknown: DQ, SRM, exposure tracking, sample size, duration, outcome
+maturity and guardrail. Every case returns `DO_NOT_SHIP`. Separate tests prove that failed
+statistical significance, business MDE or Incremental Contribution30 also blocks ship. Only
+an explicit all-true conjunction can return `SHIP_WITH_MONITORING`.
+
+The 5,000-user integration profile correctly returns `DO_NOT_SHIP` because it is below the
+pre-registered sample requirement, even though its point estimate is positive. The canonical
+100,000-user profile passes all 12 gates.
+
+## 9. API acceptance
+
+New and legacy routes were exercised against deterministic live databases. Verified Option B
+families are:
+
+- `/lifecycle/summary`, `/lifecycle/cohorts`, `/lifecycle/acquisition-quality`;
+- `/investigation/paths`, `/investigation/mix-shift`;
+- `/experiments/{id}/health`, `/experiments/{id}/effects`;
+- `/economics/summary`, `/economics/scenarios`;
+- `/decisions`;
+- `/metrics/{name}/lineage`.
+
+Repeated requests return deterministic, finite, JSON-serializable values. Invalid source
+kinds, acquisition sources, metric/experiment IDs, budget multipliers, populations and
+elasticities return 404 or 422 rather than unhandled 500. On the 5,000-user CI fixture,
+representative warmed routes remain under the two-second QA performance threshold.
+
+## 10. Frontend and real-browser acceptance
+
+The navigation shell exposes exactly six modules:
+
+1. Executive Decision Cockpit;
+2. Growth Lifecycle;
+3. Investigation Studio;
+4. Experiment & Causal Lab;
+5. Growth Economics & Allocation;
+6. Decision & Governance.
+
+All six modules executed through Streamlit AppTest against a live FastAPI service with the
+canonical schema and raised no exception. The navigation shell also executed without an
+exception. Source-contract tests verify each module has its header, GROWTH evidence gate,
+required API family, chart/table and causal/descriptive boundary language. A separate
+headless Streamlit process returned `ok` from `/_stcore/health`.
+
+The independent real-browser pass then exercised Chrome through Playwright CLI against the
+live FastAPI and Streamlit processes. At 1440x1000, all six first-screen renders had zero
+Streamlit exception nodes, zero console errors after normal sidebar navigation, zero
+horizontal overflow, and their expected charts/tables. Because Streamlit uses an internal
+main-content scroll container, QA separately scrolled every module to its bottom viewport and
+inspected the lower charts, tables and decision content. The following interactions triggered
+clean Streamlit reruns with no exception:
+
+- lifecycle source: all activated invitees -> historical campaign versions;
+- investigation breakdown: device -> channel;
+- economics elasticity slider: 0.80 -> 0.78;
+- sidebar navigation through all six modules.
+
+First-pass visual findings were the lifecycle Sankey label collision, truncated investigation
+breakpoint, truncated IC30 title, truncated governance unit and a stale 27-vs-29 DQ label. The
+scroll-container pass then found a second long-label collision in the governance metric-lineage
+Sankey. The final render uses a readable lifecycle funnel, short business labels, dynamic DQ
+count and a four-stage vertical lineage flow whose complete technical labels remain available
+through hover and an expandable table. Every finding was visually rechecked. Six clean
+1440x1000 first-screen screenshots are stored under `docs/assets/`, and the executive cockpit
+is linked from both READMEs.
+
+A second 1280x720 navigation smoke verified all six titles at y=94, first KPI cards within the
+initial viewport where applicable, zero exception nodes and zero horizontal overflow. The
+project is accepted as a desktop analytics application; mobile and cross-browser rendering are
+not release claims.
+
+## 11. Privacy, repository hygiene and licence acceptance
+
+The full passing test suite scans tracked/publication-candidate source, SQL, Markdown and
+configuration for protected company/product/org identifiers, real internal scale, real reward
+or sample values, obvious credentials, private keys, credential URLs, committed environment
+secrets and files over 10 MiB. No finding was produced.
+
+Generated DuckDB files are ignored by Git and excluded from Docker build context. The dataset
+is deterministic synthetic data, normalized value units are used, and public documentation
+states that results are not employer outcomes. No external dataset is redistributed in the
+default build. The repository remains MIT licensed.
+
+## 12. Defects found during independent QA
+
+| Finding | Severity | Disposition | Regression evidence |
 |---|---:|---|---|
-| Some referral events could occur before inviter signup because campaign dates were generated independently | Blocker | Eligible inviters are now constrained to users registered before campaign start; a built-in temporal check was added | Direct event-to-user SQL assertion and full data-quality suite pass |
-| Small demo profiles could obscure the intended invite-click funnel break with downstream sampling noise | Major | Diagnosis selects the earliest material break and the supported API QA profile uses 5,000 users | Referral API integration test passes |
-| A/A synthetic outcomes could exceed the practical tolerance by chance | Blocker | A/A fixture now uses a deterministic near-null result while retaining hash allocation and SRM checks | Stored A/A reports pass; independent equal-rate golden test passes |
-| Return-visit output could violate the ordered demonstration path | Major | Generated return visit is constrained to the supported path semantics | Funnel monotonicity checks pass |
+| New acquisition-quality view referenced a missing treatment field and the generator could not build a database | Blocker | Fixed | independent seed-4,242 2k and 100k generation complete |
+| Random retention flags did not initially reconcile to exact user-day activity | Blocker | Fixed | bidirectional D1/D3/D7/D30/window SQL mismatch = 0 |
+| Experiment decision initially omitted sample, actual duration, DQ and guardrail gates; SRM unknown could pass | Blocker | Fixed | adversarial gate suite; small profile no-go; canonical all-gates pass |
+| Experimental invitees initially had incomplete value follow-up but were labelled value30 | Blocker | Fixed | snapshot advanced; all experiment invitees D30 mature; follow-up 50 >= 30 days |
+| Exact-D30 activity initially entered value30, creating an offset-30/31-day off-by-one | Blocker | Fixed | every value row is offset 0..29; D30 excluded and aggregates reconcile |
+| UI treatment initially had a direct downstream retention adjustment | Blocker | Fixed | arm-invariant retention/value/cost DGP white-box test and `dgp_policy` |
+| Cohort API initially omitted retained numerators and as-of metadata | High | Fixed | API rows expose retained, mature, immature and as-of fields |
+| 100k first-run time exceeded the original Compose health-check window | High | Fixed | backend health check now has `start_period: 6m`; both READMEs document 3-4 minute canonical boot and 5k fast start |
+| Lifecycle and governance-lineage chart labels overlapped; three KPI labels were truncated; governance showed stale 27-vs-29 DQ text | High/Medium | Fixed | final first-screen and bottom-scroll browser renders show readable funnel, vertical lineage, short labels and dynamic 29-check text |
+| Playwright CLI was initially unavailable | Verification gap | Fixed | portable Node v22.23.2 and Playwright CLI used for six-page Chrome QA at two desktop viewports |
+| Windows could transiently reset the first Streamlit health request during startup | Medium | Fixed | bounded retry now covers transport `OSError`; a deterministic first-request reset regression passed three consecutive targeted runs and the full suite |
+| Starlette TestClient emits an HTTPX adapter deprecation warning | Low | Accepted | third-party warning only |
 
-## 10. Residual limitations
+## 13. Remaining release gates
 
-1. Docker images were not built on the local Windows machine because Docker CLI is absent; the same Compose definition and both images were successfully validated and built by the GitHub-hosted Ubuntu runner.
-2. The data is synthetic and validates the analytical method, not commercial impact at any real company.
-3. Z-test and normal-approximation confidence intervals are intended for adequately sized samples. Small-cell SRM is guarded; analysts should use an exact method for genuinely sparse outcome experiments.
-4. Secret scanning is regex-based and should be complemented by GitHub secret scanning where available.
-5. Network-effect guidance is present, but the demo does not model a real social graph or estimate cluster-level standard errors.
+Local QA is complete. Final publication evidence still requires:
 
-## 11. Final release checklist
+1. push the final integration commit and require the remote GitHub Actions test and Docker jobs
+   to pass, including `docker compose config --quiet` and both image builds;
+2. record the final commit SHA and CI run URL/ID;
+3. verify the public GitHub README/screenshots and release artifact after the final commit, then
+   record the downloadable artifact hash.
 
-- [x] Python compilation passes.
-- [x] Ruff lint passes.
-- [x] Ruff formatting gate passes.
-- [x] 81 local tests pass.
-- [x] Statistical golden tests pass.
-- [x] Data generation and 17 built-in data checks pass.
-- [x] FastAPI smoke and contract tests pass.
-- [x] Streamlit headless startup passes.
-- [x] Confidentiality, secret and large-file scans pass.
-- [x] GitHub Actions workflow is present.
-- [x] Remote GitHub Actions quality run is green.
-- [x] Remote Docker Compose validation and backend/frontend image builds are green.
-
-**Release recommendation:** approved for public portfolio use. Describe the application as CI- and Docker-verified while preserving the synthetic-data and non-affiliation disclosure.
+Until these remote checks are recorded, this report authorizes integration and publication
+work but not a statement that the GitHub release itself has already passed CI.

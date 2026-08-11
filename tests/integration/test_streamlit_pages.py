@@ -22,7 +22,7 @@ def _free_port() -> int:
         return int(sock.getsockname()[1])
 
 
-def test_all_nine_streamlit_pages_execute_against_live_api(
+def test_all_six_option_b_streamlit_modules_execute_against_live_api(
     tmp_path: Path,
     monkeypatch,
 ) -> None:
@@ -70,19 +70,21 @@ def test_all_nine_streamlit_pages_execute_against_live_api(
 
         monkeypatch.setenv("GROWTHLAB_API_URL", f"http://127.0.0.1:{port}")
         pages = [
-            "frontend/pages/overview.py",
-            "frontend/pages/methodology.py",
-            "frontend/pages/workbench.py",
-            "frontend/pages/data_quality.py",
-            "frontend/pages/referral_funnel.py",
-            "frontend/pages/roi_ltv.py",
-            "frontend/pages/retention.py",
-            "frontend/pages/feature_analysis.py",
-            "frontend/pages/experiments.py",
+            "frontend/pages/executive_cockpit.py",
+            "frontend/pages/growth_lifecycle.py",
+            "frontend/pages/investigation_studio.py",
+            "frontend/pages/experiment_causal_lab.py",
+            "frontend/pages/growth_economics.py",
+            "frontend/pages/decision_governance.py",
         ]
         for page in pages:
             app = AppTest.from_file(str(PROJECT_ROOT / page), default_timeout=30).run()
             assert not list(app.exception), f"Streamlit page raised an exception: {page}"
+            assert len(app.markdown) + len(app.title) + len(app.header) > 0
+        shell = AppTest.from_file(
+            str(PROJECT_ROOT / "frontend" / "streamlit_app.py"), default_timeout=30
+        ).run()
+        assert not list(shell.exception), "Streamlit navigation shell raised an exception"
     finally:
         process.terminate()
         try:

@@ -101,3 +101,29 @@ class MixShiftRowInput(BaseModel):
 
 class MixShiftWorkbenchRequest(BaseModel):
     rows: list[MixShiftRowInput] = Field(min_length=1, max_length=100)
+
+
+class EconomicsScenarioRequest(BaseModel):
+    experiment_id: str = Field(default="referral_ui_simplification", min_length=1, max_length=100)
+    budget_multipliers: list[float] = Field(
+        default_factory=lambda: [0.5, 0.75, 1.0, 1.25, 1.5, 2.0],
+        min_length=2,
+        max_length=30,
+    )
+    response_elasticity: float = Field(default=0.82, gt=0, le=1)
+    eligible_population: int | None = Field(
+        default=None,
+        gt=0,
+        description=(
+            "Optional explicit planning population. If omitted, results stay normalized per 10k "
+            "and are not silently extrapolated."
+        ),
+    )
+
+    @model_validator(mode="after")
+    def validate_multipliers(self) -> EconomicsScenarioRequest:
+        if any(value <= 0 or value > 10 for value in self.budget_multipliers):
+            raise ValueError("budget_multipliers must be in (0, 10]")
+        if len(set(self.budget_multipliers)) != len(self.budget_multipliers):
+            raise ValueError("budget_multipliers must be unique")
+        return self

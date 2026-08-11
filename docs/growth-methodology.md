@@ -166,6 +166,10 @@ For the binary primary outcomes used by the two cases, the platform reports:
 
 Ordinary fixed-horizon p-values cannot be watched repeatedly and used to stop whenever they cross 0.05. A continuous decision system requires a pre-specified sequential method.
 
+The default estimand is ITT with every eligible assignment in the denominator. `assignment → tracked exposure → observable` is shown for instrumentation health, but an exposed-only contrast is a post-assignment selection and is labelled diagnostic. The experiment-health endpoint uses pre-treatment one-hot standardized mean differences with `|SMD| ≤ 0.1`; balance is not decided by a sample-size-sensitive p-value.
+
+Week slices are reserved for novelty and durability diagnosis. They never modify the fixed-horizon stop rule. Segment estimates include confidence intervals, pre-specified/exploratory labels and Benjamini-Hochberg multiplicity markers; “significant here, not significant there” is not treated as an interaction test.
+
 ### Variance reduction
 
 CUPED can reduce estimator variance by using a predictive pre-treatment covariate. It is a precision method, not a bias repair: [Deng et al., WSDM 2013](https://doi.org/10.1145/2433396.2433413). GrowthLab documents the route but does not apply CUPED to the headline proportion example because the public aggregate workflow does not expose a validated pre-treatment user-level covariate.
@@ -198,6 +202,8 @@ AND economic acceptance
 AND no unresolved material segment/interference risk
 ```
 
+The implementation is conservative: every gate is conjunctive, and `unknown` is a failure. The decision card independently audits latest data quality, assignment/exposure integrity, explicitly applicable and passing SRM, pre-treatment SMD, exposure tracking, required sample, observed fixed duration, D7/D30 maturity, guardrail threshold, statistical significance, business MDE and positive Incremental Contribution30. A small QA profile therefore correctly returns `DO_NOT_SHIP` even when its observed point estimate looks attractive.
+
 ### Unit economics
 
 ```text
@@ -208,6 +214,13 @@ Net ROI = (LTV30 - CAC) / CAC
 ```
 
 LTV/CAC and net ROI answer different questions. Sensitivity analysis varies activity, monetization value, cost and retention assumptions to identify the break-even boundary. A modeled first-month value supports faster iteration but must be back-tested against mature cohorts.
+
+Version 2 separates two objects:
+
+- **Average acquired-user LTV/CAC** = `Σvalue30 / Σall variable acquisition costs` among acquired users; descriptive.
+- **Incremental Contribution30 per 10k assigned** = randomized arm difference in `Σ(value30 − costs) / assignments`; causal under the experiment assumptions.
+
+It intentionally does not manufacture an unstable “incremental LTV/CAC” ratio. It reports cost per incremental D7 retained user only when the estimated incremental D7 effect is positive; otherwise the metric is `unavailable` with a reason. Value30 covers offsets 0..29, while exact D30 retention uses offset 30.
 
 ### Learning record
 
