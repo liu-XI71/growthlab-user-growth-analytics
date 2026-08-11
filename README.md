@@ -28,12 +28,12 @@ It connects referral acquisition and new-user retention into one auditable lifec
 The framework is organized around six questions, not six technologies:
 
 ```mermaid
-flowchart LR
-    G["G · Goal<br/>What outcome and metric contract?"] --> R["R · Reliability<br/>Can the data and denominator be trusted?"]
-    R --> O["O · Opportunity<br/>Where is the loss or mix shift?"]
-    O --> W["W · Why<br/>What mechanism fits all evidence?"]
-    W --> T["T · Test<br/>What causal design can reject it?"]
-    T --> H["H · Harvest<br/>Is the increment valuable and governable?"]
+flowchart TB
+    G["G · Goal — What outcome and metric contract?"] --> R["R · Reliability — Can the data and denominator be trusted?"]
+    R --> O["O · Opportunity — Where is the loss or mix shift?"]
+    O --> W["W · Why — What mechanism fits all evidence?"]
+    W --> T["T · Test — What causal design can reject it?"]
+    T --> H["H · Harvest — Is the increment valuable and governable?"]
 ```
 
 This joins the two case studies into one system. Referral acquisition determines **quantity**; new-user retention determines **quality**; Contribution30 and guardrails determine whether that quantity should count as **growth**.
