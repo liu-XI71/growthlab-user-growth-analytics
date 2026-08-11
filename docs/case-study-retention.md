@@ -64,6 +64,17 @@ Test a targeted feature-discovery prompt. The treatment changes discovery; the c
 
 Benchmark-user comparisons are selected on post-signup behavior and are therefore not causal. A discovery prompt can have novelty effects. Retention windows introduce censoring for recent cohorts. Device strategy should be based on incremental value and acquisition cost, not retention alone.
 
+## Version 2: retention is downstream acquisition quality
+
+The referral and retention cases now share one invitee identity and one user-day truth table. Retention flags are derived from `user_daily_activity.relative_day`, not independently simulated labels:
+
+- exact D1/D3/D7/D30 must have matching activity on that exact offset;
+- D1-7 window must have at least one activity event on offsets 1..7;
+- immature D30 is `NULL`, not false;
+- each cohort response exposes its retained numerator, mature denominator and immature count.
+
+This creates a cross-case business question: **which acquisition intervention produces more incremental retained users, not merely more registrations?** The quality-adjusted experiment endpoint answers this directly per 10,000 eligible assignments. Mix-Shift and paths remain descriptive evidence used to locate opportunities; only randomized assignment supports an incremental claim.
+
 ## GROWTH method trace
 
 | Gate | Project artifact |

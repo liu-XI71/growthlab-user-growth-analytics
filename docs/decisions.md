@@ -12,6 +12,13 @@
 | Explicit mix-shift interaction term | Exact decomposition reconciliation | Other index decompositions allocate interaction differently |
 | Normalized value units | Protects confidential economics | Real deployment requires currency, tax, attribution, and finance reconciliation |
 | API returns interpretations and warnings | Keeps decision caveats near the result | Governance should also persist decisions, owners, and approvals |
+| Canonical inviter→invitee identity | Connect acquisition quantity to the same user's retention and value | Production identity stitching needs consent, deletion and conflict policy |
+| Assignment-denominator ITT is primary | Preserves randomization and includes non-exposed assignments | Triggered analysis remains useful only as a selection-biased diagnostic |
+| Per-10k quality-adjusted outcomes | Avoids multiplying unrelated funnel and cohort averages | Absolute totals require an explicit eligible population and are never silently extrapolated |
+| Contribution30 instead of incremental LTV/CAC | Stable additive decision estimand; non-acquired assignments contribute zero | Finance deployment needs audited value and cost allocation |
+| Pre-treatment one-hot SMD | Practical balance measure unaffected by sample-size-driven p-values | Stratified/cluster designs require design-specific balance policy |
+| Conservative conjunctive launch gate | Unknown or failed DQ, SRM, sample, duration, maturity, guardrail, statistical, business or economic evidence blocks ship | Teams may add approved overrides, but must persist owner and rationale |
+| Separate 14-day experiment and 30-day value follow-up | Prevents partial value from being labelled `value30` | Longer-term value requires a separately validated forecast or mature cohort |
 
 ## What this repository intentionally does not claim
 

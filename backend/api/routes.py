@@ -8,6 +8,7 @@ from fastapi import APIRouter, HTTPException, Query
 from analytics.methodology import framework, get_playbook, list_playbooks
 from backend.database.connection import ensure_database
 from backend.schemas.api import (
+    EconomicsScenarioRequest,
     ExperimentAnalysisRequest,
     FunnelWorkbenchRequest,
     MixShiftWorkbenchRequest,
@@ -45,6 +46,14 @@ def metrics() -> dict:
 @router.get("/metrics/tree", tags=["metrics"])
 def metrics_tree() -> dict:
     return service.get_metric_tree()
+
+
+@router.get("/metrics/{metric_name}/lineage", tags=["metrics"])
+def metric_lineage(metric_name: str) -> dict:
+    try:
+        return service.metric_lineage(metric_name)
+    except Exception as error:
+        raise _translate_error(error) from error
 
 
 @router.get("/growth/trend", tags=["growth"])
@@ -153,6 +162,88 @@ def analyze_experiment(request: ExperimentAnalysisRequest) -> dict:
         return service.analyze_experiment_request(request)
     except Exception as error:
         raise _translate_error(error) from error
+
+
+@router.get("/experiments/{experiment_id}/health", tags=["experimentation"])
+def experiment_health(experiment_id: str) -> dict:
+    try:
+        return service.experiment_health(experiment_id)
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.get("/experiments/{experiment_id}/effects", tags=["experimentation"])
+def experiment_effects(experiment_id: str) -> dict:
+    try:
+        return service.experiment_effects(experiment_id)
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.get("/lifecycle/summary", tags=["lifecycle"])
+def lifecycle_summary(experiment_id: str = "referral_ui_simplification") -> dict:
+    try:
+        return service.lifecycle_summary(experiment_id)
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.get("/lifecycle/cohorts", tags=["lifecycle"])
+def lifecycle_cohorts(source_kind: str = "all") -> dict:
+    try:
+        return service.lifecycle_cohorts(source_kind)
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.get("/lifecycle/acquisition-quality", tags=["lifecycle"])
+def lifecycle_acquisition_quality() -> dict:
+    return service.acquisition_quality()
+
+
+@router.get("/investigation/paths", tags=["investigation"])
+def investigation_paths(acquisition_source: str = "all") -> dict:
+    try:
+        return service.investigation_paths(acquisition_source)
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.get("/investigation/mix-shift", tags=["investigation"])
+def investigation_mix_shift(dimension: str = "device_type") -> dict:
+    try:
+        result = service.retention_decomposition(dimension)
+        result.update(
+            {
+                "growth_gate": "O — opportunity localization",
+                "evidence_level": "descriptive decomposition",
+                "claim_boundary": "Mix-shift localizes structure and within-segment changes; it is not causal.",
+            }
+        )
+        return result
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.get("/economics/summary", tags=["economics"])
+def economics_summary(experiment_id: str = "referral_ui_simplification") -> dict:
+    try:
+        return service.economics_summary(experiment_id)
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.post("/economics/scenarios", tags=["economics"])
+def economics_scenarios(request: EconomicsScenarioRequest) -> dict:
+    try:
+        return service.economics_scenarios(request)
+    except Exception as error:
+        raise _translate_error(error) from error
+
+
+@router.get("/decisions", tags=["governance"])
+def decisions() -> dict:
+    return service.decisions()
 
 
 @router.get("/data-quality/status", tags=["data-quality"])

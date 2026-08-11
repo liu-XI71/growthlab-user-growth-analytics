@@ -13,31 +13,24 @@ from frontend.api_client import APIError, api_get  # noqa: E402
 from frontend.style import apply_theme, note  # noqa: E402
 
 st.set_page_config(
-    page_title="GrowthLab | 用户增长分析",
-    page_icon="📈",
+    page_title="GrowthLab | 增长质量与因果决策",
+    page_icon="🧭",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 apply_theme()
 
 st.sidebar.markdown("# GrowthLab")
-st.sidebar.caption("GROWTH Decision OS · 用户增长分析与实验决策平台")
+st.sidebar.caption("Quality-Adjusted Growth Decision OS")
 
 pages = {
-    "方法与工具": [
-        st.Page("pages/methodology.py", title="GROWTH 方法论", icon="🧠"),
-        st.Page("pages/workbench.py", title="通用分析工作台", icon="🛠️"),
-        st.Page("pages/data_quality.py", title="数据质量与治理", icon="🛡️"),
-    ],
-    "增长诊断": [
-        st.Page("pages/overview.py", title="增长总览与指标树", icon="📈", default=True),
-        st.Page("pages/referral_funnel.py", title="老带新漏斗诊断", icon="🔗"),
-        st.Page("pages/roi_ltv.py", title="ROI / LTV", icon="💰"),
-    ],
-    "留存与实验": [
-        st.Page("pages/retention.py", title="新用户留存诊断", icon="🧭"),
-        st.Page("pages/feature_analysis.py", title="相关与因果", icon="🧩"),
-        st.Page("pages/experiments.py", title="A/A 与 A/B 实验", icon="🧪"),
+    "Quality-Adjusted Growth OS": [
+        st.Page("pages/executive_cockpit.py", title="01 决策驾驶舱", icon="🧭", default=True),
+        st.Page("pages/growth_lifecycle.py", title="02 增长生命周期", icon="🔗"),
+        st.Page("pages/investigation_studio.py", title="03 诊断工作台", icon="🔎"),
+        st.Page("pages/experiment_causal_lab.py", title="04 实验与因果", icon="🧪"),
+        st.Page("pages/growth_economics.py", title="05 经济性与预算", icon="📈"),
+        st.Page("pages/decision_governance.py", title="06 决策与治理", icon="🛡️"),
     ],
 }
 
@@ -55,7 +48,8 @@ except APIError as exc:
 
 st.sidebar.divider()
 st.sidebar.markdown("**G → R → O → W → T → H**")
-st.sidebar.caption("目标 · 可信 · 定位 · 假设 · 因果 · 价值")
+st.sidebar.caption("目标 · 可信 · 定位 · 机制 · 因果 · 价值")
+st.sidebar.caption("主决策：ITT / 每万合格分流用户")
 st.sidebar.divider()
 st.sidebar.caption("全部结果来自公开或确定性模拟数据，不代表任何真实公司。")
 

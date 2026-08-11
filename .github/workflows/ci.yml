@@ -46,14 +46,23 @@ jobs:
         run: python -m ruff format --check analytics backend scripts frontend tests
 
       - name: Run statistical, data-quality, API and Streamlit tests
-        run: python -m pytest --junitxml=pytest-results.xml
+        run: >-
+          python -m pytest
+          --cov=analytics
+          --cov=backend
+          --cov-report=term-missing
+          --cov-report=xml:coverage.xml
+          --cov-fail-under=85
+          --junitxml=pytest-results.xml
 
       - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pytest-results
-          path: pytest-results.xml
+          path: |
+            pytest-results.xml
+            coverage.xml
           if-no-files-found: ignore
 
   containers:

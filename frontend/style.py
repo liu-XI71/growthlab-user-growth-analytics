@@ -64,6 +64,25 @@ def apply_theme() -> None:
         .gl-warning { border-left-color: #f5a524; background: #fff8e8; }
         .gl-success { border-left-color: #21a179; background: #ecfbf5; }
         .gl-danger { border-left-color: #e5484d; background: #fff0f0; }
+        .gl-gate { display: grid; grid-template-columns: minmax(230px,.8fr) minmax(320px,1.8fr);
+                   gap: .7rem; align-items: center; margin: -.6rem 0 1.1rem; padding: .72rem .9rem;
+                   border: 1px solid #dbe7fb; border-radius: 13px; background: rgba(246,250,255,.94);
+                   color: #40536b; font-size: .86rem; }
+        .gl-gate-code { display: inline-flex; margin-right: .55rem; padding: .18rem .46rem;
+                        border-radius: 8px; background: #10233d; color: white; font-weight: 800; }
+        .gl-gate-boundary { color: #65768c; }
+        .gl-decision { margin: .55rem 0 1rem; padding: 1rem 1.15rem; border-radius: 16px;
+                       border: 1px solid #dce5ef; background: white; }
+        .gl-decision-pass { border-left: 6px solid #21a179; background: #f0fbf7; }
+        .gl-decision-hold { border-left: 6px solid #f5a524; background: #fff9ec; }
+        .gl-decision-label { color: #68798e; font-size: .7rem; font-weight: 800; letter-spacing: .13em; }
+        .gl-decision-value { color: #10233d; font-size: 1.45rem; font-weight: 820; letter-spacing: -.025em; }
+        .gl-story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.7rem; margin:.6rem 0 1rem; }
+        .gl-story-card { padding:.86rem .92rem; border:1px solid #e1e8f2; border-radius:14px;
+                         background:rgba(255,255,255,.95); min-height:116px; }
+        .gl-story-card b { display:block; color:#2f6bff; font-size:.73rem; letter-spacing:.08em;
+                           margin-bottom:.3rem; }
+        .gl-story-card span { color:#42546b; line-height:1.48; font-size:.88rem; }
         [data-testid="stMetric"] { background: rgba(255,255,255,.96); border: 1px solid #e1e8f2;
                                    padding: .9rem 1rem; border-radius: 15px;
                                    box-shadow: 0 8px 22px rgba(16,35,61,.055); }
@@ -85,6 +104,10 @@ def apply_theme() -> None:
         }
         [data-testid="stExpander"] { background: rgba(255,255,255,.75); border-radius: 12px; }
         div[data-testid="stProgress"] > div > div > div { background: linear-gradient(90deg, #2f6bff, #24b6c7); }
+        @media (max-width: 850px) {
+            .gl-gate { grid-template-columns: 1fr; }
+            .gl-story-grid { grid-template-columns: 1fr; }
+        }
         </style>
         """,
         unsafe_allow_html=True,

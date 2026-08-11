@@ -5,9 +5,10 @@ import socket
 import subprocess
 import sys
 import time
-import urllib.error
 import urllib.request
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -18,7 +19,9 @@ def _free_port() -> int:
         return int(sock.getsockname()[1])
 
 
-def test_streamlit_starts_headlessly_without_api_dependency() -> None:
+def test_streamlit_starts_headlessly_without_api_dependency(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     port = _free_port()
     environment = dict(os.environ)
     environment["GROWTHLAB_API_URL"] = "http://127.0.0.1:9"
@@ -44,6 +47,18 @@ def test_streamlit_starts_headlessly_without_api_dependency() -> None:
         encoding="utf-8",
         errors="replace",
     )
+    real_urlopen = urllib.request.urlopen
+    health_attempts = 0
+
+    def reset_first_health_request(*args, **kwargs):
+        """Exercise the Windows listen-before-ready reset retry path deterministically."""
+        nonlocal health_attempts
+        health_attempts += 1
+        if health_attempts == 1:
+            raise ConnectionResetError(10054, "connection reset during Streamlit startup")
+        return real_urlopen(*args, **kwargs)
+
+    monkeypatch.setattr(urllib.request, "urlopen", reset_first_health_request)
     output = ""
     try:
         deadline = time.monotonic() + 35
@@ -58,7 +73,9 @@ def test_streamlit_starts_headlessly_without_api_dependency() -> None:
                     assert response.status == 200
                     assert body == "ok"
                     return
-            except (urllib.error.URLError, TimeoutError):
+            # Windows can accept the socket and reset it once before Streamlit is ready.
+            # Retry all transport-level OSErrors only inside the bounded startup deadline.
+            except OSError:
                 time.sleep(0.25)
         raise AssertionError("Streamlit did not become healthy within 35 seconds")
     finally:

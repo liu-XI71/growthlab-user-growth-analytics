@@ -22,6 +22,41 @@ The default GrowthLab dataset is deterministic synthetic data generated locally 
 
 The generator records seed, row counts, completion state, and data-quality results. Re-running with the same configuration produces the same analytical dataset. Generated databases and large extracts are excluded from version control.
 
+### Version 2 snapshot and windows
+
+`analysis_snapshot` records the deterministic analytical as-of date (`2025-07-15` in the canonical demo), the 14-day experiment horizon and the 30-day value follow-up. The windows are deliberately different:
+
+- `value30` / `LTV30`: activation offsets **0 through 29** (30 natural days);
+- exact D30 retention: qualifying activity at offset **30**;
+- D1-7 window retention: at least one qualifying activity at offsets **1 through 7**;
+- exact D7 retention: qualifying activity at offset **7**.
+
+Immature D30 cells are `NULL`, never coerced to false. The canonical referral experiment is evaluated only after every linked invitee completes the required value follow-up.
+
+### Known data-generating process for recovery tests
+
+The public generator has an explicit `dgp_policy` record. For `referral_ui_simplification`, the treatment changes only the path:
+
+```text
+assignment → tracked exposure → invite click → referred activation
+```
+
+Control and treatment invitees use the same downstream retention, activity, value and cost data-generating policies. Both arms use the same incentive and variable-cost schedule. This prevents a UI treatment from silently becoming a cost or user-quality treatment. At adequate canonical sample size, the platform should recover the positive click/activation mechanism while treating downstream acquired-user quality differences as sampling variation. The policy is synthetic by design and is not an employer result.
+
+### Data-quality invariants
+
+The built-in checks include:
+
+- inviter and invitee foreign-key integrity;
+- every activated invitee has activity, value and variable-cost facts;
+- exact D1/D3/D7/D30 flags agree bidirectionally with `user_daily_activity.relative_day`;
+- D1-7 window flags agree with observed day 1..7 activity;
+- `user_daily_value.relative_day` is restricted to 0..29;
+- experiment exposure follows assignment;
+- experiment-retention outcomes reconcile to the linked invitee;
+- Contribution30 equals value minus service and all variable acquisition costs;
+- referral UI experiment cost policy is identical across arms.
+
 ### Known limitations
 
 Synthetic behavior is structurally simpler than real user behavior. Missingness, delayed events, bot traffic, identity stitching, attribution conflict, and interference are represented only to the extent required by the demo. Results should be evaluated as software and analytical-method examples, not empirical market evidence.
