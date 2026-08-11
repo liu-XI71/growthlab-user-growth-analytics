@@ -28,7 +28,7 @@ It connects referral acquisition and new-user retention into one auditable lifec
 The framework is organized around six questions, not six technologies:
 
 ```mermaid
-flowchart LR
+flowchart TB
     G["G · Goal<br/>What outcome and metric contract?"] --> R["R · Reliability<br/>Can the data and denominator be trusted?"]
     R --> O["O · Opportunity<br/>Where is the loss or mix shift?"]
     O --> W["W · Why<br/>What mechanism fits all evidence?"]
