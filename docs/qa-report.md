@@ -308,6 +308,7 @@ default build. The repository remains MIT licensed.
 | Lifecycle and governance-lineage chart labels overlapped; three KPI labels were truncated; governance showed stale 27-vs-29 DQ text | High/Medium | Fixed | final first-screen and bottom-scroll browser renders show readable funnel, vertical lineage, short labels and dynamic 29-check text |
 | Playwright CLI was initially unavailable | Verification gap | Fixed | portable Node v22.23.2 and Playwright CLI used for six-page Chrome QA at two desktop viewports |
 | Windows could transiently reset the first Streamlit health request during startup | Medium | Fixed | bounded retry now covers transport `OSError`; a deterministic first-request reset regression passed three consecutive targeted runs and the full suite |
+| Hard-refreshing a Streamlit child route logs relative `_stcore/health` and `host-config` 404s | Low | Accepted | the requested page and charts still render; normal root-to-sidebar navigation has zero console errors |
 | Starlette TestClient emits an HTTPX adapter deprecation warning | Low | Accepted | third-party warning only |
 
 ## 13. Remaining release gates
