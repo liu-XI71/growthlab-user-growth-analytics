@@ -2,13 +2,55 @@
 
 [![CI](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml)
 
-[English](README.md) · [GROWTH 分析方法论](docs/growth-methodology.md) · [指标字典](docs/metric-dictionary.md) · [实验方法论](docs/experimentation-guide.md) · [面试讲解指南](docs/interview-guide.md)
+[English](README.md) · [资深分析师 5 分钟审阅路线](docs/recruiter-review-guide_zh.md) · [GROWTH 分析方法论](docs/growth-methodology.md) · [指标字典](docs/metric-dictionary.md) · [实验方法论](docs/experimentation-guide.md) · [面试讲解指南](docs/interview-guide.md)
 
-GrowthLab 是一个面向数据分析、用户增长、产品分析与商业分析岗位的端到端作品集项目。它不再把“老带新获客”和“新用户留存”做成两张互不相干的看板，而是贯通为一条可审计用户生命周期：分流 → 曝光 → 点击 → 获客 → 活跃 → 留存 → 价值 → 可变成本，并把它落地为指标合同、治理 SQL、DuckDB 数据库、Python 分析层、FastAPI 后端、六模块 Streamlit 前端、自动化测试、Docker 与 GitHub Actions。
+**GrowthLab 回答一个决策问题：**当外部获客供给承压时，老带新产品策略能否带来留得住、算得过账的增量用户？需要什么证据才值得上线？
+
+项目不再把“老带新获客”和“新用户留存”做成两张互不相干的看板，而是贯通为一条可审计用户生命周期：分流 → 曝光 → 点击 → 获客 → 活跃 → 留存 → 价值 → 可变成本。它虽然拥有完整前后端和数据库，但首要展示的是分析能力：定义正确指标、定位业务机制、用实验验证、计算增量价值、治理最终决策。
 
 > 本项目是独立作品集复现。公开演示中的用户、活动、金额、指标值与实验结果均为确定性模拟数据或标准化数值；不包含任何雇主内部数据、内部代码、生产凭证或保密标识。详见 [DISCLAIMER.md](DISCLAIMER.md)。
 
-## 为什么它比普通看板更有含金量
+## 资深分析师 60 秒看什么
+
+| 审阅问题 | GrowthLab 的回答 |
+| --- | --- |
+| **业务目标是什么？** | 在标准化 DAU 目标存在差距时，通过高质量获客补充增长，而不是只追求点击或安装量。 |
+| **指标如何拆解？** | 业务结果 → 获客数量 → 用户质量 → 增量价值 → 安全与数据可信护栏。 |
+| **可控断点在哪里？** | 漏斗和版本证据定位邀请点击率；Mix-Shift 与 Cohort 证据独立解释获客质量压力。 |
+| **哪些是描述、哪些是因果？** | 活动版本趋势和分层分解用于提出假设；固定周期、assignment 口径的 ITT 实验支撑上线结论。 |
+| **什么结果才值得上线？** | 统计显著、业务显著、下游质量成熟、增量 Contribution30 为正，并且预注册决策门全部通过。 |
+| **沉淀了什么？** | 指标合同、诊断备忘录、实验预注册/健康清单、带监控和回滚条件的决策卡。 |
+
+![GrowthLab 增长质量与因果决策驾驶舱](docs/assets/growthlab-executive-cockpit.png)
+
+## GROWTH 业务决策框架
+
+框架围绕六个业务问题组织，而不是围绕六项技术组织：
+
+```mermaid
+flowchart LR
+    G["G · 目标与口径<br/>要改变什么业务结果？"] --> R["R · 数据可信<br/>分母、埋点和数据可用吗？"]
+    R --> O["O · 机会定位<br/>损失发生在哪个环节或人群？"]
+    O --> W["W · 机制解释<br/>什么假设能解释全部证据？"]
+    W --> T["T · 因果验证<br/>什么实验能证伪这个假设？"]
+    T --> H["H · 价值沉淀<br/>增量是否值得上线并可治理？"]
+```
+
+两个案例由此成为一套体系：老带新决定增长的**数量**，新用户留存决定增长的**质量**，Contribution30 与护栏决定这部分数量是否真正算作**增长**。
+
+## 指标体系：从业务目标到上线决策
+
+| 指标层级 | 决策目的 | 治理指标 | 避免的错误 |
+| --- | --- | --- | --- |
+| **业务结果层** | 是否真正缩小增长差距？ | 标准化 DAU 指数；增量高质量活跃用户 | 围绕单个页面指标做局部优化 |
+| **获客数量层** | 合格流量在哪一步流失？ | 合格曝光 UV → 邀请点击率 → 分享成功 → 获客 → 激活 | 把点击或安装直接当成最终价值 |
+| **用户质量层** | 获客是否形成持续使用？ | exact D1/D7/D30；成熟 D1–7 活跃窗口；来源/设备 Cohort 质量 | 用低留存流量购买表面增长 |
+| **增量价值层** | 策略是否创造了超过成本的价值？ | 每万分流增量 D7；每万分流 Contribution30；每位增量 D7 成本 | 把平均 ROI 与因果增量混为一谈 |
+| **护栏与可信层** | 结论是否安全、可信？ | 平均 LTV/CAC 护栏；样本与成熟度；DQ；SRM；SMD；分层耐久性 | 在埋点异常、人群失衡或结果未成熟时上线 |
+
+每个指标都明确资格条件、粒度、分子、分母、观察窗口、成熟度、负责人、SQL 血缘和结论边界，详见[指标字典](docs/metric-dictionary.md)。
+
+## 这套项目展示了什么分析能力
 
 项目不只展示“会画图”，而是集中证明数据分析岗位真正需要的能力：
 
@@ -19,7 +61,7 @@ GrowthLab 是一个面向数据分析、用户增长、产品分析与商业分�
 - **先检查实验健康，再看 p 值**：Hash 分流、A/A、SRM、实验前 SMD、固定周期、样本量、成熟度、多重比较、业务 MDE 与护栏都是独立门禁；
 - **质量校正增长**：同时输出每万分流用户的增量 D7 留存、增量 D1–7 活跃与计入全部可变成本后的 30 日增量贡献；
 - **不混淆经济性分母**：平均 `LTV/CAC`、增量贡献、每个增量留存用户成本、盈亏平衡和预算情景分别定义；
-- **可审计工程交付**：同一逻辑沉淀进 SQL Mart、Python、Typed API、决策卡、数据质量规则、自动化测试、Docker 与 CI。
+- **可复用的分析操作系统**：每个案例最终都沉淀指标合同、证据链、决策卡、监控规则与回滚条件，而不是一次性汇报材料。
 
 ## 可复现的 10 万用户标准演示
 
@@ -45,11 +87,24 @@ GrowthLab 是一个面向数据分析、用户增长、产品分析与商业分�
 5. **经济性与预算**：平均单位经济性和增量经济性分开展示，覆盖 Bootstrap 不确定性、每个增量 D7 成本、盈亏平衡与预算情景；
 6. **决策与治理**：指标合同、SQL 血缘、证据等级、数据质量、决策卡、负责人、监控规则与回滚条件。
 
-![GrowthLab 增长质量与因果决策驾驶舱](docs/assets/growthlab-executive-cockpit.png)
+<table>
+  <tr>
+    <td width="50%"><a href="docs/assets/growthlab-lifecycle.png"><img src="docs/assets/growthlab-lifecycle.png" alt="增长生命周期"></a><br><b>生命周期：</b>同一用户身份贯通获客、留存与价值</td>
+    <td width="50%"><a href="docs/assets/growthlab-investigation.png"><img src="docs/assets/growthlab-investigation.png" alt="诊断工作台"></a><br><b>诊断：</b>断点、Mix-Shift 与负证据</td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="docs/assets/growthlab-experiment.png"><img src="docs/assets/growthlab-experiment.png" alt="实验与因果"></a><br><b>因果：</b>先检查实验健康，再解释 ITT 效果</td>
+    <td width="50%"><a href="docs/assets/growthlab-economics.png"><img src="docs/assets/growthlab-economics.png" alt="经济性与预算"></a><br><b>经济性：</b>增量价值、不确定性与预算情景</td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="docs/assets/growthlab-governance.png"><img src="docs/assets/growthlab-governance.png" alt="决策与治理"></a><br><b>治理：</b>指标血缘、责任人、监控与回滚</td>
+    <td width="50%"><a href="docs/assets/growthlab-executive-cockpit.png"><img src="docs/assets/growthlab-executive-cockpit.png" alt="决策驾驶舱"></a><br><b>管理层答案：</b>60 秒讲清目标、证据、价值与决策</td>
+  </tr>
+</table>
 
-其他已验收界面：[增长生命周期](docs/assets/growthlab-lifecycle.png) · [诊断工作台](docs/assets/growthlab-investigation.png) · [实验与因果](docs/assets/growthlab-experiment.png) · [经济性与预算](docs/assets/growthlab-economics.png) · [决策与治理](docs/assets/growthlab-governance.png)
+推荐按[资深分析师 5 分钟审阅路线](docs/recruiter-review-guide_zh.md)浏览，而不是从技术目录开始。
 
-## 核心架构
+## 交付架构：它是证据，不是主角
 
 ```mermaid
 flowchart LR
