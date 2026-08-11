@@ -2,13 +2,55 @@
 
 [![CI](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/liu-XI71/growthlab-user-growth-analytics/actions/workflows/ci.yml)
 
-[中文说明](README_zh.md) · [GROWTH methodology](docs/growth-methodology.md) · [Metric dictionary](docs/metric-dictionary.md) · [Experiment playbook](docs/experimentation-guide.md) · [Interview guide](docs/interview-guide.md)
+[中文说明](README_zh.md) · [5-minute senior-analyst review](docs/recruiter-review-guide_zh.md) · [GROWTH methodology](docs/growth-methodology.md) · [Metric dictionary](docs/metric-dictionary.md) · [Experiment playbook](docs/experimentation-guide.md) · [Interview guide](docs/interview-guide.md)
 
-GrowthLab is a privacy-safe, full-stack analytics portfolio project for user-growth, product-analytics, and business-analytics roles. It connects referral acquisition and new-user retention into one auditable lifecycle—assignment → exposure → click → acquired user → activity → retention → value → variable cost—and turns it into a reproducible decision system built with governed SQL, DuckDB, Python analytics, FastAPI, a six-module Streamlit application, automated tests, Docker, and CI.
+**GrowthLab answers one decision question:** when external acquisition supply is under pressure, can a referral-product intervention create *retained, economically sound incremental users*—and what evidence is sufficient to ship it?
+
+It connects referral acquisition and new-user retention into one auditable lifecycle—assignment → exposure → click → acquired user → activity → retention → value → variable cost. The implementation is full stack, but the portfolio claim is analytical: define the right metrics, locate the mechanism, test it causally, value the increment, and govern the decision.
 
 > Portfolio reconstruction only. Every user, campaign, amount, metric value, and experiment result in the public demo is deterministic synthetic or normalized data. The repository contains no employer data, proprietary code, production credentials, or confidential identifiers. See [DISCLAIMER.md](DISCLAIMER.md).
 
-## Why this project is useful
+## 60-second analyst review
+
+| Senior-review question | GrowthLab's answer |
+| --- | --- |
+| **What is the business goal?** | Close a normalized DAU gap through high-quality acquisition—not maximize raw clicks or installs. |
+| **How is success decomposed?** | Business outcome → acquisition quantity → retained-user quality → incremental value → safety and data-reliability guardrails. |
+| **Where is the controllable breakpoint?** | Funnel and version evidence localize invite click-through; Mix-Shift and cohort evidence separately explain acquisition-quality pressure. |
+| **What is descriptive vs causal?** | Campaign/version trends and segment decomposition generate hypotheses; the fixed-horizon assignment-based ITT experiment supports the launch claim. |
+| **What makes the result worth shipping?** | Statistical and business significance, mature downstream quality, positive incremental Contribution30, and all pre-registered gates must pass. |
+| **What is reusable?** | Metric contracts, an investigation memo, an experiment pre-registration/health checklist, and a monitored decision card. |
+
+![GrowthLab executive decision cockpit](docs/assets/growthlab-executive-cockpit.png)
+
+## The GROWTH decision framework
+
+The framework is organized around six questions, not six technologies:
+
+```mermaid
+flowchart LR
+    G["G · Goal<br/>What outcome and metric contract?"] --> R["R · Reliability<br/>Can the data and denominator be trusted?"]
+    R --> O["O · Opportunity<br/>Where is the loss or mix shift?"]
+    O --> W["W · Why<br/>What mechanism fits all evidence?"]
+    W --> T["T · Test<br/>What causal design can reject it?"]
+    T --> H["H · Harvest<br/>Is the increment valuable and governable?"]
+```
+
+This joins the two case studies into one system. Referral acquisition determines **quantity**; new-user retention determines **quality**; Contribution30 and guardrails determine whether that quantity should count as **growth**.
+
+## Metric system: from target to decision
+
+| Layer | Decision purpose | Governed metrics | What it prevents |
+| --- | --- | --- | --- |
+| **Business outcome** | Are we closing the growth gap? | Normalized DAU index; incremental high-quality active users | Optimizing an isolated page metric |
+| **Acquisition quantity** | Where does qualified traffic fall out? | Eligible exposure UV → invite click-through → share success → acquired users → activation | Treating installs or clicks as final value |
+| **User quality** | Did acquisition create durable usage? | Exact D1/D7/D30; mature D1–7 active window; cohort quality by source/device | Buying low-retention volume |
+| **Incremental value** | Did the strategy create value beyond its cost? | Incremental D7 retained / 10k assigned; Contribution30 / 10k; cost per incremental D7 | Mixing average ROI with causal increment |
+| **Guardrails & reliability** | Is the decision safe and credible? | Average LTV/CAC guardrail; sample and maturity; DQ; SRM; SMD; segment durability | Shipping on broken telemetry, imbalance, or immature outcomes |
+
+Metric definitions include eligibility, grain, numerator, denominator, observation window, maturity, owner, SQL lineage, and claim boundary. See the [metric dictionary](docs/metric-dictionary.md).
+
+## What this demonstrates about the analyst
 
 Many analytics portfolios stop at charts. GrowthLab demonstrates the harder parts of the job:
 
@@ -19,7 +61,7 @@ Many analytics portfolios stop at charts. GrowthLab demonstrates the harder part
 - **Experiment health before p-values:** stable hash assignment, A/A, SRM, pre-treatment SMD, fixed horizon, maturity, multiplicity, business MDE, and guardrails are independent gates.
 - **Quality-adjusted growth:** the platform reports incremental D7 retained users and incremental 30-day contribution per 10,000 assigned users, including all modeled variable costs.
 - **Economics without denominator mixing:** average `LTV/CAC`, incremental contribution, cost per incremental retained user, uncertainty, and budget scenarios remain separate contracts.
-- **Auditable delivery:** the same logic is encoded in SQL marts, Python services, typed APIs, decision cards, data-quality checks, tests, Docker, and CI.
+- **Reusable operating system:** each case finishes with a metric contract, evidence chain, decision card, monitoring rule, and rollback condition—not a one-off slide deck.
 
 ## Reproducible canonical demo
 
@@ -45,11 +87,24 @@ These are deterministic portfolio-demo results, not employer achievements or for
 5. **Growth economics** — average unit economics separated from incremental economics, bootstrap uncertainty, cost per incremental D7 retained user, break-even and budget scenarios.
 6. **Decision governance** — metric contracts and SQL lineage, evidence grades, data-quality status, decision cards, owners, monitoring rules, and rollback conditions.
 
-![GrowthLab executive decision cockpit](docs/assets/growthlab-executive-cockpit.png)
+<table>
+  <tr>
+    <td width="50%"><a href="docs/assets/growthlab-lifecycle.png"><img src="docs/assets/growthlab-lifecycle.png" alt="Growth lifecycle dashboard"></a><br><b>Lifecycle:</b> one identity from acquisition to value</td>
+    <td width="50%"><a href="docs/assets/growthlab-investigation.png"><img src="docs/assets/growthlab-investigation.png" alt="Investigation studio"></a><br><b>Diagnosis:</b> breakpoint, Mix-Shift, and negative evidence</td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="docs/assets/growthlab-experiment.png"><img src="docs/assets/growthlab-experiment.png" alt="Experiment and causal lab"></a><br><b>Causality:</b> health before effect, ITT before triggered</td>
+    <td width="50%"><a href="docs/assets/growthlab-economics.png"><img src="docs/assets/growthlab-economics.png" alt="Growth economics dashboard"></a><br><b>Economics:</b> incremental value, uncertainty, and budget</td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="docs/assets/growthlab-governance.png"><img src="docs/assets/growthlab-governance.png" alt="Decision governance dashboard"></a><br><b>Governance:</b> metric lineage, decision owner, and rollback</td>
+    <td width="50%"><a href="docs/assets/growthlab-executive-cockpit.png"><img src="docs/assets/growthlab-executive-cockpit.png" alt="Executive decision cockpit"></a><br><b>Executive answer:</b> goal, evidence, value, and decision in 60 seconds</td>
+  </tr>
+</table>
 
-Additional verified screens: [lifecycle](docs/assets/growthlab-lifecycle.png) · [investigation](docs/assets/growthlab-investigation.png) · [experiment](docs/assets/growthlab-experiment.png) · [economics](docs/assets/growthlab-economics.png) · [governance](docs/assets/growthlab-governance.png)
+For a guided business-first walkthrough, use the [5-minute senior-analyst review](docs/recruiter-review-guide_zh.md).
 
-## System architecture
+## Delivery architecture — evidence, not the headline
 
 ```mermaid
 flowchart LR
