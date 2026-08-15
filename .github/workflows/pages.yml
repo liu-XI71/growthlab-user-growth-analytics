@@ -31,6 +31,8 @@ jobs:
         working-directory: web
         run: npm ci && npm run build
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v4
         with:
           path: web/dist
