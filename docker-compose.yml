@@ -24,12 +24,11 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: frontend/Dockerfile
-    command: streamlit run frontend/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
-    environment:
-      GROWTHLAB_API_URL: http://backend:8000
+      dockerfile: web/Dockerfile
+      args:
+        VITE_API_BASE_URL: /api/v2
     ports:
-      - "8501:8501"
+      - "8501:80"
     depends_on:
       backend:
         condition: service_healthy

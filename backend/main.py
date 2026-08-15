@@ -18,8 +18,8 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="GrowthLab Analytics API",
-    version="0.1.0",
+    title="Growth Analytics Decision Platform API",
+    version="2.0.0",
     description=(
         "Privacy-safe API for governed growth metrics, referral funnels, retention diagnostics, "
         "ROI sensitivity and pre-registered experimentation. Public-demo values are synthetic."
@@ -28,7 +28,12 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8501", "http://127.0.0.1:8501"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:8501",
+        "http://127.0.0.1:8501",
+    ],
     allow_credentials=False,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],

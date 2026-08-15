@@ -519,3 +519,45 @@ def test_representative_option_b_routes_meet_ci_fixture_latency(api_client: Test
         elapsed = time.perf_counter() - started
         assert response.status_code == 200, response.text
         assert elapsed < 2.0, f"{endpoint} took {elapsed:.3f}s on the 5k CI fixture"
+
+
+@pytest.mark.parametrize(
+    "endpoint",
+    [
+        "/api/v2/portfolio",
+        "/api/v2/overview",
+        "/api/v2/cases/referral",
+        "/api/v2/cases/retention",
+        "/api/v2/experiments",
+        "/api/v2/metrics/contracts",
+        "/api/v2/decisions",
+    ],
+)
+def test_portfolio_v2_routes_are_serializable_and_stable(
+    api_client: TestClient, endpoint: str
+) -> None:
+    first = api_client.get(endpoint)
+    second = api_client.get(endpoint)
+    assert first.status_code == 200, first.text
+    assert first.json() == second.json()
+
+
+def test_portfolio_v2_retention_does_not_invent_undisclosed_lift(
+    api_client: TestClient,
+) -> None:
+    body = api_client.get("/api/v2/cases/retention").json()
+    assert body["experiment"]["absolute_lift_pp"] is None
+    assert body["experiment"]["baseline_rate"] is None
+    assert body["experiment"]["significance"] == "p < 0.05"
+    assert body["experiment"]["sample_size"] == 300_000
+    assert body["experiment"]["sample_display"] == "约30万样本"
+
+
+def test_portfolio_v2_referral_uses_anonymized_incentive_index(
+    api_client: TestClient,
+) -> None:
+    body = api_client.get("/api/v2/cases/referral").json()
+    assert [row["incentive_index"] for row in body["versions"]] == [100.0, 160.0, 160.0]
+    assert body["experiment"]["absolute_lift_pp"] == pytest.approx(6.5)
+    assert body["experiment"]["sample_size"] is None
+    assert body["experiment"]["sample_display"] == "百万级脱敏样本"

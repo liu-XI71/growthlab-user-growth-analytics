@@ -1,87 +1,145 @@
-# Case study: new-user retention
+# 案例二：新用户留存提升
 
-> Synthetic portfolio reconstruction. Values in the application are simulated or normalized and do not describe a specific company.
+## 1. 项目背景
 
-## Business question
+看板监测发现新增用户的**次 7 日内留存率**从 48% 下滑到 41%。这些新用户来自各渠道投放；如果付出获客成本却无法留住用户，新增规模不能形成长期价值。因此，项目目标是定位留存下滑的主要解释，并寻找能够通过产品策略提升留存的机会。
 
-Why did day 1–7 window retention decline, and which intervention has the strongest causal case for improving it?
+我在 mentor 带领下参与分析，依次完成用户分层、路径漏斗排查、标杆用户分析和 A/B 实验。
 
-## Business model and strategic tension
+## 2. 为什么看次 7 日内留存
 
-An aggregate retention decline can come from at least three systems:
+项目会同时观察次日、3 日、30 日等留存指标，但本次重点使用次 7 日内留存：它覆盖一个完整周周期，减少仅用次日或第 3 日时对工作日/周末节奏的敏感。
 
-1. **Acquisition composition:** more users arrive from lower-intent channels or device contexts.
-2. **Within-segment product performance:** the same type of new user has a worse experience.
-3. **Measurement/cohort maturity:** identity, return criteria, censoring or late events changed.
-
-These explanations imply different actions. Reallocating spend may improve the average but reduce total incremental value or scale. Rebuilding onboarding is costly and unfocused if the first-use path is stable. Promoting a feature based only on high-engagement users can amplify selection bias. The analysis therefore separates arithmetic attribution, negative evidence, mechanism hypotheses and causal validation.
-
-## Analysis sequence
-
-### 1. Segment the retention change
-
-Break new users down by acquisition channel, device type, device brand, operating system, and geography. Report both segment retention and segment share. This avoids mistaking a change in user composition for a deterioration inside every group.
-
-GrowthLab uses a mix-shift decomposition:
+准确口径：
 
 ```text
-total change = structure effect + within-segment effect + interaction effect
+次7日内留存率
+= 新增用户中，在新增后的第1—7天内至少再次访问一次的用户数
+÷ 已经完整经过7天观察窗口的新增用户数
 ```
 
-The components reconcile exactly to the observed total change and are regression-tested.
+它是 Day 1–7 window / bracketed retention，不是“恰好在第 7 天回来”的 exact D7。覆盖完整一周也不能声称已经完全消除节假日、渠道节奏等影响。
 
-Device retention cannot be interpreted outside context. Large-screen users may have different session occasions, input friction, content preferences and acquisition costs. The decision is not “buy more phone users because their retention is higher”; it is “compare incremental retained value per acquisition cost at the feasible channel mix, then test product improvements for underserved contexts.”
+## 3. 用户分层：定位设备结构变化
 
-### 2. Test for onboarding friction
+第一步对新增用户按以下维度拆解：
 
-Measure the same-cohort funnel from download through login, home arrival, content interaction, and a meaningful engagement action. If conversion is stable at every step, the evidence does not support an onboarding-breakage explanation. This is an exclusion result, not proof that the product journey is perfect.
+- 渠道；
+- 设备类型；
+- 设备品牌；
+- 操作系统；
+- 年龄；
+- 性别；
+- 地域；
+- 城市等级。
 
-This negative result has decision value: it narrows the next investigation and prevents a broad onboarding redesign from being justified by the retention total alone.
+设备类型给出了最明显的解释信号：
 
-### 3. Compare benchmark-user behavior
+- 平板用户留存率天然比手机低约 10 个百分点；
+- 平板用户在新增中的占比增加；
+- 因此，即使各设备内部留存变化不大，低留存人群权重增加也会拉低总体留存。
 
-Define benchmark users using only clearly documented activity dimensions, then compare feature penetration and frequency with other users. A large feature-use gap is a hypothesis generator: active users may discover the feature because they are already more motivated.
+这属于 Mix Shift / 结构变化解释。总体留存可以表示为：
 
-The benchmark definition itself is post-signup selection. Motivation, channel, device, content fit and prior engagement can drive both feature use and retention. The platform therefore displays plausible confounders beside the penetration gap and labels this result evidence level 2–3, not causal evidence level 4.
+```text
+总体留存率
+= 手机用户占比 × 手机用户留存率
++ 平板用户占比 × 平板用户留存率
++ 其他设备占比 × 其他设备留存率
+```
 
-### 4. Move from correlation to causal validation
+业务建议是在 LTV/CAC 约束一定的前提下，提高手机设备的广告投放占比。但该建议短期没有落地，所以不能写成已经产生业务收益。
 
-Test a targeted feature-discovery prompt. The treatment changes discovery; the control preserves the current experience. Feature adoption is a mechanism metric, while day 1–7 window retention is the outcome. Apply the same pre-registration, assignment, A/A, SRM, balance, fixed-horizon, confidence-interval, business-threshold, and guardrail discipline as the referral experiment.
+正确结论是“设备结构变化可以解释总体留存下降的重要部分”，不能写成“已经证明平板投放是唯一原因”。
 
-## Recommendation format
+## 4. 产品路径漏斗：排除基础使用卡点
 
-- **Evidence:** quantify how much decline is attributable to device/channel mix and how much remains within segment.
-- **Exclusion:** onboarding conversion is stable, so deprioritize a broad onboarding rebuild.
-- **Hypothesis:** one discovery gap is unusually large among benchmark users.
-- **Causal test:** randomize a focused discovery treatment and measure both feature use and retention.
-- **Decision:** scale only if retention improves, the result is robust to segment composition, and guardrails remain acceptable.
+第二步判断新用户是否因为上手过程有卡点而流失。核心路径包括：
 
-## Definition warning
+```text
+下载
+→ 注册登录
+→ 进入首页
+→ 浏览点击
+→ 浏览内容作品
+→ 点赞 / 收藏 / 评论
+→ 浏览博主主页
+→ 关注博主
+```
 
-“Day-7 retention” and “active at least once during days 1–7” are different metrics. GrowthLab labels the latter as a window metric and never treats it as exact D7. This distinction is part of the tested metric contract.
+对比留存下滑前后的每一步 UV 和漏斗转化率后，没有发现足以解释总体留存下滑的明显异常。
 
-## Limitations
+因此，现有证据不支持把本次留存下降主要归因于“新用户不会使用产品”或“基础路径存在明显卡点”。这是一条排除性证据，不等于证明产品没有任何体验问题。
 
-Benchmark-user comparisons are selected on post-signup behavior and are therefore not causal. A discovery prompt can have novelty effects. Retention windows introduce censoring for recent cohorts. Device strategy should be based on incremental value and acquisition cost, not retention alone.
+每个环节的停留时长可以作为深挖方向，但不在本次项目主叙述中扩展。
 
-## Version 2: retention is downstream acquisition quality
+## 5. 标杆用户分析：从相关性生成产品假设
 
-The referral and retention cases now share one invitee identity and one user-day truth table. Retention flags are derived from `user_daily_activity.relative_day`, not independently simulated labels:
+为了寻找可优化的产品功能，使用新用户首月活跃天数和日均使用时长进行分层，将高频高时用户定义为标杆用户。
 
-- exact D1/D3/D7/D30 must have matching activity on that exact offset;
-- D1-7 window must have at least one activity event on offsets 1..7;
-- immature D30 is `NULL`, not false;
-- each cohort response exposes its retained numerator, mature denominator and immature count.
+不能简单用“留存率高”筛用户，因为留存率是群体比例。首月活跃天数衡量回访频次，日均使用时长用于避免把“来得多但每次停留很短”的用户误认为高质量标杆。
 
-This creates a cross-case business question: **which acquisition intervention produces more incremental retained users, not merely more registrations?** The quality-adjusted experiment endpoint answers this directly per 10,000 eligible assignments. Mix-Shift and paths remain descriptive evidence used to locate opportunities; only randomized assignment supports an incremental claim.
+口述材料对日均时长阈值出现 18/20 分钟差异，因此公开版只保留“按业务分布定义高频高时”，不补造具体阈值。
 
-## GROWTH method trace
+对比标杆和非标杆用户的一系列功能渗透率：
 
-| Gate | Project artifact |
-|---|---|
-| Goal | Exact-day/window retention contracts and decision owner |
-| Reliability | Cohort inclusion/return/grain, maturity warning and bounded event checks |
-| Opportunity | Device/channel/region segmentation, Mix-Shift and onboarding path |
-| Why | Negative onboarding evidence plus feature-discovery hypothesis and confounders |
-| Test | Randomized discovery prompt with mechanism and retention outcomes |
-| Harvest | Segment consistency, guardrails, durable retention and acquisition economics |
+- 直播；
+- 内容/视频浏览；
+- 点赞；
+- 收藏；
+- 评论；
+- 浏览博主主页；
+- 关注博主。
+
+结果显示，标杆用户在“浏览博主主页并关注”上的渗透率约为非标杆用户的 2.5 倍，是最明显的差异。
+
+这一步只能得出：**高频高时用户的留存更好，同时主页浏览和关注渗透更高，两者存在相关性。**
+
+不能直接说：
+
+- 关注导致留存提升；
+- 关注是唯一影响留存的功能；
+- 2.5 倍渗透率等于 2.5 倍留存提升。
+
+因此形成可证伪假设：**在合适的退出时机引导新用户浏览博主主页并关注，可能帮助用户建立持续内容关系，从而提高次 7 日内留存。**
+
+## 6. A/B 实验：验证策略因果效果
+
+- 实验组：用户浏览内容后退出时，展示弹窗，引导浏览博主主页并关注。
+- 对照组：不设置该弹窗引导。
+- 核心指标：次 7 日内留存率。
+- 实验周期：两周。
+- 样本量：约 30 万。
+- 结果：实验组次 7 日内留存显著提升。
+- 显著性：两比例 Z 检验 `p < 0.05`。
+- 决策：策略推广并持续优化。
+
+公开材料没有稳定提供实验组与对照组的绝对留存率或提升百分点，因此本作品集不会补造。页面只展示“显著提升，`p < 0.05`”。
+
+实验支持的是“退出页面增加主页浏览和关注引导”这一完整策略的总效果。如果没有进一步中介分析，不能声称全部提升都由关注行为单独造成。
+
+## 7. 完整证据链
+
+```text
+看板异常：次7日内留存48%→41%
+→ 分层解释：平板留存低约10pp且占比增加
+→ 业务建议：在经济性约束下提高手机投放占比（短期未落地）
+→ 路径排除：关键转化稳定，不支持基础使用卡点解释
+→ 标杆相关：主页浏览与关注渗透约2.5倍
+→ 产品假设：引导关注可能建立持续内容关系
+→ 随机实验：约30万样本、两周，留存显著提升，p<0.05
+→ 决策：推广并持续优化
+```
+
+## 8. 这个项目体现的能力
+
+- 对留存指标的窗口、分母与成熟度有准确理解。
+- 能把总体指标变化拆成组内表现和人群结构变化。
+- 把稳定路径当作有价值的负证据，避免错误归因。
+- 用标杆用户分析寻找候选行为，同时保持相关性边界。
+- 用随机实验将产品假设推进到因果验证。
+- 对未落地建议、未披露绝对效果和冲突阈值保持诚实。
+
+## 9. 公开边界
+
+本案例的关键趋势和已披露实验事实来自脱敏叙述。页面中的 Cohort 明细、设备占比和非核心功能渗透率为确定性模拟数据，仅用于复现分析方法，不代表任何雇主生产数据。

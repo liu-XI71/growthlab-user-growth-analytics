@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   quality:
-    name: Python, statistics, data, API and UI checks
+    name: Python, statistics, data and API checks
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -65,11 +65,38 @@ jobs:
             coverage.xml
           if-no-files-found: ignore
 
+  web:
+    name: React dashboard quality and production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install locked dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Lint and typecheck
+        working-directory: web
+        run: npm run lint && npm run typecheck
+
+      - name: Build production dashboard
+        working-directory: web
+        run: npm run build
+
   containers:
     name: Docker Compose validation
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    needs: quality
+    needs: [quality, web]
     steps:
       - name: Check out repository
         uses: actions/checkout@v6

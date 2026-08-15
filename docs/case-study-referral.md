@@ -1,125 +1,139 @@
-# Case study: referral acquisition
+# 案例一：老带新获客增长
 
-> Synthetic portfolio reconstruction. Values in the application are simulated or normalized and do not describe a specific company.
+## 1. 项目背景
 
-## Business question
+二季度公司希望提升日活。公开作品集将实际 DAU 规模标准化为：当前指数 81.25，目标指数 100。
 
-How should a growth team recover incremental acquisition when externally purchasable traffic becomes harder to scale, without losing control of unit economics or downstream user quality?
+由于外部可投放的拉新流量下滑，增长部门推出“老用户带来新用户”的活动。我在 mentor 带领下，从 0 到 1 参与了指标体系、看板、策略诊断、页面改版实验和首月价值成本评估。
 
-## Business model and strategic tension
+## 2. 指标体系与看板
 
-Referral is not simply another media channel. It converts the installed user base into a distributed acquisition supply system:
-
-```text
-eligible old users × participation × invitations per participant
-× share delivery × invited-user arrival × activation × retained value
-```
-
-Each lever creates a different risk. Higher rewards can improve participation but increase CAC, attract reward-seeking users, increase fraud exposure, or reduce marginal efficiency. A denser activity page can communicate more mechanics but hide the primary action. A strong click effect can still fail if invited users do not activate or retain. The analytical task is therefore to optimize incremental valuable users, not clicks or gross invitation volume in isolation.
-
-The top-level normalized active-user target is treated as a portfolio objective, while this project estimates only the referral branch contribution. Paid, organic and retained-user components remain visible in the executive contribution view so the referral result is not presented as the entire growth story.
-
-## Metric system
-
-The top-level outcome is successfully activated referred users. The diagnostic path is:
+最终业务指标是**拉新用户数**。核心链路拆为：
 
 ```text
-exposure → campaign visit → invite click → successful share
-         → invited-user landing → invited-user activation
+活动页面曝光 UV
+→ 用户进入/点击活动页面 UV
+→ 老用户点击邀请 UV
+→ 成功分享到微信 UV
+→ 被邀请新用户到达/成为新增用户 UV
 ```
 
-Supporting metrics include end-to-end referral rate, activated users per inviter, new-user visit frequency, new-user retention, 30-day LTV, CAC, LTV/CAC, and net ROI.
+看板同时监控：
 
-## Diagnosis
-
-The simulated baseline shows that a more generous but information-heavy campaign version can improve perceived reward while reducing invitation action. The largest break occurs at campaign visit → invite click, not at platform sharing or downstream activation.
-
-This pattern supports a focused product hypothesis: additional copy and secondary mechanics increased cognitive load and displaced the primary action below the first screen.
-
-The diagnosis follows the earliest-material-break rule. Downstream steps have smaller denominators and can appear noisier; selecting the largest percentage-point fluctuation anywhere in the path can misidentify propagation as the root location. The platform therefore reports both every step and the earliest break above a declared materiality threshold.
-
-## Intervention
-
-The candidate version removes nonessential copy, restores one dominant invitation action, and places it on the first screen. The treatment changes presentation—not eligibility, incentive accounting, attribution, or downstream activation rules.
-
-## Evaluation
-
-The experiment is pre-registered with invitation click-through as the primary metric and activated new users as the final outcome. New-user 30-day LTV/CAC is the guardrail. Stable user-level hash assignment, A/A checks, SRM, segment balance, a fixed two-week horizon, and business-threshold evaluation are completed before the ship decision.
-
-### Why these metrics have different roles
-
-| Role | Metric | Business interpretation |
+| 层级 | 指标 | 作用 |
 |---|---|---|
-| Mechanism primary | Invite click-through | Did the simplified UI change the action it directly targets? |
-| Final outcome | Activated referred users | Did the action propagate into actual acquisition? |
-| Quality | New-user frequency and retention | Did the strategy attract users who engage rather than only claim rewards? |
-| Economic guardrail | First-month LTV/CAC | Is faster acquisition still acceptable at the chosen value window? |
-| Diagnostic | End-to-end referral rate and invitations per inviter | Which downstream mechanism limits total impact? |
+| 最终业务指标 | 拉新用户数 | 衡量活动最终带来的新增规模 |
+| 实验主指标 | 邀请点击率 | 页面改版直接作用的关键动作 |
+| 诊断指标 | 分享成功率 | 判断问题是否出现在微信分享环节 |
+| 相关指标 | 裂变率、人均邀请人数、新用户访问频次、新用户留存 | 观察传播深度和用户质量 |
+| 经济护栏 | 新用户首月 LTV/CAC | 判断增加激励后是否仍值得投入 |
 
-### Alternative explanations that must be checked
+已有项目材料中的裂变率从 2.14% 提升到 2.9%，说明策略方向有效。但原始材料没有给出裂变率的唯一分母，因此平台将其标为“待冻结口径”，不自行补定义。
 
-- channel/city/device composition changed between arms;
-- exposure logging differs by version;
-- page latency, not information hierarchy, changed;
-- a reward deadline or weekly seasonality shifted participation;
-- inviter and invitee interactions violate ordinary user-level independence;
-- novelty lifts first-week clicks but decays later.
+## 3. 策略迭代与异常定位
 
-## Economics
+初始方案中的价值成本比约为 2.9。因为阶段目标更偏新增规模，较高的价值成本比意味着仍有成本扩张空间，而不是“ROI 太高”这一统计异常。
 
-The analysis deliberately reports two different quantities:
+团队进行了两项迭代：
 
-- `LTV/CAC = first-month value / acquisition cost`;
-- `net ROI = (first-month value − acquisition cost) / acquisition cost`.
+1. 提高老用户激励；公开版将真实金额脱敏为激励指数 `100 → 160`。
+2. 增加留存成功玩法。
 
-A sensitivity grid varies active days, daily hours, monetization value per hour, and incentive cost. This shows which assumptions could reverse the decision rather than presenting one point estimate as certain.
+上新后，裂变率仍有提升，但邀请点击率从约 21% 降到 17%。我继续沿漏斗定位：分享成功率仍约为 95%，没有同步下降，因此主要断点更可能发生在“发现并点击邀请”之前，而不是微信分享之后。
 
-## Recommendation format
+向产品和用研反馈后，发现新版活动页存在三个问题：
 
-- **Evidence:** the invite-click stage explains the largest incremental loss.
-- **Interpretation:** the mechanism is consistent with UI complexity, but funnel data alone is not causal proof.
-- **Action:** test a simplified first-screen primary action.
-- **Decision:** ship only after statistical, business, design-integrity, and economic gates pass.
-- **Next measurement:** monitor effect decay, downstream quality, and heterogeneous response by device/channel/city.
+- 页面信息增多；
+- 内容重点不聚焦；
+- 邀请按钮放在第二页，老用户第一时间找不到关键动作并关闭页面。
 
-## Limitations
+这条链路形成可验证假设：**页面复杂度和 CTA 位置提高了邀请动作的发现成本；简化信息并把 CTA 放回首屏，应当提高邀请点击率。**
 
-Thirty-day LTV is modeled and may miss long-tail value. Invitation products can create interference between users. A fixed two-week test may not identify long-term novelty decay. The public demo is designed to demonstrate reasoning and implementation, not estimate a real market effect.
+## 4. 页面二次迭代与 A/B 实验
 
-## Version 2: quality-adjusted referral decision
+### 4.1 目标与指标
 
-The final product no longer stops at activated referred users. Every activated edge uses a canonical invitee identity:
+- 目标策略：简化邀请页面，把邀请按钮放在首页清晰位置。
+- 实验目的：提升老用户邀请点击率，最终提高拉新用户数。
+- 核心指标：邀请点击率。
+- 最终业务指标：拉新用户数。
+- 护栏指标：新用户首月 LTV/CAC。
+- 相关指标：裂变率、人均邀请人数、新用户访问频次、新用户留存。
+
+### 4.2 样本与周期
+
+- 历史邀请点击率：17%。
+- 业务希望检测的 MDE：绝对提升 3 个百分点。
+- 显著性水平：`α = 0.05`。
+- 统计功效：`Power = 80%`。
+- 最低样本量：由内部样本量工具估算；公开材料没有将计算值等同于实际样本。
+- 实际回收样本：百万级；公开作品集按隐私边界不披露精确值。
+- 实验周期：两周，覆盖完整周周期与曝光—点击—邀请—分享链路。
+
+### 4.3 分流与实验可信度
+
+作品集沉淀的标准做法：
 
 ```text
-eligible assignment → tracked exposure → invite click → invitee activation
-→ exact D7 / D1-7 retention → value30 − all variable costs
+bucket = hash(experiment_id + user_id) % 100
+0—49：实验组
+50—99：对照组
 ```
 
-The randomized referral-UI decision reports three additive ITT outcomes:
+加入 `experiment_id`，既保证同一用户在实验期间分组稳定，也减少不同实验使用同一分桶的重叠相关。
+
+正式 A/B 前先通过 A/A 检查分流、埋点、指标与统计管道；实验前后检查渠道、设备、城市等实验前属性，避免人群组成差异掩盖整体结论。SRM 失败时先定位分流或记录问题，而不是换随机种子直到通过。
+
+实验过程中可以监控严重护栏和数据质量，但传统固定周期检验不能看到 `p < 0.05` 就中途停止。最终在达到预设周期和样本后统一判断。同时识别新奇效应和社交网络干扰风险；若真实项目没有采用城市或社交集群随机，只能将其记录为风险和可选方案。
+
+### 4.4 实验设置与结果
+
+- 对照组：原复杂活动页，邀请按钮位于第二页。
+- 实验组：简化活动页，邀请按钮位于首页。
+- 周期：两周。
+- 样本：百万级脱敏样本。
+- 结果：邀请点击率从 17% 提升到 23.5%。
+- 显著性：`p < 0.05`。
+
+实验同时达到统计显著和业务显著，支持页面简化策略的因果效果。
+
+## 5. 首月 LTV/CAC 评估
+
+增加激励成本后，需要确认单位经济性是否仍在可接受范围。
+
+选择首月的原因：
+
+1. 一个月可以积累较丰富的用户行为与商业化数据，支持较快回收效果。
+2. 增长策略需要持续迭代，不能总是等待三到六个月；更长期价值可以继续预测和回收校准。
+
+项目口径：
 
 ```text
-Incremental D7 retained users / 10k assigned
-  = 10,000 × (retained_D7_T / assigned_T − retained_D7_C / assigned_C)
+首月 LTV
+= 新用户月活跃天数 × 日活跃时长 × 单位时长商业化价值
 
-Incremental D1-7 retained users / 10k assigned
-  = 10,000 × (retained_D1-7_T / assigned_T − retained_D1-7_C / assigned_C)
+首月 CAC
+= 归因范围内实际激励成本 ÷ 有效新增用户数
 
-Incremental Contribution30 / 10k assigned
-  = 10,000 × [Σ(value30 − all variable acquisition costs)_T / assigned_T
-               − same_C]
+首月 LTV/CAC
+= 首月 LTV ÷ 首月 CAC
 ```
 
-Non-acquired assignments contribute zero. This construction measures conversion scale and acquired-user value without multiplying an experiment conversion rate by a different cohort's average retention. Assignment is the default denominator; exposed-user rates are explicitly selection-biased diagnostics.
+结果：老带新版本的首月 LTV/CAC 为 2.18，高于外部投放基准 1.90。
 
-The UI treatment does **not** change incentive or downstream quality policy. The public DGP applies the same retention, activity, value and variable-cost process to acquired invitees in both arms. Its only designed causal path is invite-click and activation probability. This is stored in `dgp_policy` and tested.
+因此，增加激励后仍保持相对更好的首月单位经济性，页面版本上线并持续迭代。
 
-## GROWTH method trace
+这里必须使用“首月 LTV/CAC”或“首月价值成本比”，不能写成净 ROI 218%。净 ROI 的公式应是 `(LTV - CAC) / CAC`。
 
-| Gate | Project artifact |
-|---|---|
-| Goal | Referral activation metric tree and LTV/CAC guardrail |
-| Reliability | Event order, monotonic funnel, A/A, SRM and segment balance |
-| Opportunity | Version funnel and earliest material invite-click break |
-| Why | UI information hierarchy hypothesis plus alternative explanations |
-| Test | Pre-registered fixed-horizon randomized experiment |
-| Harvest | Statistical/business gates, unit economics, novelty/interference review and staged rollout |
+## 6. 这个项目体现的能力
+
+- 从公司级增长目标拆到可控页面机制，而不把邀请点击率冒充最终业务结果。
+- 在总体策略看似有效时继续监控，发现局部转化断点。
+- 用分享成功率稳定这条负证据缩小问题范围。
+- 把产品反馈翻译成可证伪假设，并通过随机实验验证。
+- 在效果显著后使用单位经济性决定是否继续投入。
+- 为未确认的裂变率分母保留治理状态，不用猜测填满指标字典。
+
+## 7. 公开边界
+
+本案例使用脱敏叙述和确定性模拟数据。DAU 绝对规模、真实激励金额、公司名称、生产 SQL、内部事件与用户信息均不公开；漏斗 UV 仅用于演示计算与页面交互。

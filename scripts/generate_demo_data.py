@@ -14,6 +14,7 @@ import pandas as pd
 
 from analytics.experimentation import assign_hash_group
 from analytics.metrics import METRIC_DEFINITIONS
+from scripts.portfolio_v2_data import portfolio_v2_frames
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DB = PROJECT_ROOT / "data" / "demo" / "growthlab.duckdb"
@@ -1392,6 +1393,7 @@ def generate_database(
             }
         ]
     )
+    frames.update(portfolio_v2_frames())
 
     connection = duckdb.connect(str(db_path))
     try:

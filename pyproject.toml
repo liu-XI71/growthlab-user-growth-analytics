@@ -1,7 +1,7 @@
 [project]
-name = "growthlab-user-growth-analytics"
-version = "0.1.0"
-description = "Privacy-safe user growth metrics and experimentation workbench"
+name = "growth-analytics-decision-platform"
+version = "2.0.0"
+description = "Business-first growth analytics, experimentation and decision portfolio"
 requires-python = ">=3.10,<3.14"
 dependencies = [
   "duckdb>=1.2,<2",
@@ -33,6 +33,7 @@ public-data = [
 [project.scripts]
 growthlab-generate = "scripts.generate_demo_data:main"
 growthlab-api = "backend.main:run"
+growthlab-export-web = "scripts.export_portfolio_v2:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]

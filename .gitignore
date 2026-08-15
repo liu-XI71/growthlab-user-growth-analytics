@@ -20,3 +20,4 @@ node_modules/
 .qa-logs/
 dist/
 build/
+output/

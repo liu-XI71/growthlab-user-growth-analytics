@@ -15,6 +15,7 @@ from backend.schemas.api import (
     RoiSensitivityRequest,
 )
 from backend.services import analytics_service as service
+from backend.services import portfolio_v2_service as portfolio
 from backend.services import workbench_service as workbench
 
 router = APIRouter()
@@ -36,6 +37,41 @@ def health() -> dict[str, str]:
         "database": "ready" if path.exists() else "missing",
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
+
+
+@router.get("/api/v2/portfolio", tags=["portfolio-v2"])
+def portfolio_bundle() -> dict:
+    return portfolio.portfolio_bundle()
+
+
+@router.get("/api/v2/overview", tags=["portfolio-v2"])
+def portfolio_overview() -> dict:
+    return portfolio.overview()
+
+
+@router.get("/api/v2/cases/referral", tags=["portfolio-v2"])
+def portfolio_referral() -> dict:
+    return portfolio.referral_case()
+
+
+@router.get("/api/v2/cases/retention", tags=["portfolio-v2"])
+def portfolio_retention() -> dict:
+    return portfolio.retention_case()
+
+
+@router.get("/api/v2/experiments", tags=["portfolio-v2"])
+def portfolio_experiments() -> dict:
+    return portfolio.experiments_center()
+
+
+@router.get("/api/v2/metrics/contracts", tags=["portfolio-v2"])
+def portfolio_metric_contracts() -> dict:
+    return portfolio.metrics_governance()
+
+
+@router.get("/api/v2/decisions", tags=["portfolio-v2"])
+def portfolio_decisions() -> dict:
+    return portfolio.decision_records()
 
 
 @router.get("/metrics", tags=["metrics"])

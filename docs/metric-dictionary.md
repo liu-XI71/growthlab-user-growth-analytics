@@ -1,51 +1,56 @@
-# Metric dictionary and governance
+# 指标字典与治理规则
 
-Metrics are governed by formula, unit, grain, ownership, and interpretation. The API endpoint `/metrics` exposes the same definitions used by the application.
+## 项目一：老带新
 
-| Metric | Definition | Grain | Interpretation guardrail |
-|---|---|---|---|
-| Referral activated users | Distinct invited new users who complete activation | day × campaign version | Final acquisition outcome, not merely a landing visit |
-| Invite click-through rate | invite-click UV / campaign-page-visit UV | day × version | Primary diagnostic metric when the bottleneck is the invitation action |
-| Share success rate | successful-share UV / invite-click UV | day × version | Keep distinct from platform handoff attempts |
-| Activation per exposure | activated-new-user UV / campaign-exposure UV | day × version | Default end-to-end referral rate; label the denominator every time |
-| Activation per invite click | activated-new-user UV / invite-click UV | day × version | Diagnostic alternative, never silently called the same “viral rate” |
-| Activated users per inviter | activated-new-user UV / effective-inviter UV | day × version | Supporting depth metric, sensitive to inviter definition |
-| 30-day LTV | active days × daily active hours × normalized value/hour | acquisition version | Modeled first-month value, not audited revenue |
-| CAC | total incentive cost / activated new users | acquisition version | Attribute only the cost inside the decision boundary |
-| LTV/CAC | 30-day LTV / CAC | acquisition version | Value-to-cost multiple, not net ROI |
-| Net ROI | (30-day LTV − CAC) / CAC | acquisition version | Incremental net return relative to acquisition cost |
-| Exact D7 retention | active exactly on signup day + 7 / new users | signup cohort | Different from a day 1–7 window metric |
-| Day 1–7 window retention | active at least once on days 1…7 / new users | signup cohort | Always greater than or equal to exact D7 for the same cohort |
-| Incremental D7 retained users per 10k assigned | 10,000 × (D7-retained referred users / assignments in treatment − control) | experiment × arm | Randomized ITT; non-acquired assignments contribute zero |
-| Incremental D1–7 retained users per 10k assigned | Same-arm difference using day 1..7 window-retained referred users | experiment × arm | Window outcome, not exact D7 |
-| Incremental Contribution30 per 10k assigned | 10,000 × arm difference in Σ(value30 − all variable acquisition costs) / assignments | experiment × arm | Primary additive economic estimand; value30 offsets 0..29 |
-| Average acquired-user LTV/CAC | Σvalue30 / Σall variable acquisition costs among acquired users | source × campaign × treatment label | Descriptive; never labelled incremental |
-| Cost per incremental D7 retained user | incremental variable cost rate / incremental D7 retained-user rate | experiment | Only available when incremental D7 is positive |
+| 指标 | 分子 | 分母 | 角色 | 边界 |
+|---|---|---|---|---|
+| 拉新用户数 | 活动归因的有效新用户 UV | 不适用 | 最终业务指标 | 必须冻结“有效新用户”事件 |
+| 邀请点击率 | 点击邀请 UV | 活动页访问 UV | 实验主指标 | 页面机制指标，不是最终业务目标 |
+| 分享成功率 | 微信分享成功 UV | 点击邀请 UV | 诊断指标 | 用于判断分享链路是否为断点 |
+| 裂变率 | 成功带来的新用户数 | **待确认** | 相关指标 | 原始材料没有唯一分母，上线前必须冻结 |
+| 人均邀请人数 | 被邀请用户数 | 有效邀请者 UV | 相关指标 | 必须固定邀请者资格 |
+| 首月 LTV | 月活跃天数 × 日活跃时长 × 单位时长商业化价值 | 不适用 | 价值指标 | 是首月模型值，不是完整生命周期价值 |
+| 首月 CAC | 归因范围内实际激励成本 | 有效新用户数 | 成本指标 | 只纳入决策范围内成本 |
+| 首月 LTV/CAC | 首月 LTV | 首月 CAC | 经济护栏 | 价值成本比，不等于净 ROI |
+| 净 ROI | 首月 LTV - 首月 CAC | 首月 CAC | 可选经济指标 | 不将 2.18 写成净 ROI 218% |
 
-## Metric tree
+## 项目二：新用户留存
 
-The public demo uses an indexed active-user growth objective and separates paid acquisition, organic acquisition, and referral acquisition. The referral branch is decomposed into:
+| 指标 | 分子 | 分母 | 角色 | 边界 |
+|---|---|---|---|---|
+| 次 7 日内留存率 | 新增后 Day 1—7 至少回访一次的用户 UV | 已完整经历 7 天观察窗的新增用户 UV | 核心业务指标 | 窗口留存，不是 exact D7 |
+| 设备内留存率 | 设备组内 Day 1—7 回访 UV | 对应设备组成熟新增 UV | 分层指标 | 与设备占比同时看 |
+| 设备新增占比 | 对应设备新增 UV | 全部新增 UV | 结构指标 | 用于识别 Mix Shift |
+| 路径环节转化率 | 完成当前步骤 UV | 完成上一环节 UV | 诊断指标 | 需固定步骤顺序和窗口 |
+| 功能渗透率 | 人群中使用过该功能的 UV | 对应人群 UV | 相关指标 | 标杆/非标杆差异不能证明因果 |
+| 标杆渗透比 | 标杆功能渗透率 | 非标杆功能渗透率 | 候选机制 | 2.5× 不是留存提升倍数 |
 
-```text
-campaign exposure UV
-  → campaign page visit UV
-  → invite click UV
-  → successful share UV
-  → invited new-user landing UV
-  → invited new-user activation UV
-```
+## 实验指标角色
 
-## Governance rules
+| 类别 | 老带新实验 | 留存实验 |
+|---|---|---|
+| 业务目的 | 提高拉新用户数 | 提高次 7 日内留存 |
+| 实验主指标 | 邀请点击率 | 次 7 日内留存率 |
+| 机制指标 | 活动页访问、邀请点击、分享成功 | 博主主页浏览、关注 |
+| 经济/风险护栏 | 新用户首月 LTV/CAC | 用户未提供，公开版不补造 |
+| 数据质量 | Assignment、Exposure、SRM、埋点完整性、观察窗成熟度 | 同左 |
 
-1. Every rate must expose its numerator and denominator.
-2. UV is deduplicated at the metric's declared grain.
-3. Event-time windows are calculated relative to the cohort anchor, not calendar labels alone.
-4. Exact-day and window retention may not share one ambiguous label.
-5. LTV/CAC and net ROI are separate metrics.
-6. Experiment primary metrics and guardrails are frozen before outcome inspection.
-7. Changes to formulas require a versioned definition and regression test.
-8. The primary referral experiment denominator is every eligible assignment; tracked exposure is diagnostic.
-9. Descriptive campaign versions cannot use `causal` or `incremental` labels.
-10. Value30 is relative day 0..29; exact D30 retention is relative day 30.
-11. Recent cohorts expose mature and immature counts; unavailable D30 remains null.
-12. Metric lineage must identify source, mart, SQL evidence, decision use and claim boundary.
+## 证据等级
+
+1. **描述性证据**：趋势、分层、漏斗、Mix Shift，可以定位和解释。
+2. **相关性证据**：标杆与非标杆行为差异，用于生成可验证假设。
+3. **因果性证据**：随机实验支持完整策略的总效果。
+4. **业务决策**：结合效果、护栏、经济性、风险和实施成本形成动作。
+
+## 治理规则
+
+1. 每个率必须显示分子、分母、窗口和粒度。
+2. 所有 UV 在声明粒度去重。
+3. exact-day 与 window retention 不共用模糊名称。
+4. 近期 Cohort 必须显示观察窗成熟度。
+5. LTV/CAC 与净 ROI 分开命名。
+6. 描述性版本结果不使用“增量”或“因果”标签。
+7. 标杆用户的事后行为不能作为实验前固定分层变量。
+8. 核心指标与护栏在查看结果前冻结。
+9. 指标公式变更需要版本、负责人和回归测试。
+10. 页面、API、静态数据包和文档复用同一指标名称。
