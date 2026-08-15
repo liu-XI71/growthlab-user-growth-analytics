@@ -26,7 +26,7 @@ EXCLUDED_PARTS = {".git", ".pytest_cache", ".ruff_cache", ".venv", "__pycache__"
 def _public_files() -> list[Path]:
     try:
         result = subprocess.run(
-            ["git", "ls-files"],
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard"],
             cwd=PROJECT_ROOT,
             check=True,
             capture_output=True,
@@ -61,6 +61,9 @@ def test_public_repository_contains_no_real_company_or_internal_scale_markers() 
         "real_dau_target": "8000" + "w",
         "real_experiment_scale_cn": "700" + "\u4e07",
         "real_experiment_scale_ascii": "700" + "w",
+        "real_experiment_scale_en": "7" + "m samples",
+        "real_experiment_scale_raw": "7" + "000000",
+        "real_experiment_scale_formatted": "7" + ",000,000",
         "real_reward_low": "55" + "\u5143",
         "real_reward_high": "88" + "\u5143",
     }

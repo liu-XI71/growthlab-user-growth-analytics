@@ -1,0 +1,770 @@
+{
+  "meta": {
+    "projectName": "Growth Analytics Decision Platform",
+    "projectNameZh": "用户增长全链路分析与实验决策平台",
+    "version": "2.0",
+    "dataBoundary": "公开作品集：项目事实来自脱敏叙述；明细、未披露分组值和辅助趋势为确定性模拟数据。"
+  },
+  "cases": [
+    {
+      "case_id": "referral_growth",
+      "case_order": 1,
+      "title": "老带新获客增长",
+      "business_question": "外部拉新供给承压时，如何扩大高质量新增并守住首月价值成本比？",
+      "primary_metric": "拉新用户数",
+      "mechanism_metric": "邀请点击率",
+      "decision_metric": "首月 LTV/CAC",
+      "evidence_boundary": "漏斗和版本变化用于定位；随机实验支持页面改版的因果结论。"
+    },
+    {
+      "case_id": "new_user_retention",
+      "case_order": 2,
+      "title": "新用户留存提升",
+      "business_question": "投放带来的新用户为什么留不住，什么产品引导能够提升次7日内留存？",
+      "primary_metric": "次7日内留存率",
+      "mechanism_metric": "博主主页浏览与关注渗透率",
+      "decision_metric": "次7日内留存实验结果",
+      "evidence_boundary": "分层、路径和标杆用户用于解释与提出假设；随机实验支持因果结论。"
+    }
+  ],
+  "businessKpis": [
+    {
+      "case_id": "overview",
+      "metric_key": "dau_gap_index",
+      "label": "标准化 DAU 目标完成度",
+      "value": 81.25,
+      "unit": "%",
+      "display_value": "81.25%",
+      "status": "attention",
+      "evidence_type": "normalized narrative",
+      "note": "公开版将实际规模标准化为当前81.25、目标100。",
+      "display_order": 1
+    },
+    {
+      "case_id": "referral_growth",
+      "metric_key": "invite_click_lift",
+      "label": "邀请点击率实验提升",
+      "value": 6.5,
+      "unit": "pp",
+      "display_value": "+6.5 pp",
+      "status": "positive",
+      "evidence_type": "anonymized experiment narrative",
+      "note": "简化页面并将邀请按钮放回首屏：17.0%→23.5%。",
+      "display_order": 2
+    },
+    {
+      "case_id": "new_user_retention",
+      "metric_key": "retention_decline",
+      "label": "次7日内留存异常",
+      "value": -7.0,
+      "unit": "pp",
+      "display_value": "48% → 41%",
+      "status": "negative",
+      "evidence_type": "anonymized monitoring narrative",
+      "note": "窗口留存：新增后第1至7天内至少再次访问一次。",
+      "display_order": 3
+    },
+    {
+      "case_id": "referral_growth",
+      "metric_key": "ltv_cac_guardrail",
+      "label": "首月 LTV/CAC",
+      "value": 2.18,
+      "unit": "x",
+      "display_value": "2.18× vs 1.90×",
+      "status": "positive",
+      "evidence_type": "anonymized economic narrative",
+      "note": "老带新版本高于外部投放基准；它是价值成本比，不是净ROI。",
+      "display_order": 4
+    }
+  ],
+  "decisionLoop": [
+    {
+      "step_order": 1,
+      "step_key": "monitor",
+      "label": "监测异常",
+      "question": "发生了什么？",
+      "referral_application": "外部拉新供给下降，DAU存在目标差距。",
+      "retention_application": "次7日内留存率从48%下滑到41%。"
+    },
+    {
+      "step_order": 2,
+      "step_key": "define",
+      "label": "定义指标",
+      "question": "什么指标真正代表业务结果？",
+      "referral_application": "拉新用户数为核心，邀请点击率为机制指标，首月LTV/CAC为护栏。",
+      "retention_application": "次7日内窗口留存为核心，同时观察分层、路径与功能渗透。"
+    },
+    {
+      "step_order": 3,
+      "step_key": "diagnose",
+      "label": "拆解定位",
+      "question": "损失发生在哪个环节或人群？",
+      "referral_application": "新玩法后邀请点击率从约21%降到17%，主要断点在邀请动作。",
+      "retention_application": "平板留存低约10pp且新增占比提高，形成结构性压力。"
+    },
+    {
+      "step_order": 4,
+      "step_key": "exclude",
+      "label": "保留负证据",
+      "question": "哪些解释不被数据支持？",
+      "referral_application": "分享成功率约95%，分享环节不是主要断点。",
+      "retention_application": "下载到关注的主要路径转化稳定，基础使用卡点不是主要解释。"
+    },
+    {
+      "step_order": 5,
+      "step_key": "hypothesize",
+      "label": "提出机制",
+      "question": "什么产品机制能解释全部证据？",
+      "referral_application": "页面信息过多且CTA位于第二页，提高邀请发现成本。",
+      "retention_application": "浏览博主主页并关注可能帮助建立持续内容关系。"
+    },
+    {
+      "step_order": 6,
+      "step_key": "experiment",
+      "label": "实验验证",
+      "question": "策略是否真的产生增量效果？",
+      "referral_application": "简化页面；两周、百万级脱敏样本，邀请点击率17%→23.5%，p<0.05。",
+      "retention_application": "退出页关注引导；两周、约30万样本，次7日内留存显著提升，p<0.05。"
+    },
+    {
+      "step_order": 7,
+      "step_key": "decide",
+      "label": "价值决策",
+      "question": "结果是否值得上线并持续治理？",
+      "referral_application": "首月LTV/CAC 2.18，高于外部投放1.90，持续迭代。",
+      "retention_application": "策略推广并持续优化；未提供的真实绝对提升不在公开版补造。"
+    }
+  ],
+  "referral": {
+    "versions": [
+      {
+        "version_id": "baseline",
+        "version_order": 1,
+        "label": "初始活动版本",
+        "invite_click_rate": 0.23,
+        "share_success_rate": 0.95,
+        "viral_rate": 0.0214,
+        "incentive_index": 100.0,
+        "ltv_cac": 2.9,
+        "decision": "存在增长再投资空间",
+        "diagnosis": "策略有效，但增长目标优先，可使用经济性余量扩大拉新。"
+      },
+      {
+        "version_id": "complex_growth",
+        "version_order": 2,
+        "label": "激励与玩法升级",
+        "invite_click_rate": 0.17,
+        "share_success_rate": 0.95,
+        "viral_rate": 0.029,
+        "incentive_index": 160.0,
+        "ltv_cac": null,
+        "decision": "定位异常并二次改版",
+        "diagnosis": "信息增多、重点分散、邀请按钮位于第二页，增加发现成本。"
+      },
+      {
+        "version_id": "simplified_ui",
+        "version_order": 3,
+        "label": "首屏CTA简化版",
+        "invite_click_rate": 0.235,
+        "share_success_rate": 0.95,
+        "viral_rate": null,
+        "incentive_index": 160.0,
+        "ltv_cac": 2.18,
+        "decision": "上线并持续优化",
+        "diagnosis": "简化信息层级并将邀请按钮放回首页。"
+      }
+    ],
+    "funnel": [
+      {
+        "version_id": "baseline",
+        "step_order": 1,
+        "step_key": "exposure",
+        "step_label": "活动曝光",
+        "users": 100000,
+        "conversion_from_previous": 1.0,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "baseline",
+        "step_order": 2,
+        "step_key": "visit",
+        "step_label": "活动页访问",
+        "users": 80000,
+        "conversion_from_previous": 0.8,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "baseline",
+        "step_order": 3,
+        "step_key": "invite_click",
+        "step_label": "点击邀请",
+        "users": 18400,
+        "conversion_from_previous": 0.23,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "baseline",
+        "step_order": 4,
+        "step_key": "share",
+        "step_label": "分享成功",
+        "users": 17480,
+        "conversion_from_previous": 0.95,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "baseline",
+        "step_order": 5,
+        "step_key": "landing",
+        "step_label": "新用户到达",
+        "users": 9090,
+        "conversion_from_previous": 0.52,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "baseline",
+        "step_order": 6,
+        "step_key": "activation",
+        "step_label": "新用户激活",
+        "users": 7454,
+        "conversion_from_previous": 0.82,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "complex_growth",
+        "step_order": 1,
+        "step_key": "exposure",
+        "step_label": "活动曝光",
+        "users": 100000,
+        "conversion_from_previous": 1.0,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "complex_growth",
+        "step_order": 2,
+        "step_key": "visit",
+        "step_label": "活动页访问",
+        "users": 82000,
+        "conversion_from_previous": 0.82,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "complex_growth",
+        "step_order": 3,
+        "step_key": "invite_click",
+        "step_label": "点击邀请",
+        "users": 13940,
+        "conversion_from_previous": 0.17,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "complex_growth",
+        "step_order": 4,
+        "step_key": "share",
+        "step_label": "分享成功",
+        "users": 13243,
+        "conversion_from_previous": 0.95,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "complex_growth",
+        "step_order": 5,
+        "step_key": "landing",
+        "step_label": "新用户到达",
+        "users": 7019,
+        "conversion_from_previous": 0.53,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "complex_growth",
+        "step_order": 6,
+        "step_key": "activation",
+        "step_label": "新用户激活",
+        "users": 5756,
+        "conversion_from_previous": 0.82,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "simplified_ui",
+        "step_order": 1,
+        "step_key": "exposure",
+        "step_label": "活动曝光",
+        "users": 100000,
+        "conversion_from_previous": 1.0,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "simplified_ui",
+        "step_order": 2,
+        "step_key": "visit",
+        "step_label": "活动页访问",
+        "users": 82000,
+        "conversion_from_previous": 0.82,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "simplified_ui",
+        "step_order": 3,
+        "step_key": "invite_click",
+        "step_label": "点击邀请",
+        "users": 19270,
+        "conversion_from_previous": 0.235,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "simplified_ui",
+        "step_order": 4,
+        "step_key": "share",
+        "step_label": "分享成功",
+        "users": 18306,
+        "conversion_from_previous": 0.95,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "simplified_ui",
+        "step_order": 5,
+        "step_key": "landing",
+        "step_label": "新用户到达",
+        "users": 9702,
+        "conversion_from_previous": 0.53,
+        "data_status": "synthetic demonstration"
+      },
+      {
+        "version_id": "simplified_ui",
+        "step_order": 6,
+        "step_key": "activation",
+        "step_label": "新用户激活",
+        "users": 7956,
+        "conversion_from_previous": 0.82,
+        "data_status": "synthetic demonstration"
+      }
+    ],
+    "experiment": {
+      "experiment_id": "referral_ui_simplification_v2",
+      "case_id": "referral_growth",
+      "title": "邀请页面简化实验",
+      "strategy": "简化信息层级并将邀请CTA放回首屏",
+      "control": "复杂活动页，邀请按钮位于第二页",
+      "treatment": "简化活动页，邀请按钮位于首页",
+      "primary_metric": "邀请点击率",
+      "final_metric": "拉新用户数",
+      "guardrail": "新用户首月 LTV/CAC",
+      "baseline_rate": 0.17,
+      "treatment_rate": 0.235,
+      "absolute_lift_pp": 6.5,
+      "sample_size": null,
+      "sample_display": "百万级脱敏样本",
+      "duration_days": 14,
+      "mde_pp": 3.0,
+      "alpha": 0.05,
+      "power": 0.8,
+      "significance": "p < 0.05",
+      "decision": "上线并持续优化",
+      "result_disclosure": "anonymized user-provided narrative"
+    }
+  },
+  "retention": {
+    "trend": [
+      {
+        "period": "下滑前",
+        "cohort_day": 1,
+        "retention_d1_7_window": 0.486,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑前",
+        "cohort_day": 2,
+        "retention_d1_7_window": 0.482,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑前",
+        "cohort_day": 3,
+        "retention_d1_7_window": 0.48,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑前",
+        "cohort_day": 4,
+        "retention_d1_7_window": 0.478,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑前",
+        "cohort_day": 5,
+        "retention_d1_7_window": 0.481,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑前",
+        "cohort_day": 6,
+        "retention_d1_7_window": 0.476,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑前",
+        "cohort_day": 7,
+        "retention_d1_7_window": 0.48,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑后",
+        "cohort_day": 1,
+        "retention_d1_7_window": 0.421,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑后",
+        "cohort_day": 2,
+        "retention_d1_7_window": 0.415,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑后",
+        "cohort_day": 3,
+        "retention_d1_7_window": 0.409,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑后",
+        "cohort_day": 4,
+        "retention_d1_7_window": 0.413,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑后",
+        "cohort_day": 5,
+        "retention_d1_7_window": 0.405,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑后",
+        "cohort_day": 6,
+        "retention_d1_7_window": 0.412,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      },
+      {
+        "period": "下滑后",
+        "cohort_day": 7,
+        "retention_d1_7_window": 0.415,
+        "data_status": "deterministic synthetic trend calibrated to 48%→41% narrative"
+      }
+    ],
+    "segments": [
+      {
+        "period": "下滑前",
+        "segment": "手机",
+        "share": 0.72,
+        "retention": 0.5,
+        "dimension": "设备类型",
+        "data_status": "synthetic shares; only the direction and ~10pp gap come from the narrative"
+      },
+      {
+        "period": "下滑前",
+        "segment": "平板",
+        "share": 0.18,
+        "retention": 0.4,
+        "dimension": "设备类型",
+        "data_status": "synthetic shares; only the direction and ~10pp gap come from the narrative"
+      },
+      {
+        "period": "下滑前",
+        "segment": "其他",
+        "share": 0.1,
+        "retention": 0.45,
+        "dimension": "设备类型",
+        "data_status": "synthetic shares; only the direction and ~10pp gap come from the narrative"
+      },
+      {
+        "period": "下滑后",
+        "segment": "手机",
+        "share": 0.57,
+        "retention": 0.49,
+        "dimension": "设备类型",
+        "data_status": "synthetic shares; only the direction and ~10pp gap come from the narrative"
+      },
+      {
+        "period": "下滑后",
+        "segment": "平板",
+        "share": 0.33,
+        "retention": 0.39,
+        "dimension": "设备类型",
+        "data_status": "synthetic shares; only the direction and ~10pp gap come from the narrative"
+      },
+      {
+        "period": "下滑后",
+        "segment": "其他",
+        "share": 0.1,
+        "retention": 0.44,
+        "dimension": "设备类型",
+        "data_status": "synthetic shares; only the direction and ~10pp gap come from the narrative"
+      }
+    ],
+    "path": [
+      {
+        "step_order": 1,
+        "step_key": "download",
+        "step_label": "下载",
+        "baseline_rate": 1.0,
+        "current_rate": 1.0,
+        "data_status": "synthetic stable path consistent with the narrative"
+      },
+      {
+        "step_order": 2,
+        "step_key": "register",
+        "step_label": "注册登录",
+        "baseline_rate": 0.95,
+        "current_rate": 0.949,
+        "data_status": "synthetic stable path consistent with the narrative"
+      },
+      {
+        "step_order": 3,
+        "step_key": "home",
+        "step_label": "进入首页",
+        "baseline_rate": 0.9,
+        "current_rate": 0.901,
+        "data_status": "synthetic stable path consistent with the narrative"
+      },
+      {
+        "step_order": 4,
+        "step_key": "browse",
+        "step_label": "浏览点击",
+        "baseline_rate": 0.7,
+        "current_rate": 0.699,
+        "data_status": "synthetic stable path consistent with the narrative"
+      },
+      {
+        "step_order": 5,
+        "step_key": "consume",
+        "step_label": "浏览内容",
+        "baseline_rate": 0.62,
+        "current_rate": 0.618,
+        "data_status": "synthetic stable path consistent with the narrative"
+      },
+      {
+        "step_order": 6,
+        "step_key": "interact",
+        "step_label": "点赞/收藏/评论",
+        "baseline_rate": 0.5,
+        "current_rate": 0.501,
+        "data_status": "synthetic stable path consistent with the narrative"
+      },
+      {
+        "step_order": 7,
+        "step_key": "profile",
+        "step_label": "浏览博主主页",
+        "baseline_rate": 0.23,
+        "current_rate": 0.229,
+        "data_status": "synthetic stable path consistent with the narrative"
+      },
+      {
+        "step_order": 8,
+        "step_key": "follow",
+        "step_label": "关注博主",
+        "baseline_rate": 0.14,
+        "current_rate": 0.141,
+        "data_status": "synthetic stable path consistent with the narrative"
+      }
+    ],
+    "benchmark": [
+      {
+        "feature": "浏览主页并关注",
+        "benchmark_penetration": 0.5,
+        "other_penetration": 0.2,
+        "ratio": 2.5,
+        "evidence_type": "correlation / hypothesis generation",
+        "claim_boundary": "标杆用户由首月行为事后定义，渗透差异不能单独证明因果。"
+      },
+      {
+        "feature": "浏览博主主页",
+        "benchmark_penetration": 0.6,
+        "other_penetration": 0.28,
+        "ratio": 2.142857142857143,
+        "evidence_type": "correlation / hypothesis generation",
+        "claim_boundary": "标杆用户由首月行为事后定义，渗透差异不能单独证明因果。"
+      },
+      {
+        "feature": "评论",
+        "benchmark_penetration": 0.35,
+        "other_penetration": 0.2,
+        "ratio": 1.7499999999999998,
+        "evidence_type": "correlation / hypothesis generation",
+        "claim_boundary": "标杆用户由首月行为事后定义，渗透差异不能单独证明因果。"
+      },
+      {
+        "feature": "收藏",
+        "benchmark_penetration": 0.55,
+        "other_penetration": 0.32,
+        "ratio": 1.71875,
+        "evidence_type": "correlation / hypothesis generation",
+        "claim_boundary": "标杆用户由首月行为事后定义，渗透差异不能单独证明因果。"
+      },
+      {
+        "feature": "点赞",
+        "benchmark_penetration": 0.7,
+        "other_penetration": 0.45,
+        "ratio": 1.5555555555555554,
+        "evidence_type": "correlation / hypothesis generation",
+        "claim_boundary": "标杆用户由首月行为事后定义，渗透差异不能单独证明因果。"
+      },
+      {
+        "feature": "直播",
+        "benchmark_penetration": 0.3,
+        "other_penetration": 0.2,
+        "ratio": 1.4999999999999998,
+        "evidence_type": "correlation / hypothesis generation",
+        "claim_boundary": "标杆用户由首月行为事后定义，渗透差异不能单独证明因果。"
+      },
+      {
+        "feature": "内容浏览",
+        "benchmark_penetration": 0.95,
+        "other_penetration": 0.88,
+        "ratio": 1.0795454545454546,
+        "evidence_type": "correlation / hypothesis generation",
+        "claim_boundary": "标杆用户由首月行为事后定义，渗透差异不能单独证明因果。"
+      }
+    ],
+    "experiment": {
+      "experiment_id": "creator_follow_prompt_v1",
+      "case_id": "new_user_retention",
+      "title": "博主主页与关注引导实验",
+      "strategy": "内容退出页弹窗引导浏览博主主页并关注",
+      "control": "不展示额外引导",
+      "treatment": "展示主页浏览与关注引导",
+      "primary_metric": "次7日内留存率",
+      "final_metric": "次7日内留存率",
+      "guardrail": "未在用户提供材料中披露",
+      "baseline_rate": null,
+      "treatment_rate": null,
+      "absolute_lift_pp": null,
+      "sample_size": 300000.0,
+      "sample_display": "约30万样本",
+      "duration_days": 14,
+      "mde_pp": null,
+      "alpha": 0.05,
+      "power": null,
+      "significance": "p < 0.05",
+      "decision": "策略推广并持续优化",
+      "result_disclosure": "significant lift only; absolute effect not publicly disclosed"
+    }
+  },
+  "experiments": [
+    {
+      "experiment_id": "referral_ui_simplification_v2",
+      "case_id": "referral_growth",
+      "title": "邀请页面简化实验",
+      "strategy": "简化信息层级并将邀请CTA放回首屏",
+      "control": "复杂活动页，邀请按钮位于第二页",
+      "treatment": "简化活动页，邀请按钮位于首页",
+      "primary_metric": "邀请点击率",
+      "final_metric": "拉新用户数",
+      "guardrail": "新用户首月 LTV/CAC",
+      "baseline_rate": 0.17,
+      "treatment_rate": 0.235,
+      "absolute_lift_pp": 6.5,
+      "sample_size": null,
+      "sample_display": "百万级脱敏样本",
+      "duration_days": 14,
+      "mde_pp": 3.0,
+      "alpha": 0.05,
+      "power": 0.8,
+      "significance": "p < 0.05",
+      "decision": "上线并持续优化",
+      "result_disclosure": "anonymized user-provided narrative"
+    },
+    {
+      "experiment_id": "creator_follow_prompt_v1",
+      "case_id": "new_user_retention",
+      "title": "博主主页与关注引导实验",
+      "strategy": "内容退出页弹窗引导浏览博主主页并关注",
+      "control": "不展示额外引导",
+      "treatment": "展示主页浏览与关注引导",
+      "primary_metric": "次7日内留存率",
+      "final_metric": "次7日内留存率",
+      "guardrail": "未在用户提供材料中披露",
+      "baseline_rate": null,
+      "treatment_rate": null,
+      "absolute_lift_pp": null,
+      "sample_size": 300000.0,
+      "sample_display": "约30万样本",
+      "duration_days": 14,
+      "mde_pp": null,
+      "alpha": 0.05,
+      "power": null,
+      "significance": "p < 0.05",
+      "decision": "策略推广并持续优化",
+      "result_disclosure": "significant lift only; absolute effect not publicly disclosed"
+    }
+  ],
+  "metricContracts": [
+    {
+      "metric_key": "invite_click_rate",
+      "metric_name": "邀请点击率",
+      "numerator": "点击邀请UV",
+      "denominator": "活动页访问UV",
+      "grain": "日×版本",
+      "boundary": "老带新页面机制指标，不是最终业务目标。"
+    },
+    {
+      "metric_key": "share_success_rate",
+      "metric_name": "分享成功率",
+      "numerator": "微信分享成功UV",
+      "denominator": "点击邀请UV",
+      "grain": "日×版本",
+      "boundary": "用于判断问题是否发生在分享环节。"
+    },
+    {
+      "metric_key": "viral_rate",
+      "metric_name": "裂变率",
+      "numerator": "成功带来的新用户数",
+      "denominator": "活动曝光或参与用户（实施前需冻结唯一口径）",
+      "grain": "日×版本",
+      "boundary": "原始材料未给出唯一分母，V2上线前必须冻结。"
+    },
+    {
+      "metric_key": "d1_7_window_retention",
+      "metric_name": "次7日内留存率",
+      "numerator": "新增后第1至7天至少再次访问一次的用户数",
+      "denominator": "新增用户数",
+      "grain": "新增Cohort",
+      "boundary": "窗口留存，不等于精确第7日留存。"
+    },
+    {
+      "metric_key": "feature_penetration",
+      "metric_name": "功能渗透率",
+      "numerator": "该组中使用过功能的用户UV",
+      "denominator": "该组用户UV",
+      "grain": "人群×功能",
+      "boundary": "标杆/非标杆差异是相关性证据。"
+    },
+    {
+      "metric_key": "month1_ltv_cac",
+      "metric_name": "首月 LTV/CAC",
+      "numerator": "新用户首月活跃天数×日均时长×单位时长商业化价值",
+      "denominator": "归因范围内的激励成本",
+      "grain": "活动版本",
+      "boundary": "价值成本比，不是净ROI。"
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "referral_ui_v2",
+      "case_id": "referral_growth",
+      "fact": "玩法升级后邀请点击率从约21%下降到17%，分享成功率约95%。",
+      "interpretation": "主要断点在邀请发现，不在分享链路。",
+      "hypothesis": "信息层级复杂且CTA位于第二页，提高了行动发现成本。",
+      "action": "简化页面并将CTA放回首页，进行两周随机实验。",
+      "decision": "邀请点击率提升至23.5%，首月LTV/CAC为2.18，高于外部投放1.90；上线并持续优化。",
+      "limitation": "公开版本使用脱敏叙述和模拟明细，不代表雇主生产数据。"
+    },
+    {
+      "decision_id": "retention_follow_v1",
+      "case_id": "new_user_retention",
+      "fact": "平板留存低约10pp且占比提高；产品主路径转化稳定；标杆关注渗透约2.5倍。",
+      "interpretation": "结构变化解释总体压力，关注行为是产品机会但仅有相关性。",
+      "hypothesis": "主动引导浏览主页和关注可帮助新用户形成持续内容关系。",
+      "action": "内容退出页增加关注引导，进行两周随机实验。",
+      "decision": "约30万样本下次7日内留存显著提升，p<0.05；推广并持续优化。",
+      "limitation": "真实绝对提升和未披露护栏不在公开版补造；投放结构建议短期未落地。"
+    }
+  ]
+}
